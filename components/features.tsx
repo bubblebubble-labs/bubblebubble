@@ -29,7 +29,7 @@ export default function Features() {
                 <div>
                   <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-3">AI 기반 법률 솔루션</div>
                 </div>
-                <h3 className="h3 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-3">법률 문제, 이제 한 번의 터치로 해결하세요</h3>
+                <h3 className="h3 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-3">법률 문제, 복잡한 법을 Bubble Bubble로 해결하세요</h3>
                 <p className="text-lg text-slate-400 mb-8">24시간 대기 중인 AI 법률 비서, 플로라와 티모가 당신의 모든 법률 문제를 스마트하게 해결해드립니다. 전세사기부터 디지털 성범죄까지, 어떤 문제든 상담해보세요.</p>
                 <div className="mt-8 max-w-xs max-md:mx-auto space-y-2">
                   <button className={`flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100 ${tab !== 1 ? 'border-slate-700 opacity-50' : 'border-sky-700 shadow shadow-sky-500/25'}`} onClick={() => setTab(1)}>

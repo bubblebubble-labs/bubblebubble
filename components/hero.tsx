@@ -57,17 +57,17 @@ export default function Hero() {
             </div>
             <h1 className="h1 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4" data-aos="fade-down">버블버블: 우주에서 온 당신만의 법률 수호자</h1>
             <p className="text-lg text-slate-200 mb-8" data-aos="fade-down" data-aos-delay="200">
-              법률 문제로 고민이신가요? 복잡한 법률 용어에 지치셨나요? 안드로메다 은하에서 온 플로라와 티모가 도와드립니다. 플로라의 따뜻한 위로와 티모의 명쾌한 해결책으로 여러분의 법률 고민을 쉽고 편안하게 해결해드려요. 이제 우주의 지혜로 법률의 벽을 넘어보세요!
+              법률 문제로 고민이신가요? 복잡한 법률 용어에 지치셨나요? 복잡한 법을 Bubble Bubble 해결하세요! 플로라의 따뜻한 위로와 티모의 명쾌한 해결책으로 여러분의 법률 고민을 편안하고 쉽게 해결해드려요. 
             </p>
             <p className="text-sm text-slate-300 mb-6" data-aos="fade-down" data-aos-delay="300">
-              지구로부터 250만 광년 떨어진 '네오 주리디카' 행성에서 온 플로라와 티모. 그들의 임무는 대한민국 시민들에게 법률 문제에 대한 조언과 위로를 제공하는 것. 플로라의 따뜻한 공감과 티모의 날카로운 분석으로 여러분의 법률 고민을 해결해 드립니다.
+              지구로부터 250만 광년 떨어진 '네오 주리디카' 행성에서 온 플로라와 티모. 대한민국의 복잡한 법률 시스템을 보고 안타까움을 느낀 두 친구는 이 문제를 쉽게 해결하기 위해 왔습니다. 플로라의 따뜻한 공감 능력과 티모의 날카로운 분석력으로 무장한 그들은 이제 대한민국 시민들에게 독보적인 법률 자문과 위로를 제공합니다. 그들의 목표는 단 하나, 복잡한 법의 세계에서 길을 잃은 이들에게 빛이 되는 것입니다.
             </p>
           
             <br/>
             <div className="mt-4 max-w-xs mx-auto sm:max-w-none sm:inline-flex sm:justify-center space-y-4 sm:space-y-0 sm:space-x-4" data-aos="fade-down" data-aos-delay="400">
               <div>
                 <a className="btn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white w-full transition duration-150 ease-in-out group" href="/survey">
-                  법률 상담 받기 <span className="tracking-normal text-sky-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+                  플로라와 티모에게 물어보기 <span className="tracking-normal text-sky-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
                 </a>
               </div>
               {/* <div>
@@ -86,7 +86,7 @@ export default function Hero() {
               </div> */}
                
             </div>
-            <p className="text-sm text-slate-100 mt-8" data-aos="fade-down" data-aos-delay="300">
+            {/* <p className="text-sm text-slate-100 mt-8" data-aos="fade-down" data-aos-delay="300">
               Powered by{' '}
               <a 
                 href="https://somoim.friendscube.com/g/b66c90ac-1765-11ef-be8e-0a1883465d731" 
@@ -96,7 +96,7 @@ export default function Hero() {
               >
                 [대전 IT] 나는 솔로프리너
               </a>
-            </p>
+            </p> */}
           </div>
 
         </div>
