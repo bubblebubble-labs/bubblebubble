@@ -83,8 +83,8 @@ export default function CustomerSingle() {
 
       {/* Radial gradient */}
       <div className="absolute flex items-center justify-center top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-[800px] aspect-square" aria-hidden="true">
-        <div className="absolute inset-0 translate-z-0 bg-amber-500 rounded-full blur-[120px] opacity-30"></div>
-        <div className="absolute w-64 h-64 translate-z-0 bg-amber-400 rounded-full blur-[80px] opacity-70"></div>
+        <div className="absolute inset-0 translate-z-0 bg-sky-500 rounded-full blur-[120px] opacity-30"></div>
+        <div className="absolute w-64 h-64 translate-z-0 bg-sky-400 rounded-full blur-[80px] opacity-70"></div>
       </div>
 
       {/* Particles animation */}
@@ -107,7 +107,7 @@ export default function CustomerSingle() {
                 <article className="pb-12 mb-12 border-b [border-image:linear-gradient(to_right,transparent,theme(colors.slate.800),transparent)1]">
 
                   <div className="mb-4">
-                    <Link className="inline-flex text-sm font-medium text-amber-500 group" href="/customers"><span className="tracking-normal group-hover:-translate-x-0.5 transition-transform duration-150 ease-in-out mr-1">&lt;-</span> Go Back</Link>
+                    <Link className="inline-flex text-sm font-medium text-sky-500 group" href="/customers"><span className="tracking-normal group-hover:-translate-x-0.5 transition-transform duration-150 ease-in-out mr-1">&lt;-</span> Go Back</Link>
                   </div>
 
                   <header>
@@ -122,7 +122,7 @@ export default function CustomerSingle() {
                   </header>
 
                   {/* Post content */}
-                  <div className="prose max-w-none text-slate-400 prose-headings:text-slate-50 prose-h2:text-xl prose-h2:mt-8 prose-h2:mb-4 prose-p:leading-relaxed prose-a:text-amber-500 prose-a:no-underline hover:prose-a:underline prose-strong:text-slate-50 prose-strong:font-medium prose-blockquote:pl-5 prose-blockquote:xl:-ml-5 prose-blockquote:border-l-2 prose-blockquote:border-amber-500 prose-blockquote:font-medium prose-blockquote:text-slate-300 prose-blockquote:italic">
+                  <div className="prose max-w-none text-slate-400 prose-headings:text-slate-50 prose-h2:text-xl prose-h2:mt-8 prose-h2:mb-4 prose-p:leading-relaxed prose-a:text-sky-500 prose-a:no-underline hover:prose-a:underline prose-strong:text-slate-50 prose-strong:font-medium prose-blockquote:pl-5 prose-blockquote:xl:-ml-5 prose-blockquote:border-l-2 prose-blockquote:border-sky-500 prose-blockquote:font-medium prose-blockquote:text-slate-300 prose-blockquote:italic">
                     <p>
                       <a href="#0">Airbnb</a> is an American San Francisco-based company operating an online marketplace for short- and long-term homestays and experiences. The company acts as a broker and charges a commission from each booking. The company was founded in 2008 by Brian Chesky, Nathan Blecharczyk, and Joe Gebbia. Airbnb is a shortened version of its original name, AirBedandBreakfast.com. Airbnb is the most well-known company for short-term housing rentals.
                     </p>
@@ -198,7 +198,7 @@ export default function CustomerSingle() {
                         </li>
                         <li className="flex items-center justify-between space-x-2 py-3 border-t [border-image:linear-gradient(to_right,theme(colors.slate.700/.3),theme(colors.slate.700),theme(colors.slate.700/.3))1]">
                           <span className="text-slate-400">Website</span>
-                          <a className="text-amber-500 font-medium flex items-center space-x-1" href="#0">
+                          <a className="text-sky-500 font-medium flex items-center space-x-1" href="#0">
                             <span>airbnb.com</span>
                             <svg className="fill-current" xmlns="http://www.w3.org/2000/svg" width="9" height="9">
                               <path d="m1.285 8.514-.909-.915 5.513-5.523H1.663l.01-1.258h6.389v6.394H6.794l.01-4.226z" />
@@ -253,8 +253,8 @@ export default function Customers() {
 
         {/* Radial gradient */}
         <div className="absolute flex items-center justify-center top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-[800px] aspect-square" aria-hidden="true">
-          <div className="absolute inset-0 translate-z-0 bg-amber-500 rounded-full blur-[120px] opacity-30"></div>
-          <div className="absolute w-64 h-64 translate-z-0 bg-amber-400 rounded-full blur-[80px] opacity-70"></div>
+          <div className="absolute inset-0 translate-z-0 bg-sky-500 rounded-full blur-[120px] opacity-30"></div>
+          <div className="absolute w-64 h-64 translate-z-0 bg-sky-400 rounded-full blur-[80px] opacity-70"></div>
         </div>
 
         {/* Particles animation */}
@@ -270,7 +270,7 @@ export default function Customers() {
 
             {/* Section header */}
             <div className="text-center pb-12 md:pb-20">
-              <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-amber-200 pb-3">Leaders love Stellar</div>
+              <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-3">Leaders love Stellar</div>
               <h1 className="h1 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Trusted by leading companies</h1>
               <div className="max-w-3xl mx-auto">
                 <p className="text-lg text-slate-400">Stellar powers thousands of high-impact product teams. From next-gen startups who reach for the stars to established greats who change the world.</p>
@@ -413,7 +413,7 @@ export default function CustomersList() {
           <Image className="rounded-full" src={CustomerAvatar01} width={32} height={32} alt="Customer Avatar 01" />
         </div>
         <div className="text-sm font-medium text-slate-300">
-          Mike Hunt <span className="text-slate-700">-</span> <a className="text-amber-500 hover:underline" href="#0">Thunderbolt</a>
+          Mike Hunt <span className="text-slate-700">-</span> <a className="text-sky-500 hover:underline" href="#0">Thunderbolt</a>
         </div>
       </div>
       {/* Testimonial #02 */}
@@ -427,7 +427,7 @@ export default function CustomersList() {
           <Image className="rounded-full" src={CustomerAvatar02} width={32} height={32} alt="Customer Avatar 02" />
         </div>
         <div className="text-sm font-medium text-slate-300">
-          Mirko Mitt <span className="text-slate-700">-</span> <a className="text-amber-500 hover:underline" href="#0">Mildrink</a>
+          Mirko Mitt <span className="text-slate-700">-</span> <a className="text-sky-500 hover:underline" href="#0">Mildrink</a>
         </div>
       </div>
 
@@ -448,7 +448,7 @@ export default function PricingSection() {
       {/* Radial gradient */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10" aria-hidden="true">
         <div className="absolute flex items-center justify-center top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 w-1/3 aspect-square">
-          <div className="absolute inset-0 translate-z-0 bg-amber-500 rounded-full blur-[120px] opacity-50" />
+          <div className="absolute inset-0 translate-z-0 bg-sky-500 rounded-full blur-[120px] opacity-50" />
         </div>
       </div>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -456,7 +456,7 @@ export default function PricingSection() {
           {/* Content */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
             <div>
-              <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-amber-200 pb-3">Pricing plans</div>
+              <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-3">Pricing plans</div>
             </div>
             <h2 className="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Flexible plans and features</h2>
             <p className="text-lg text-slate-400">All the lorem ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
@@ -480,7 +480,7 @@ export default function PostItem({ ...props }) {
     <article className="pt-12 first-of-type:pt-0 group">
       <div className="md:flex">
         <div className="w-48 shrink-0">
-          <time className="text-sm inline-flex items-center bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-amber-200 md:leading-8 before:w-1.5 before:h-1.5 before:rounded-full before:bg-amber-500 before:ring-4 before:ring-amber-500/30 mb-3">
+          <time className="text-sm inline-flex items-center bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 md:leading-8 before:w-1.5 before:h-1.5 before:rounded-full before:bg-sky-500 before:ring-4 before:ring-sky-500/30 mb-3">
             <span className="ml-[1.625rem] md:ml-5"><PostDate dateString={props.publishedAt} /></span>
           </time>
         </div>
@@ -526,8 +526,8 @@ export default function Changelog() {
 
         {/* Radial gradient */}
         <div className="absolute flex items-center justify-center top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-[800px] aspect-square" aria-hidden="true">
-          <div className="absolute inset-0 translate-z-0 bg-amber-500 rounded-full blur-[120px] opacity-30"></div>
-          <div className="absolute w-64 h-64 translate-z-0 bg-amber-400 rounded-full blur-[80px] opacity-70"></div>
+          <div className="absolute inset-0 translate-z-0 bg-sky-500 rounded-full blur-[120px] opacity-30"></div>
+          <div className="absolute w-64 h-64 translate-z-0 bg-sky-400 rounded-full blur-[80px] opacity-70"></div>
         </div>
 
         {/* Particles animation */}
@@ -574,7 +574,7 @@ export default function Changelog() {
                 <li>
                   <a className="btn-sm text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none" href="#0">
                     <span className="relative inline-flex items-center">
-                      Next Page <span className="tracking-normal text-amber-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+                      Next Page <span className="tracking-normal text-sky-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
                     </span>
                   </a>
                 </li>
@@ -640,8 +640,8 @@ export default function IntegrationsSingle() {
 
       {/* Radial gradient */}
       <div className="absolute flex items-center justify-center top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-[800px] aspect-square" aria-hidden="true">
-        <div className="absolute inset-0 translate-z-0 bg-amber-500 rounded-full blur-[120px] opacity-30"></div>
-        <div className="absolute w-64 h-64 translate-z-0 bg-amber-400 rounded-full blur-[80px] opacity-70"></div>
+        <div className="absolute inset-0 translate-z-0 bg-sky-500 rounded-full blur-[120px] opacity-30"></div>
+        <div className="absolute w-64 h-64 translate-z-0 bg-sky-400 rounded-full blur-[80px] opacity-70"></div>
       </div>
 
       {/* Particles animation */}
@@ -668,7 +668,7 @@ export default function IntegrationsSingle() {
                     <div className="sticky top-6">
                       <Link className="flex items-center justify-center w-9 h-9 group border border-transparent rounded-full [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none" href="/integrations">
                         <span className="sr-only">Go back</span>
-                        <svg className="w-4 h-4 fill-amber-500" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <svg className="w-4 h-4 fill-sky-500" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
                           <path d="M6.7 14.7l1.4-1.4L3.8 9H16V7H3.8l4.3-4.3-1.4-1.4L0 8z" />
                         </svg>
                       </Link>
@@ -686,7 +686,7 @@ export default function IntegrationsSingle() {
                       <h1 className="sr-only">GitHub</h1>
 
                       {/* Post content */}
-                      <div className="prose max-w-none text-slate-400 prose-headings:text-slate-50 prose-h2:text-xl prose-h2:mt-8 prose-h2:mb-4 prose-p:leading-relaxed prose-a:text-amber-500 prose-a:no-underline hover:prose-a:underline prose-strong:text-slate-50 prose-strong:font-medium prose-blockquote:pl-5 prose-blockquote:xl:-ml-5 prose-blockquote:border-l-2 prose-blockquote:border-amber-500 prose-blockquote:font-medium prose-blockquote:text-slate-300 prose-blockquote:italic">
+                      <div className="prose max-w-none text-slate-400 prose-headings:text-slate-50 prose-h2:text-xl prose-h2:mt-8 prose-h2:mb-4 prose-p:leading-relaxed prose-a:text-sky-500 prose-a:no-underline hover:prose-a:underline prose-strong:text-slate-50 prose-strong:font-medium prose-blockquote:pl-5 prose-blockquote:xl:-ml-5 prose-blockquote:border-l-2 prose-blockquote:border-sky-500 prose-blockquote:font-medium prose-blockquote:text-slate-300 prose-blockquote:italic">
                         <h2>Overview</h2>
                         <p>
                           This powerful GitHub integration keeps your work in sync in both applications. It links features to Pull Requests so that details update automatically from In Progress to Done as the PR moves from drafted to merged - there is no need to update the issue in Stellar at all.
@@ -704,12 +704,12 @@ export default function IntegrationsSingle() {
                       </div>
                     </article>
 
-                    <aside className="pl-6 border-l-2 border-amber-500">
+                    <aside className="pl-6 border-l-2 border-sky-500">
                       <p className="inline-flex font-medium italic text-lg bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">“ This integration is so perfect it tickles my brain. It ensures that your work is in sync across your entire team. ”</p>
                       <footer className="flex items-center space-x-4">
                         <Image className="shrink-0 rounded-full" src={Avatar} width={32} height={32} alt="Author" />
                         <div className="text-sm font-medium text-slate-300">
-                          Mike Hunt <span className="text-slate-700">-</span> <a className="text-amber-500 hover:underline" href="#0">Thunderbolt</a>
+                          Mike Hunt <span className="text-slate-700">-</span> <a className="text-sky-500 hover:underline" href="#0">Thunderbolt</a>
                         </div>
                       </footer>
                     </aside>
@@ -739,7 +739,7 @@ export default function IntegrationsSingle() {
                         </div>
                         <button className="btn-sm text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/70 before:rounded-full before:pointer-events-none">
                           <span className="relative inline-flex items-center">
-                            Install Integration <span className="tracking-normal text-amber-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+                            Install Integration <span className="tracking-normal text-sky-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
                           </span>
                         </button>
                       </div>
@@ -750,7 +750,7 @@ export default function IntegrationsSingle() {
                         </li>
                         <li className="flex items-center justify-between space-x-2 py-3 border-t [border-image:linear-gradient(to_right,theme(colors.slate.700/.3),theme(colors.slate.700),theme(colors.slate.700/.3))1]">
                           <span className="text-slate-400">Website</span>
-                          <a className="text-amber-500 font-medium flex items-center space-x-1" href="#0">
+                          <a className="text-sky-500 font-medium flex items-center space-x-1" href="#0">
                             <span>github.com</span>
                             <svg className="fill-current" xmlns="http://www.w3.org/2000/svg" width="9" height="9">
                               <path d="m1.285 8.514-.909-.915 5.513-5.523H1.663l.01-1.258h6.389v6.394H6.794l.01-4.226z" />
@@ -1180,8 +1180,8 @@ export default function IntegrationsSection() {
 
       {/* Radial gradient */}
       <div className="absolute flex items-center justify-center top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-[800px] aspect-square" aria-hidden="true">
-        <div className="absolute inset-0 translate-z-0 bg-amber-500 rounded-full blur-[120px] opacity-30"></div>
-        <div className="absolute w-64 h-64 translate-z-0 bg-amber-400 rounded-full blur-[80px] opacity-70"></div>
+        <div className="absolute inset-0 translate-z-0 bg-sky-500 rounded-full blur-[120px] opacity-30"></div>
+        <div className="absolute w-64 h-64 translate-z-0 bg-sky-400 rounded-full blur-[80px] opacity-70"></div>
       </div>
 
       {/* Particles animation */}
@@ -1197,7 +1197,7 @@ export default function IntegrationsSection() {
 
           {/* Section header */}
           <div className="text-center pb-12 md:pb-20">
-            <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-amber-200 pb-3">Integrations & Add-ons</div>
+            <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-3">Integrations & Add-ons</div>
             <h1 className="h1 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Make Stellar uniquely yours</h1>
             <div className="max-w-3xl mx-auto">
               <p className="text-lg text-slate-400">Our landing page template works on all devices, so you only have to set it up once, and get beautiful results forever.</p>
@@ -1286,8 +1286,8 @@ export default function PricingSection() {
 
       {/* Radial gradient */}
       <div className="absolute flex items-center justify-center top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-[800px] aspect-square" aria-hidden="true">
-        <div className="absolute inset-0 translate-z-0 bg-amber-500 rounded-full blur-[120px] opacity-30"></div>
-        <div className="absolute w-64 h-64 translate-z-0 bg-amber-400 rounded-full blur-[80px] opacity-70"></div>
+        <div className="absolute inset-0 translate-z-0 bg-sky-500 rounded-full blur-[120px] opacity-30"></div>
+        <div className="absolute w-64 h-64 translate-z-0 bg-sky-400 rounded-full blur-[80px] opacity-70"></div>
       </div>
 
       {/* Particles animation */}
@@ -1303,7 +1303,7 @@ export default function PricingSection() {
 
           {/* Section header */}
           <div className="text-center pb-12 md:pb-20">
-            <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-amber-200 pb-3">The security first platform</div>
+            <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-3">The security first platform</div>
             <h1 className="h1 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Simple plans for everyone</h1>
             <div className="max-w-3xl mx-auto">
               <p className="text-lg text-slate-400">Cut down overhead costs and ditch clunky software. Get a flexible, purpose-built tool to simplify your security with authentication services.</p>
@@ -1394,8 +1394,8 @@ export default function PricingSection() {
 
       {/* Radial gradient */}
       <div className="absolute flex items-center justify-center top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-[800px] aspect-square" aria-hidden="true">
-        <div className="absolute inset-0 translate-z-0 bg-amber-500 rounded-full blur-[120px] opacity-30"></div>
-        <div className="absolute w-64 h-64 translate-z-0 bg-amber-400 rounded-full blur-[80px] opacity-70"></div>
+        <div className="absolute inset-0 translate-z-0 bg-sky-500 rounded-full blur-[120px] opacity-30"></div>
+        <div className="absolute w-64 h-64 translate-z-0 bg-sky-400 rounded-full blur-[80px] opacity-70"></div>
       </div>
 
       {/* Particles animation */}
@@ -1411,7 +1411,7 @@ export default function PricingSection() {
 
           {/* Section header */}
           <div className="text-center pb-12 md:pb-20">
-            <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-amber-200 pb-3">The security first platform</div>
+            <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-3">The security first platform</div>
             <h1 className="h1 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Simple plans for everyone</h1>
             <div className="max-w-3xl mx-auto">
               <p className="text-lg text-slate-400">Cut down overhead costs and ditch clunky software. Get a flexible, purpose-built tool to simplify your security with authentication services.</p>
@@ -1644,15 +1644,15 @@ export default function SignUp() {
             </div>
           </div>
           <div className="mt-6">
-            <button className="btn text-sm text-white bg-amber-500 hover:bg-amber-600 w-full shadow-sm group">
-              Sign Up <span className="tracking-normal text-amber-300 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+            <button className="btn text-sm text-white bg-sky-500 hover:bg-sky-600 w-full shadow-sm group">
+              Sign Up <span className="tracking-normal text-sky-300 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
             </button>
           </div>
         </form>
 
         <div className="text-center mt-4">
           <div className="text-sm text-slate-400">
-            Already have an account? <Link className="font-medium text-amber-500 hover:text-amber-400 transition duration-150 ease-in-out" href="/signin">Sign in</Link>
+            Already have an account? <Link className="font-medium text-sky-500 hover:text-sky-400 transition duration-150 ease-in-out" href="/signin">Sign in</Link>
           </div>
         </div>
 
@@ -1721,21 +1721,21 @@ export default function SignIn() {
             <div>
               <div className="flex justify-between">
                 <label className="block text-sm text-slate-300 font-medium mb-1" htmlFor="password">Password</label>
-                <Link className="text-sm font-medium text-amber-500 hover:text-amber-400 transition duration-150 ease-in-out ml-2" href="/reset-password">Forgot?</Link>
+                <Link className="text-sm font-medium text-sky-500 hover:text-sky-400 transition duration-150 ease-in-out ml-2" href="/reset-password">Forgot?</Link>
               </div>
               <input id="password" className="form-input w-full" type="password" autoComplete="on" required />
             </div>
           </div>
           <div className="mt-6">
-            <button className="btn text-sm text-white bg-amber-500 hover:bg-amber-600 w-full shadow-sm group">
-              Sign In <span className="tracking-normal text-amber-300 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+            <button className="btn text-sm text-white bg-sky-500 hover:bg-sky-600 w-full shadow-sm group">
+              Sign In <span className="tracking-normal text-sky-300 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
             </button>
           </div>
         </form>
 
         <div className="text-center mt-4">
           <div className="text-sm text-slate-400">
-            Don't have an account? <Link className="font-medium text-amber-500 hover:text-amber-400 transition duration-150 ease-in-out" href="/signup">Sign up</Link>
+            Don't have an account? <Link className="font-medium text-sky-500 hover:text-sky-400 transition duration-150 ease-in-out" href="/signup">Sign up</Link>
           </div>
         </div>
 
@@ -1836,8 +1836,8 @@ export default function ResetPassword() {
             </div>
           </div>
           <div className="mt-6">
-            <button className="btn text-sm text-white bg-amber-500 hover:bg-amber-600 w-full shadow-sm group">
-              Reset Password <span className="tracking-normal text-amber-300 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+            <button className="btn text-sm text-white bg-sky-500 hover:bg-sky-600 w-full shadow-sm group">
+              Reset Password <span className="tracking-normal text-sky-300 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
             </button>
           </div>
         </form>
@@ -2323,7 +2323,7 @@ export function UpdateMdx({ code }: MdxProps) {
   const Component = useMDXComponent(code)
 
   return (
-    <div className="prose max-w-none text-slate-400 prose-p:leading-relaxed prose-a:text-amber-500 prose-a:no-underline hover:prose-a:underline prose-strong:text-slate-50 prose-strong:font-medium">
+    <div className="prose max-w-none text-slate-400 prose-p:leading-relaxed prose-a:text-sky-500 prose-a:no-underline hover:prose-a:underline prose-strong:text-slate-50 prose-strong:font-medium">
       <Component components={{ ...mdxComponents }} />
     </div>
   )
@@ -2355,7 +2355,7 @@ export default function Hero() {
           {/* Hero content */}
           <div className="max-w-3xl mx-auto text-center">
             <div className="mb-6" data-aos="fade-down">
-              <div className="inline-flex relative before:absolute before:inset-0 before:bg-amber-500 before:blur-md">
+              <div className="inline-flex relative before:absolute before:inset-0 before:bg-sky-500 before:blur-md">
                 <a className="btn-sm py-0.5 text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.amber.500),_theme(colors.amber.500))_padding-box,_linear-gradient(theme(colors.amber.500),_theme(colors.amber.200)_75%,_theme(colors.transparent)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/50 before:rounded-full before:pointer-events-none shadow" href="#0">
                   <span className="relative inline-flex items-center">
                     성심당 AI 추천 서비스 오픈
@@ -2370,7 +2370,7 @@ export default function Hero() {
             <div className="max-w-xs mx-auto sm:max-w-none sm:inline-flex sm:justify-center space-y-4 sm:space-y-0 sm:space-x-4" data-aos="fade-down" data-aos-delay="400">
               <div>
                 <a className="btn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white w-full transition duration-150 ease-in-out group" href="/survey">
-                  추천 받기 <span className="tracking-normal text-amber-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+                  추천 받기 <span className="tracking-normal text-sky-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
                 </a>
               </div>
               {/* <div>
@@ -2495,21 +2495,21 @@ export default function Footer() {
               {/* Social links */}
               <ul className="flex">
                 <li>
-                  <a className="flex justify-center items-center text-amber-500 hover:text-amber-400 transition duration-150 ease-in-out" href="#0" aria-label="Twitter">
+                  <a className="flex justify-center items-center text-sky-500 hover:text-sky-400 transition duration-150 ease-in-out" href="#0" aria-label="Twitter">
                     <svg className="w-8 h-8 fill-current" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
                       <path d="m13.063 9 3.495 4.475L20.601 9h2.454l-5.359 5.931L24 23h-4.938l-3.866-4.893L10.771 23H8.316l5.735-6.342L8 9h5.063Zm-.74 1.347h-1.457l8.875 11.232h1.36l-8.778-11.232Z" />
                     </svg>
                   </a>
                 </li>
                 <li className="ml-2">
-                  <a className="flex justify-center items-center text-amber-500 hover:text-amber-400 transition duration-150 ease-in-out" href="#0" aria-label="Dev.to">
+                  <a className="flex justify-center items-center text-sky-500 hover:text-sky-400 transition duration-150 ease-in-out" href="#0" aria-label="Dev.to">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32">
                       <path className="w-8 h-8 fill-current" d="M12.29 14.3a.69.69 0 0 0-.416-.155h-.623v3.727h.623a.689.689 0 0 0 .416-.156.543.543 0 0 0 .21-.466v-2.488a.547.547 0 0 0-.21-.462ZM22.432 8H9.568C8.704 8 8.002 8.7 8 9.564v12.872A1.568 1.568 0 0 0 9.568 24h12.864c.864 0 1.566-.7 1.568-1.564V9.564A1.568 1.568 0 0 0 22.432 8Zm-8.925 9.257a1.631 1.631 0 0 1-1.727 1.687h-1.657v-5.909h1.692a1.631 1.631 0 0 1 1.692 1.689v2.533ZM17.1 14.09h-1.9v1.372h1.163v1.057H15.2v1.371h1.9v1.056h-2.217a.72.72 0 0 1-.74-.7v-4.471a.721.721 0 0 1 .7-.739H17.1v1.054Zm3.7 4.118c-.471 1.1-1.316.88-1.694 0l-1.372-5.172H18.9l1.058 4.064 1.056-4.062h1.164l-1.378 5.17Z" />
                     </svg>
                   </a>
                 </li>
                 <li className="ml-2">
-                  <a className="flex justify-center items-center text-amber-500 hover:text-amber-400 transition duration-150 ease-in-out" href="#0" aria-label="Github">
+                  <a className="flex justify-center items-center text-sky-500 hover:text-sky-400 transition duration-150 ease-in-out" href="#0" aria-label="Github">
                     <svg className="w-8 h-8 fill-current" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
                       <path d="M16 8.2c-4.4 0-8 3.6-8 8 0 3.5 2.3 6.5 5.5 7.6.4.1.5-.2.5-.4V22c-2.2.5-2.7-1-2.7-1-.4-.9-.9-1.2-.9-1.2-.7-.5.1-.5.1-.5.8.1 1.2.8 1.2.8.7 1.3 1.9.9 2.3.7.1-.5.3-.9.5-1.1-1.8-.2-3.6-.9-3.6-4 0-.9.3-1.6.8-2.1-.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8.6-.2 1.3-.3 2-.3s1.4.1 2 .3c1.5-1 2.2-.8 2.2-.8.4 1.1.2 1.9.1 2.1.5.6.8 1.3.8 2.1 0 3.1-1.9 3.7-3.7 3.9.3.4.6.9.6 1.6v2.2c0 .2.1.5.6.4 3.2-1.1 5.5-4.1 5.5-7.6-.1-4.4-3.7-8-8.1-8z" />
                     </svg>
@@ -2667,7 +2667,7 @@ export default function Header() {
             <li className="ml-6">
               <Link className="btn-sm text-slate-300 hover:text-white transition duration-150 ease-in-out w-full group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none" href="/signup">
                 <span className="relative inline-flex items-center">
-                  Sign up <span className="tracking-normal text-amber-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+                  Sign up <span className="tracking-normal text-sky-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
                 </span>
               </Link>
             </li>
@@ -2690,8 +2690,8 @@ export default function Cta03() {
         <div className="relative px-8 py-12 md:py-20 rounded-[3rem] overflow-hidden">
           {/* Radial gradient */}
           <div className="absolute flex items-center justify-center top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-1/3 aspect-square" aria-hidden="true">
-            <div className="absolute inset-0 translate-z-0 bg-amber-500 rounded-full blur-[120px] opacity-70"></div>
-            <div className="absolute w-1/4 h-1/4 translate-z-0 bg-amber-400 rounded-full blur-[40px]"></div>
+            <div className="absolute inset-0 translate-z-0 bg-sky-500 rounded-full blur-[120px] opacity-70"></div>
+            <div className="absolute w-1/4 h-1/4 translate-z-0 bg-sky-400 rounded-full blur-[40px]"></div>
           </div>
           {/* Blurred shape */}
           <div className="absolute bottom-0 translate-y-1/2 left-0 blur-2xl opacity-50 pointer-events-none -z-10" aria-hidden="true">
@@ -2708,14 +2708,14 @@ export default function Cta03() {
           {/* Content */}
           <div className="max-w-3xl mx-auto text-center">
             <div>
-              <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-amber-200 pb-3">Never miss an update</div>
+              <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-3">Never miss an update</div>
             </div>
             <h2 className="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Take control of your business</h2>
             <p className="text-lg text-slate-400 mb-8">Find out about our latest product changes as we continue improving Stellar to enable your team to collaborate better.</p>
             <form className="inline-flex max-w-sm w-full">
               <div className="w-full flex flex-col sm:flex-row justify-center max-w-xs mx-auto sm:max-w-none">
                 <input type="email" className="form-input py-1.5 w-full mb-3 sm:mb-0 sm:mr-2 rounded-full bg-slate-800/30 border-slate-700" placeholder="Your email" aria-label="Your email" />
-                  <button className="btn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white transition duration-150 ease-in-out group" type="submit">Subscribe <span className="tracking-normal text-amber-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></button>
+                  <button className="btn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white transition duration-150 ease-in-out group" type="submit">Subscribe <span className="tracking-normal text-sky-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></button>
               </div>
             </form>
           </div>
@@ -2748,7 +2748,7 @@ export default function Pricing() {
         </svg>
       </div>
       {/* Content */}
-      <div className="grid md:grid-cols-4 xl:-mx-6 text-sm [&>div:nth-of-type(-n+4)]:py-6 [&>div:nth-last-of-type(-n+4)]:pb-6 max-md:[&>div:nth-last-of-type(-n+4)]:mb-8 max-md:[&>div:nth-of-type(-n+4):nth-of-type(n+1)]:rounded-t-3xl max-md:[&>div:nth-last-of-type(-n+4)]:rounded-b-3xl md:[&>div:nth-of-type(2)]:rounded-tl-3xl md:[&>div:nth-of-type(4)]:rounded-tr-3xl md:[&>div:nth-last-of-type(3)]:rounded-bl-3xl md:[&>div:nth-last-of-type(1)]:rounded-br-3xl [&>div]:bg-slate-700/20 [&>div:nth-of-type(4n+1)]:bg-transparent max-md:[&>div:nth-of-type(4n+5)]:hidden max-md:[&>div:nth-of-type(4n+2)]:order-1 max-md:[&>div:nth-of-type(4n+3)]:order-2 max-md:[&>div:nth-of-type(4n+4)]:order-3 max-md:md:[&>div:nth-of-type(n)]:mb-0 [&>div:nth-of-type(4n+3)]:relative before:[&>div:nth-of-type(4n+3)]:absolute before:[&>div:nth-of-type(4n+3)]:-inset-px before:[&>div:nth-of-type(4n+3)]:rounded-[inherit] before:[&>div:nth-of-type(4n+3)]:border-x-2 before:[&>div:nth-of-type(3)]:border-t-2 before:[&>div:nth-last-of-type(2)]:border-b-2 before:[&>div:nth-of-type(4n+3)]:border-amber-500 before:[&>div:nth-of-type(4n+3)]:-z-10 before:[&>div:nth-of-type(4n+3)]:pointer-events-none">
+      <div className="grid md:grid-cols-4 xl:-mx-6 text-sm [&>div:nth-of-type(-n+4)]:py-6 [&>div:nth-last-of-type(-n+4)]:pb-6 max-md:[&>div:nth-last-of-type(-n+4)]:mb-8 max-md:[&>div:nth-of-type(-n+4):nth-of-type(n+1)]:rounded-t-3xl max-md:[&>div:nth-last-of-type(-n+4)]:rounded-b-3xl md:[&>div:nth-of-type(2)]:rounded-tl-3xl md:[&>div:nth-of-type(4)]:rounded-tr-3xl md:[&>div:nth-last-of-type(3)]:rounded-bl-3xl md:[&>div:nth-last-of-type(1)]:rounded-br-3xl [&>div]:bg-slate-700/20 [&>div:nth-of-type(4n+1)]:bg-transparent max-md:[&>div:nth-of-type(4n+5)]:hidden max-md:[&>div:nth-of-type(4n+2)]:order-1 max-md:[&>div:nth-of-type(4n+3)]:order-2 max-md:[&>div:nth-of-type(4n+4)]:order-3 max-md:md:[&>div:nth-of-type(n)]:mb-0 [&>div:nth-of-type(4n+3)]:relative before:[&>div:nth-of-type(4n+3)]:absolute before:[&>div:nth-of-type(4n+3)]:-inset-px before:[&>div:nth-of-type(4n+3)]:rounded-[inherit] before:[&>div:nth-of-type(4n+3)]:border-x-2 before:[&>div:nth-of-type(3)]:border-t-2 before:[&>div:nth-last-of-type(2)]:border-b-2 before:[&>div:nth-of-type(4n+3)]:border-sky-500 before:[&>div:nth-of-type(4n+3)]:-z-10 before:[&>div:nth-of-type(4n+3)]:pointer-events-none">
         {/* Pricing toggle */}
         <div className="px-6 flex flex-col justify-end">
           <div className="pb-5 md:border-b border-slate-800">
@@ -2758,7 +2758,7 @@ export default function Pricing() {
                 <div className="text-sm text-slate-500 font-medium mr-2 md:max-lg:hidden">Monthly</div>
                 <div className="relative">
                   <input type="checkbox" id="toggle" className="peer sr-only" checked={annual} onChange={() => setAnnual(!annual)} />
-                  <label htmlFor="toggle" className="relative flex h-6 w-11 cursor-pointer items-center rounded-full bg-slate-400 px-0.5 outline-slate-400 transition-colors before:h-5 before:w-5 before:rounded-full before:bg-white before:shadow-sm before:transition-transform before:duration-150 peer-checked:bg-amber-500 peer-checked:before:translate-x-full peer-focus-visible:outline peer-focus-visible:outline-offset-2 peer-focus-visible:outline-gray-400 peer-checked:peer-focus-visible:outline-amber-500">
+                  <label htmlFor="toggle" className="relative flex h-6 w-11 cursor-pointer items-center rounded-full bg-slate-400 px-0.5 outline-slate-400 transition-colors before:h-5 before:w-5 before:rounded-full before:bg-white before:shadow-sm before:transition-transform before:duration-150 peer-checked:bg-sky-500 peer-checked:before:translate-x-full peer-focus-visible:outline peer-focus-visible:outline-offset-2 peer-focus-visible:outline-gray-400 peer-checked:peer-focus-visible:outline-sky-500">
                     <span className="sr-only">Pay Yearly</span>
                   </label>
                 </div>
@@ -2770,7 +2770,7 @@ export default function Pricing() {
         {/* Pro price */}
         <div className="px-6 flex flex-col justify-end">
           <div className="grow pb-4 mb-4 border-b border-slate-800">
-            <div className="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-amber-200 pb-0.5">Pro</div>
+            <div className="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-0.5">Pro</div>
             <div className="mb-1">
               <span className="text-lg font-medium text-slate-500">$</span><span className="text-3xl font-bold text-slate-50">{annual ? '24' : '29'}</span><span className="text-sm text-slate-600 font-medium">/mo</span>
             </div>
@@ -2778,29 +2778,29 @@ export default function Pricing() {
           </div>
           <div className="pb-4 border-b border-slate-800">
             <a className="btn-sm text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white w-full transition duration-150 ease-in-out group" href="#0">
-              Get Started <span className="tracking-normal text-amber-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+              Get Started <span className="tracking-normal text-sky-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
             </a>
           </div>
         </div>
         {/* Team price */}
         <div className="px-6 flex flex-col justify-end">
           <div className="grow pb-4 mb-4 border-b border-slate-800">
-            <div className="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-amber-200 pb-0.5">Team</div>
+            <div className="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-0.5">Team</div>
             <div className="mb-1">
               <span className="text-lg font-medium text-slate-500">$</span><span className="text-3xl font-bold text-slate-50">{annual ? '49' : '54'}</span><span className="text-sm text-slate-600 font-medium">/mo</span>
             </div>
             <div className="text-slate-500">Everything at your fingertips.</div>
           </div>
           <div className="pb-4 border-b border-slate-800">
-            <a className="btn-sm text-white bg-amber-500 hover:bg-amber-600 w-full transition duration-150 ease-in-out group" href="#0">
-              Get Started <span className="tracking-normal text-amber-300 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+            <a className="btn-sm text-white bg-sky-500 hover:bg-sky-600 w-full transition duration-150 ease-in-out group" href="#0">
+              Get Started <span className="tracking-normal text-sky-300 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
             </a>
           </div>
         </div>
         {/* Enterprise price */}
         <div className="px-6 flex flex-col justify-end">
           <div className="grow pb-4 mb-4 border-b border-slate-800">
-            <div className="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-amber-200 pb-0.5">Enterprise</div>
+            <div className="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-0.5">Enterprise</div>
             <div className="mb-1">
               <span className="text-lg font-medium text-slate-500">$</span><span className="text-3xl font-bold text-slate-50">{annual ? '79' : '85'}</span><span className="text-sm text-slate-600 font-medium">/mo</span>
             </div>
@@ -2808,7 +2808,7 @@ export default function Pricing() {
           </div>
           <div className="pb-4 border-b border-slate-800">
             <a className="btn-sm text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white w-full transition duration-150 ease-in-out group" href="#0">
-              Get Started <span className="tracking-normal text-amber-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+              Get Started <span className="tracking-normal text-sky-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
             </a>
           </div>
         </div>
@@ -2831,7 +2831,7 @@ export default function Pricing() {
         </div>
         <div className="px-6 flex flex-col justify-end">
           <div className="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-            <svg className="shrink-0 fill-amber-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+            <svg className="shrink-0 fill-sky-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
               <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
             </svg>
             <span>100 <span className="md:hidden">Social Connections</span></span>
@@ -2839,7 +2839,7 @@ export default function Pricing() {
         </div>
         <div className="px-6 flex flex-col justify-end">
           <div className="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-            <svg className="shrink-0 fill-amber-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+            <svg className="shrink-0 fill-sky-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
               <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
             </svg>
             <span>250 <span className="md:hidden">Social Connections</span></span>
@@ -2847,7 +2847,7 @@ export default function Pricing() {
         </div>
         <div className="px-6 flex flex-col justify-end">
           <div className="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-            <svg className="shrink-0 fill-amber-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+            <svg className="shrink-0 fill-sky-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
               <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
             </svg>
             <span>Unlimited <span className="md:hidden">Social Connections</span></span>
@@ -2859,7 +2859,7 @@ export default function Pricing() {
         </div>
         <div className="px-6 flex flex-col justify-end">
           <div className="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-            <svg className="shrink-0 fill-amber-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+            <svg className="shrink-0 fill-sky-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
               <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
             </svg>
             <span>4 <span className="md:hidden">Custom Domains</span></span>
@@ -2867,7 +2867,7 @@ export default function Pricing() {
         </div>
         <div className="px-6 flex flex-col justify-end">
           <div className="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-            <svg className="shrink-0 fill-amber-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+            <svg className="shrink-0 fill-sky-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
               <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
             </svg>
             <span>Unlimited <span className="md:hidden">Custom Domains</span></span>
@@ -2875,7 +2875,7 @@ export default function Pricing() {
         </div>
         <div className="px-6 flex flex-col justify-end">
           <div className="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-            <svg className="shrink-0 fill-amber-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+            <svg className="shrink-0 fill-sky-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
               <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
             </svg>
             <span>Unlimited <span className="md:hidden">Custom Domains</span></span>
@@ -2887,7 +2887,7 @@ export default function Pricing() {
         </div>
         <div className="px-6 flex flex-col justify-end">
           <div className="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-            <svg className="shrink-0 fill-amber-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+            <svg className="shrink-0 fill-sky-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
               <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
             </svg>
             <span>Unlimited <span className="md:hidden">User Role Management</span></span>
@@ -2895,7 +2895,7 @@ export default function Pricing() {
         </div>
         <div className="px-6 flex flex-col justify-end">
           <div className="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-            <svg className="shrink-0 fill-amber-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+            <svg className="shrink-0 fill-sky-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
               <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
             </svg>
             <span>Unlimited <span className="md:hidden">User Role Management</span></span>
@@ -2903,7 +2903,7 @@ export default function Pricing() {
         </div>
         <div className="px-6 flex flex-col justify-end">
           <div className="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-            <svg className="shrink-0 fill-amber-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+            <svg className="shrink-0 fill-sky-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
               <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
             </svg>
             <span>Unlimited <span className="md:hidden">User Role Management</span></span>
@@ -2915,7 +2915,7 @@ export default function Pricing() {
         </div>
         <div className="px-6 flex flex-col justify-end">
           <div className="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-            <svg className="shrink-0 fill-amber-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+            <svg className="shrink-0 fill-sky-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
               <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
             </svg>
             <span>1 <span className="md:hidden">External Databases</span></span>
@@ -2923,7 +2923,7 @@ export default function Pricing() {
         </div>
         <div className="px-6 flex flex-col justify-end">
           <div className="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-            <svg className="shrink-0 fill-amber-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+            <svg className="shrink-0 fill-sky-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
               <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
             </svg>
             <span>5 <span className="md:hidden">External Databases</span></span>
@@ -2931,7 +2931,7 @@ export default function Pricing() {
         </div>
         <div className="px-6 flex flex-col justify-end">
           <div className="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-            <svg className="shrink-0 fill-amber-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+            <svg className="shrink-0 fill-sky-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
               <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
             </svg>
             <span>Unlimited <span className="md:hidden">External Databases</span></span>
@@ -2956,7 +2956,7 @@ export default function Pricing() {
         </div>
         <div className="px-6 flex flex-col justify-end">
           <div className="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-            <svg className="shrink-0 fill-amber-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+            <svg className="shrink-0 fill-sky-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
               <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
             </svg>
             <span><span className="md:hidden">Custom Connection</span></span>
@@ -2964,7 +2964,7 @@ export default function Pricing() {
         </div>
         <div className="px-6 flex flex-col justify-end">
           <div className="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-            <svg className="shrink-0 fill-amber-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+            <svg className="shrink-0 fill-sky-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
               <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
             </svg>
             <span><span className="md:hidden">Custom Connection</span></span>
@@ -2972,7 +2972,7 @@ export default function Pricing() {
         </div>
         <div className="px-6 flex flex-col justify-end">
           <div className="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-            <svg className="shrink-0 fill-amber-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+            <svg className="shrink-0 fill-sky-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
               <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
             </svg>
             <span><span className="md:hidden">Custom Connection</span></span>
@@ -2984,7 +2984,7 @@ export default function Pricing() {
         </div>
         <div className="px-6 flex flex-col justify-end">
           <div className="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-            <svg className="shrink-0 fill-amber-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+            <svg className="shrink-0 fill-sky-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
               <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
             </svg>
             <span><span className="md:hidden">Advanced Deployment Options</span></span>
@@ -2992,7 +2992,7 @@ export default function Pricing() {
         </div>
         <div className="px-6 flex flex-col justify-end">
           <div className="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-            <svg className="shrink-0 fill-amber-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+            <svg className="shrink-0 fill-sky-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
               <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
             </svg>
             <span><span className="md:hidden">Advanced Deployment Options</span></span>
@@ -3000,7 +3000,7 @@ export default function Pricing() {
         </div>
         <div className="px-6 flex flex-col justify-end">
           <div className="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-            <svg className="shrink-0 fill-amber-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+            <svg className="shrink-0 fill-sky-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
               <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
             </svg>
             <span><span className="md:hidden">Advanced Deployment Options</span></span>
@@ -3012,7 +3012,7 @@ export default function Pricing() {
         </div>
         <div className="px-6 flex flex-col justify-end">
           <div className="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-            <svg className="shrink-0 fill-amber-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+            <svg className="shrink-0 fill-sky-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
               <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
             </svg>
             <span><span className="md:hidden">Extra Add-ons</span></span>
@@ -3020,7 +3020,7 @@ export default function Pricing() {
         </div>
         <div className="px-6 flex flex-col justify-end">
           <div className="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-            <svg className="shrink-0 fill-amber-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+            <svg className="shrink-0 fill-sky-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
               <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
             </svg>
             <span><span className="md:hidden">Extra Add-ons</span></span>
@@ -3028,7 +3028,7 @@ export default function Pricing() {
         </div>
         <div className="px-6 flex flex-col justify-end">
           <div className="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-            <svg className="shrink-0 fill-amber-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+            <svg className="shrink-0 fill-sky-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
               <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
             </svg>
             <span><span className="md:hidden">Extra Add-ons</span></span>
@@ -3050,7 +3050,7 @@ export default function Pricing() {
         </div>
         <div className="px-6 flex flex-col justify-end">
           <div className="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-            <svg className="shrink-0 fill-amber-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+            <svg className="shrink-0 fill-sky-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
               <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
             </svg>
             <span><span className="md:hidden">Admin Roles</span></span>
@@ -3072,7 +3072,7 @@ export default function Pricing() {
         </div>
         <div className="px-6 flex flex-col justify-end">
           <div className="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-            <svg className="shrink-0 fill-amber-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+            <svg className="shrink-0 fill-sky-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
               <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
             </svg>
             <span><span className="md:hidden">Deploy and Monitor</span></span>
@@ -3094,7 +3094,7 @@ export default function Pricing() {
         </div>
         <div className="px-6 flex flex-col justify-end">
           <div className="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-            <svg className="shrink-0 fill-amber-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+            <svg className="shrink-0 fill-sky-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
               <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
             </svg>
             <span><span className="md:hidden">Enterprise Add-ons</span></span>
@@ -3124,7 +3124,7 @@ export default function Pricing() {
         </div>
         <div className="px-6 flex flex-col justify-end">
           <div className="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-            <svg className="shrink-0 fill-amber-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+            <svg className="shrink-0 fill-sky-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
               <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
             </svg>
             <span><span className="md:hidden">Premium Support</span></span>
@@ -3132,7 +3132,7 @@ export default function Pricing() {
         </div>
         <div className="px-6 flex flex-col justify-end">
           <div className="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-            <svg className="shrink-0 fill-amber-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+            <svg className="shrink-0 fill-sky-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
               <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
             </svg>
             <span><span className="md:hidden">Premium Support</span></span>
@@ -3172,13 +3172,13 @@ export default function Cta02() {
           {/* Content */}
           <div className="max-w-3xl mx-auto text-center">
             <div>
-              <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-amber-200 pb-3">The security first platform</div>
+              <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-3">The security first platform</div>
             </div>
             <h2 className="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Supercharge your security</h2>
             <p className="text-lg text-slate-400 mb-8">All the lorem ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
             <div>
               <a className="btn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white transition duration-150 ease-in-out group" href="#0">
-                Start Building <span className="tracking-normal text-amber-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+                Start Building <span className="tracking-normal text-sky-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
               </a>
             </div>
           </div>
@@ -3411,13 +3411,13 @@ export default function IntegrationsCarousel() {
       <div className="flex py-8 justify-end">
         <button className="carousel-prev relative z-20 w-12 h-12 flex items-center justify-center group">
           <span className="sr-only">Previous</span>
-          <svg className="w-4 h-4 fill-slate-500 group-hover:fill-amber-500 transition duration-150 ease-in-out" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+          <svg className="w-4 h-4 fill-slate-500 group-hover:fill-sky-500 transition duration-150 ease-in-out" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
             <path d="M6.7 14.7l1.4-1.4L3.8 9H16V7H3.8l4.3-4.3-1.4-1.4L0 8z" />
           </svg>
         </button>
         <button className="carousel-next relative z-20 w-12 h-12 flex items-center justify-center group">
           <span className="sr-only">Next</span>
-          <svg className="w-4 h-4 fill-slate-500 group-hover:fill-amber-500 transition duration-150 ease-in-out" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+          <svg className="w-4 h-4 fill-slate-500 group-hover:fill-sky-500 transition duration-150 ease-in-out" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
             <path d="M9.3 14.7l-1.4-1.4L12.2 9H0V7h12.2L7.9 2.7l1.4-1.4L16 8z" />
           </svg>
         </button>
@@ -3588,7 +3588,7 @@ export default function Team() {
       {/* Radial gradient */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10" aria-hidden="true">
         <div className="absolute flex items-center justify-center top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 w-1/3 aspect-square">
-          <div className="absolute inset-0 translate-z-0 bg-amber-500 rounded-full blur-[120px] opacity-50"></div>
+          <div className="absolute inset-0 translate-z-0 bg-sky-500 rounded-full blur-[120px] opacity-50"></div>
         </div>
       </div>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -3606,7 +3606,7 @@ export default function Team() {
                   <Image className="shrink-0" src={item.img} width="48" height="48" alt={item.name} />
                   <div className="grow">
                     <div className="font-bold text-slate-100 mb-0.5">{item.name}</div>
-                    <div className="text-sm text-amber-500 font-medium">{item.role}</div>
+                    <div className="text-sm text-sky-500 font-medium">{item.role}</div>
                   </div>
                 </div>
                 <a className="shrink-0 text-slate-500 md:opacity-0 group-hover:opacity-100 transition-opacity focus-within:opacity-100 focus:outline-none group-hover:before:absolute group-hover:before:inset-0" href={item.twitter} aria-label={`${item.name}'s Twitter`}>
@@ -3800,7 +3800,7 @@ export const Survey: React.FC = () => {
   if (currentQuestion >= questions.length) {
     return (
       <div className="max-w-2xl mx-auto mt-10 p-8 bg-slate-800 rounded-lg shadow-xl text-white">
-        <h2 className="text-3xl font-bold mb-6 text-center text-amber-400">맞춤 빵 추천 결과</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center text-sky-400">맞춤 빵 추천 결과</h2>
         {isLoading ? (
           <motion.div
             initial={{ opacity: 0 }}
@@ -3818,7 +3818,7 @@ export const Survey: React.FC = () => {
           >
             {recommendations.map((bread, index) => (
               <div key={index} className="bg-slate-700 p-4 rounded-lg">
-                <h4 className="text-xl font-semibold text-amber-300">{bread.name}</h4>
+                <h4 className="text-xl font-semibold text-sky-300">{bread.name}</h4>
                 <p className="text-slate-300"><strong>가격:</strong> {bread.price}</p>
                 <p className="text-slate-300"><strong>특징:</strong> {bread.features}</p>
                 <p className="text-slate-300"><strong>영양성분:</strong> {bread.nutrition}</p>
@@ -3842,7 +3842,7 @@ export const Survey: React.FC = () => {
         
         <button
           onClick={() => setShowAnswers(!showAnswers)}
-          className="mt-4 px-6 py-3 bg-amber-500 text-white rounded hover:bg-amber-600 transition duration-150 ease-in-out w-full"
+          className="mt-4 px-6 py-3 bg-sky-500 text-white rounded hover:bg-sky-600 transition duration-150 ease-in-out w-full"
         >
           {showAnswers ? '응답 숨기기' : '응답 보기'}
         </button>
@@ -3851,7 +3851,7 @@ export const Survey: React.FC = () => {
           <div className="mt-8 space-y-6">
             {questions.map((q, index) => (
               <div key={q.id} className="bg-slate-700 p-4 rounded-lg">
-                <h3 className="font-semibold text-lg mb-2 text-amber-300">
+                <h3 className="font-semibold text-lg mb-2 text-sky-300">
                   {index + 1}. {q.question}
                 </h3>
                 <p className="mt-1 text-slate-200">
@@ -3873,7 +3873,7 @@ export const Survey: React.FC = () => {
       <div className="mb-6">
         <div className="w-full bg-slate-700 rounded-full h-2.5">
           <div
-            className="bg-amber-600 h-2.5 rounded-full transition-all duration-300 ease-in-out"
+            className="bg-sky-600 h-2.5 rounded-full transition-all duration-300 ease-in-out"
             style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
           ></div>
         </div>
@@ -3895,7 +3895,7 @@ export const Survey: React.FC = () => {
           </button>
           <button
             onClick={handleNextQuestion}
-            className="px-4 py-2 bg-amber-500 text-white rounded hover:bg-amber-600 transition duration-150 ease-in-out"
+            className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600 transition duration-150 ease-in-out"
           >
             다음
           </button>
@@ -3917,7 +3917,7 @@ export const Survey: React.FC = () => {
                     onClick={() => handleAnswer(option)}
                     className={`w-full p-2 text-left rounded transition duration-150 ease-in-out ${
                       answers[currentQ.id]?.includes(option)
-                        ? 'bg-amber-600 hover:bg-amber-700'
+                        ? 'bg-sky-600 hover:bg-sky-700'
                         : 'hover:bg-slate-700'
                     }`}
                   >
@@ -3967,7 +3967,7 @@ export default function Faqs() {
         {/* Section header */}
         <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
           <div>
-            <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-amber-200 pb-3">성심당 빵 AI 추천 서비스</div>
+            <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-3">성심당 빵 AI 추천 서비스</div>
           </div>
           <h2 className="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">자주 묻는 질문</h2>
         </div>
@@ -4059,24 +4059,24 @@ export default function Features() {
               <div className="md:w-7/12 lg:w-1/2 order-1 md:order-none max-md:text-center" data-aos="fade-down">
                 {/* Content #1 */}
                 <div>
-                  <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-amber-200 pb-3">당신만의 빵 소믈리에, AI 추천 성심당</div>
+                  <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-3">당신만의 빵 소믈리에, AI 추천 성심당</div>
                 </div>
                 <h3 className="h3 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-3">매일 새로운 빵의 세계를 만나보세요</h3>
                 <p className="text-lg text-slate-400 mb-8">AI가 당신의 취향을 분석하여 최적의 빵을 추천해드립니다. 오늘은 어떤 빵이 당신의 하루를 특별하게 만들어줄까요?</p>
                 <div className="mt-8 max-w-xs max-md:mx-auto space-y-2">
-                  <button className={`flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100 ${tab !== 1 ? 'border-slate-700 opacity-50' : 'border-amber-700 shadow shadow-amber-500/25'}`} onClick={() => setTab(1)}>
+                  <button className={`flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100 ${tab !== 1 ? 'border-slate-700 opacity-50' : 'border-sky-700 shadow shadow-sky-500/25'}`} onClick={() => setTab(1)}>
                     <svg className="shrink-0 fill-slate-300 mr-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
                       <path d="M14 0a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12Zm0 14V2H2v12h12Zm-3-7H5a1 1 0 1 1 0-2h6a1 1 0 0 1 0 2Zm0 4H5a1 1 0 0 1 0-2h6a1 1 0 0 1 0 2Z" />
                     </svg>
                     <span>나만의 빵 프로필 만들기</span>
                   </button>
-                  <button className={`flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100 ${tab !== 2 ? 'border-slate-700 opacity-50' : 'border-amber-700 shadow shadow-amber-500/25'}`} onClick={() => setTab(2)}>
+                  <button className={`flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100 ${tab !== 2 ? 'border-slate-700 opacity-50' : 'border-sky-700 shadow shadow-sky-500/25'}`} onClick={() => setTab(2)}>
                     <svg className="shrink-0 fill-slate-300 mr-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
                       <path d="M2 6H0V2a2 2 0 0 1 2-2h4v2H2v4ZM16 6h-2V2h-4V0h4a2 2 0 0 1 2 2v4ZM14 16h-4v-2h4v-4h2v4a2 2 0 0 1-2 2ZM6 16H2a2 2 0 0 1-2-2v-4h2v4h4v2Z" />
                     </svg>
                     <span>AI 분석 및 학습</span>
                   </button>
-                  <button className={`flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100 ${tab !== 3 ? 'border-slate-700 opacity-50' : 'border-amber-700 shadow shadow-amber-500/25'}`} onClick={() => setTab(3)}>
+                  <button className={`flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100 ${tab !== 3 ? 'border-slate-700 opacity-50' : 'border-sky-700 shadow shadow-sky-500/25'}`} onClick={() => setTab(3)}>
                     <svg className="shrink-0 fill-slate-300 mr-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
                       <path d="M14.3.3c.4-.4 1-.4 1.4 0 .4.4.4 1 0 1.4l-8 8c-.2.2-.4.3-.7.3-.3 0-.5-.1-.7-.3-.4-.4-.4-1 0-1.4l8-8ZM15 7c.6 0 1 .4 1 1 0 4.4-3.6 8-8 8s-8-3.6-8-8 3.6-8 8-8c.6 0 1 .4 1 1s-.4 1-1 1C4.7 2 2 4.7 2 8s2.7 6 6 6 6-2.7 6-6c0-.6.4-1 1-1Z" />
                     </svg>
@@ -4430,7 +4430,7 @@ export default function Features03() {
                   <div className="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
                     {/* Radial gradient */}
                     <div className="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-1/2 aspect-square" aria-hidden="true">
-                      <div className="absolute inset-0 translate-z-0 bg-amber-500 rounded-full blur-[120px]" />
+                      <div className="absolute inset-0 translate-z-0 bg-sky-500 rounded-full blur-[120px]" />
                     </div>
                     <Image src={FeatureImg04} width={768} height={400} alt="Feature 04" />
                   </div>
@@ -4518,8 +4518,8 @@ export default function Features02() {
                       </div>
                       {/* Radial gradient */}
                       <div className="absolute flex items-center justify-center bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 h-full aspect-square" aria-hidden="true">
-                        <div className="absolute inset-0 translate-z-0 bg-amber-500 rounded-full blur-[120px] opacity-70" />
-                        <div className="absolute w-1/4 h-1/4 translate-z-0 bg-amber-400 rounded-full blur-[40px]" />
+                        <div className="absolute inset-0 translate-z-0 bg-sky-500 rounded-full blur-[120px] opacity-70" />
+                        <div className="absolute w-1/4 h-1/4 translate-z-0 bg-sky-400 rounded-full blur-[40px]" />
                       </div>
                       {/* Text */}
                       <div className="md:max-w-[480px] shrink-0 order-1 md:order-none p-6 pt-0 md:p-8 md:pr-0">
@@ -4532,7 +4532,7 @@ export default function Features02() {
                         <div>
                           <a className="btn-sm text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none" href="#0">
                             <span className="relative inline-flex items-center">
-                              Learn more <span className="tracking-normal text-amber-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+                              Learn more <span className="tracking-normal text-sky-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
                             </span>
                           </a>
                         </div>
@@ -4738,8 +4738,8 @@ export default function Features05() {
             <div className="bg-gradient-to-tr from-slate-800/50 to-slate-800/10 rounded-3xl border border-slate-800">
               <div className="flex items-center space-x-4 p-4 h-full">
                 <svg className="shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
-                  <path className="fill-amber-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
-                  <path className="fill-amber-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
+                  <path className="fill-sky-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
+                  <path className="fill-sky-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
                 </svg>
                 <p className="text-sm text-slate-400">
                   <strong className="text-slate-300 font-medium">맞춤형 빵 경험</strong>을 제공합니다. 당신의 취향을 학습하여 최적의 추천을 드립니다.
@@ -4750,8 +4750,8 @@ export default function Features05() {
             <div className="bg-gradient-to-tr from-slate-800/50 to-slate-800/10 rounded-3xl border border-slate-800">
               <div className="flex items-center space-x-4 p-4 h-full">
                 <svg className="shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
-                  <path className="fill-amber-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
-                  <path className="fill-amber-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
+                  <path className="fill-sky-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
+                  <path className="fill-sky-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
                 </svg>
                 <p className="text-sm text-slate-400">
                   <strong className="text-slate-300 font-medium">시간대별 추천</strong>으로 아침엔 상큼하게, 저녁엔 달콤하게 즐기세요.
@@ -4762,8 +4762,8 @@ export default function Features05() {
             <div className="bg-gradient-to-tr from-slate-800/50 to-slate-800/10 rounded-3xl border border-slate-800">
               <div className="flex items-center space-x-4 p-4 h-full">
                 <svg className="shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
-                  <path className="fill-amber-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
-                  <path className="fill-amber-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
+                  <path className="fill-sky-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
+                  <path className="fill-sky-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
                 </svg>
                 <p className="text-sm text-slate-400">
                   <strong className="text-slate-300 font-medium">소셜 추천</strong>으로 친구들이 좋아하는 빵을 발견하고 새로운 맛의 세계를 경험하세요.
@@ -4774,8 +4774,8 @@ export default function Features05() {
             <div className="bg-gradient-to-tr from-slate-800/50 to-slate-800/10 rounded-3xl border border-slate-800">
               <div className="flex items-center space-x-4 p-4 h-full">
                 <svg className="shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
-                  <path className="fill-amber-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
-                  <path className="fill-amber-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
+                  <path className="fill-sky-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
+                  <path className="fill-sky-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
                 </svg>
                 <p className="text-sm text-slate-400">
                   <strong className="text-slate-300 font-medium">건강한 선택</strong>을 도와드립니다. 당신의 건강 목표에 맞는 영양가 있는 빵을 추천해드려요.
@@ -4786,8 +4786,8 @@ export default function Features05() {
             <div className="bg-gradient-to-tr from-slate-800/50 to-slate-800/10 rounded-3xl border border-slate-800">
               <div className="flex items-center space-x-4 p-4 h-full">
                 <svg className="shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
-                  <path className="fill-amber-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
-                  <path className="fill-amber-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
+                  <path className="fill-sky-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
+                  <path className="fill-sky-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
                 </svg>
                 <p className="text-sm text-slate-400">
                   <strong className="text-slate-300 font-medium">특별한 순간</strong>을 위한 빵 추천. 기념일, 파티 등 상황에 딱 맞는 빵으로 분위기를 살려보세요.
@@ -4798,8 +4798,8 @@ export default function Features05() {
             <div className="bg-gradient-to-tr from-slate-800/50 to-slate-800/10 rounded-3xl border border-slate-800">
               <div className="flex items-center space-x-4 p-4 h-full">
                 <svg className="shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
-                  <path className="fill-amber-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
-                  <path className="fill-amber-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
+                  <path className="fill-sky-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
+                  <path className="fill-sky-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
                 </svg>
                 <p className="text-sm text-slate-400">
                   <strong className="text-slate-300 font-medium">간편한 주문</strong>으로 기다림 없이 성심당 빵을 만나보세요. 클릭 한 번으로 맛있는 빵이 배달됩니다.
@@ -4846,7 +4846,7 @@ export default function Features04() {
             {/* Row */}
             <div className="py-8 first-of-type:pt-0 last-of-type:pb-0">
               <div>
-                <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-amber-200 pb-6">API Authorization</div>
+                <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-6">API Authorization</div>
               </div>
               <div className="grid md:grid-cols-3 gap-8 md:gap-12 mb-2">
                 {/* Feature */}
@@ -4884,7 +4884,7 @@ export default function Features04() {
             {/* Row */}
             <div className="py-8">
               <div>
-                <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-amber-200 pb-6">User Management</div>
+                <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-6">User Management</div>
               </div>
               <div className="grid md:grid-cols-3 gap-8 md:gap-12 mb-2">
                 {/* Feature */}
@@ -4922,7 +4922,7 @@ export default function Features04() {
             {/* Row */}
             <div className="py-8">
               <div>
-                <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-amber-200 pb-6">Standard Security</div>
+                <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-6">Standard Security</div>
               </div>
               <div className="grid md:grid-cols-3 gap-8 md:gap-12 mb-2">
                 {/* Feature */}
@@ -5038,7 +5038,7 @@ export default function Testimonials02() {
       {/* Radial gradient */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10" aria-hidden="true">
         <div className="absolute flex items-center justify-center top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 w-1/3 aspect-square">
-          <div className="absolute inset-0 translate-z-0 bg-amber-500 rounded-full blur-[120px] opacity-50"></div>
+          <div className="absolute inset-0 translate-z-0 bg-sky-500 rounded-full blur-[120px] opacity-50"></div>
         </div>
       </div>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -5057,7 +5057,7 @@ export default function Testimonials02() {
                     <Image className="shrink-0" src={item.img} width={44} height={44} alt={item.name} />
                     <div className="grow">
                       <div className="font-bold text-slate-100">{item.name}</div>
-                      <div className="text-sm text-amber-500 font-medium">{item.role}</div>
+                      <div className="text-sm text-sky-500 font-medium">{item.role}</div>
                     </div>
                   </div>
                   <a className="shrink-0 text-slate-500" href="#0" aria-label="Member's Twitter">
@@ -5398,13 +5398,13 @@ export default function Recruitment() {
 
             {items.map((item, index) => (
               <div key={index}>
-                <h4 className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-amber-200 pb-3">{item.area}</h4>
+                <h4 className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-3">{item.area}</h4>
                 <ul className="divide-y divide-slate-800">
                   {
                     item.positions.map((position, index) => (
                       <li key={index} className="flex flex-col md:flex-row flex-wrap justify-between py-5">
                         <span className="font-medium text-slate-50 mr-2">{position.title}</span>
-                        <a className="inline-flex text-sm font-medium text-amber-500 group" href={position.link}>{position.location} <span className="tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
+                        <a className="inline-flex text-sm font-medium text-sky-500 group" href={position.link}>{position.location} <span className="tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
                       </li>
                     ))
                   }
@@ -5428,8 +5428,8 @@ export default function Cta() {
         <div className="relative px-8 py-12 md:py-20 rounded-[3rem] overflow-hidden">
           {/* Radial gradient */}
           <div className="absolute flex items-center justify-center top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-1/3 aspect-square" aria-hidden="true">
-            <div className="absolute inset-0 translate-z-0 bg-amber-500 rounded-full blur-[120px] opacity-70" />
-            <div className="absolute w-1/4 h-1/4 translate-z-0 bg-amber-400 rounded-full blur-[40px]" />
+            <div className="absolute inset-0 translate-z-0 bg-sky-500 rounded-full blur-[120px] opacity-70" />
+            <div className="absolute w-1/4 h-1/4 translate-z-0 bg-sky-400 rounded-full blur-[40px]" />
           </div>
           {/* Blurred shape */}
           <div className="absolute bottom-0 translate-y-1/2 left-0 blur-2xl opacity-50 pointer-events-none -z-10" aria-hidden="true">
@@ -5446,13 +5446,13 @@ export default function Cta() {
           {/* Content */}
           <div className="max-w-3xl mx-auto text-center">
             <div>
-              <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-amber-200 pb-3">성심당 빵 AI 추천 서비스</div>
+              <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-3">성심당 빵 AI 추천 서비스</div>
             </div>
             <h2 className="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">당신만의 빵 소믈리에, AI 추천 성심당</h2>
             <p className="text-lg text-slate-400 mb-8">개인화된 AI 기술로 고객의 취향, 건강 목표, 상황을 고려한 맞춤형 빵 추천 서비스를 제공합니다.</p>
             <div>
               <a className="btn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white transition duration-150 ease-in-out group" href="/survey">
-                지금 시작하기 <span className="tracking-normal text-amber-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+                지금 시작하기 <span className="tracking-normal text-sky-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
               </a>
             </div>
           </div>
@@ -5508,7 +5508,7 @@ export default function Story() {
                     You can dive into the atoms that make up a product, share the moments that move you and discuss the ideas you find compelling. We want to create a ground for <strong className="text-slate-50 font-medium">discussion and bring knowledge together</strong>, while making it more accessible and easier to grasp.
                   </p>
                   <p>
-                    Contrary to popular belief, this product is not random security. It has roots in a piece of classical literature, making it over 5 years old. Richard McClintock, a professor at <a className="text-amber-500 font-medium hover:underline" href="#0">Hampden-Sydney College</a> in Virginia, looked up one of the more obscure words, consectetur from a passage, and going through the cites of the word in classical literature, discovered the undoubtable source.
+                    Contrary to popular belief, this product is not random security. It has roots in a piece of classical literature, making it over 5 years old. Richard McClintock, a professor at <a className="text-sky-500 font-medium hover:underline" href="#0">Hampden-Sydney College</a> in Virginia, looked up one of the more obscure words, consectetur from a passage, and going through the cites of the word in classical literature, discovered the undoubtable source.
                   </p>
                   <p>
                     We all thrive on learning something new every day and everyone is constantly trying on different hats. We are working with new technologies while rethinking an old industry and are excited about all the possibilities and opportunities to innovate.
@@ -5582,7 +5582,7 @@ export default function TestimonialsCarousel() {
           {/* Section header */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
             <div>
-              <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-amber-200 pb-3">The security first platform</div>
+              <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-3">The security first platform</div>
             </div>
             <h2 className="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Spot issues faster</h2>
             <p className="text-lg text-slate-400">All the lorem ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
@@ -5600,7 +5600,7 @@ export default function TestimonialsCarousel() {
                     <Particles className="absolute inset-0 -z-10 opacity-0 group-[.swiper-slide-active]/slide:opacity-100 group-hover/slide:opacity-100 transition-opacity duration-500 ease-in-out" quantity={3} refresh={swiperInitialized} /> 
                     {/* Radial gradient */}
                     <div className="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-1/3 aspect-square" aria-hidden="true">
-                      <div className="absolute inset-0 translate-z-0 rounded-full bg-slate-800 group-[.swiper-slide-active]/slide:bg-amber-500 transition-colors duration-500 ease-in-out blur-[60px]" />
+                      <div className="absolute inset-0 translate-z-0 rounded-full bg-slate-800 group-[.swiper-slide-active]/slide:bg-sky-500 transition-colors duration-500 ease-in-out blur-[60px]" />
                     </div>
                     <div className="flex flex-col p-6 h-full">
                       <Image className="mb-3" src={CarouselImg01} width={56} height={56} alt="Icon 01" />
@@ -5609,7 +5609,7 @@ export default function TestimonialsCarousel() {
                         <div className="text-slate-400 mb-3">Incorporate rich user profiling, and facilitate more transactions.</div>
                       </div>
                       <div className="text-right">
-                        <a className="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="#0">Learn More <span className="tracking-normal text-amber-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
+                        <a className="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="#0">Learn More <span className="tracking-normal text-sky-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
                       </div>
                     </div>
                   </div>
@@ -5620,7 +5620,7 @@ export default function TestimonialsCarousel() {
                     <Particles className="absolute inset-0 -z-10 opacity-0 group-[.swiper-slide-active]/slide:opacity-100 group-hover/slide:opacity-100 transition-opacity duration-500 ease-in-out" quantity={3} refresh={swiperInitialized} />                     
                     {/* Radial gradient */}
                     <div className="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-1/3 aspect-square" aria-hidden="true">
-                      <div className="absolute inset-0 translate-z-0 rounded-full bg-slate-800 group-[.swiper-slide-active]/slide:bg-amber-500 transition-colors duration-500 ease-in-out blur-[60px]" />
+                      <div className="absolute inset-0 translate-z-0 rounded-full bg-slate-800 group-[.swiper-slide-active]/slide:bg-sky-500 transition-colors duration-500 ease-in-out blur-[60px]" />
                     </div>
                     <div className="flex flex-col p-6 h-full">
                       <Image className="mb-3" src={CarouselImg02} width={56} height={56} alt="Icon 01" />
@@ -5629,7 +5629,7 @@ export default function TestimonialsCarousel() {
                         <div className="text-slate-400 mb-3">Incorporate rich user profiling, and facilitate more transactions.</div>
                       </div>
                       <div className="text-right">
-                        <a className="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="#0">Learn More <span className="tracking-normal text-amber-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
+                        <a className="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="#0">Learn More <span className="tracking-normal text-sky-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
                       </div>
                     </div>
                   </div>
@@ -5640,7 +5640,7 @@ export default function TestimonialsCarousel() {
                     <Particles className="absolute inset-0 -z-10 opacity-0 group-[.swiper-slide-active]/slide:opacity-100 group-hover/slide:opacity-100 transition-opacity duration-500 ease-in-out" quantity={3} refresh={swiperInitialized} />                     
                     {/* Radial gradient */}
                     <div className="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-1/3 aspect-square" aria-hidden="true">
-                      <div className="absolute inset-0 translate-z-0 rounded-full bg-slate-800 group-[.swiper-slide-active]/slide:bg-amber-500 transition-colors duration-500 ease-in-out blur-[60px]" />
+                      <div className="absolute inset-0 translate-z-0 rounded-full bg-slate-800 group-[.swiper-slide-active]/slide:bg-sky-500 transition-colors duration-500 ease-in-out blur-[60px]" />
                     </div>
                     <div className="flex flex-col p-6 h-full">
                       <Image className="mb-3" src={CarouselImg03} width={56} height={56} alt="Icon 01" />
@@ -5649,7 +5649,7 @@ export default function TestimonialsCarousel() {
                         <div className="text-slate-400 mb-3">Incorporate rich user profiling, and facilitate more transactions.</div>
                       </div>
                       <div className="text-right">
-                        <a className="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="#0">Learn More <span className="tracking-normal text-amber-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
+                        <a className="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="#0">Learn More <span className="tracking-normal text-sky-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
                       </div>
                     </div>
                   </div>
@@ -5660,7 +5660,7 @@ export default function TestimonialsCarousel() {
                     <Particles className="absolute inset-0 -z-10 opacity-0 group-[.swiper-slide-active]/slide:opacity-100 group-hover/slide:opacity-100 transition-opacity duration-500 ease-in-out" quantity={3} refresh={swiperInitialized} />                     
                     {/* Radial gradient */}
                     <div className="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-1/3 aspect-square" aria-hidden="true">
-                      <div className="absolute inset-0 translate-z-0 rounded-full bg-slate-800 group-[.swiper-slide-active]/slide:bg-amber-500 transition-colors duration-500 ease-in-out blur-[60px]" />
+                      <div className="absolute inset-0 translate-z-0 rounded-full bg-slate-800 group-[.swiper-slide-active]/slide:bg-sky-500 transition-colors duration-500 ease-in-out blur-[60px]" />
                     </div>
                     <div className="flex flex-col p-6 h-full">
                       <Image className="mb-3" src={CarouselImg04} width={56} height={56} alt="Icon 01" />
@@ -5669,7 +5669,7 @@ export default function TestimonialsCarousel() {
                         <div className="text-slate-400 mb-3">Incorporate rich user profiling, and facilitate more transactions.</div>
                       </div>
                       <div className="text-right">
-                        <a className="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="#0">Learn More <span className="tracking-normal text-amber-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
+                        <a className="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="#0">Learn More <span className="tracking-normal text-sky-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
                       </div>
                     </div>
                   </div>
@@ -5680,7 +5680,7 @@ export default function TestimonialsCarousel() {
                     <Particles className="absolute inset-0 -z-10 opacity-0 group-[.swiper-slide-active]/slide:opacity-100 group-hover/slide:opacity-100 transition-opacity duration-500 ease-in-out" quantity={3} refresh={swiperInitialized} />                     
                     {/* Radial gradient */}
                     <div className="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-1/3 aspect-square" aria-hidden="true">
-                      <div className="absolute inset-0 translate-z-0 rounded-full bg-slate-800 group-[.swiper-slide-active]/slide:bg-amber-500 transition-colors duration-500 ease-in-out blur-[60px]" />
+                      <div className="absolute inset-0 translate-z-0 rounded-full bg-slate-800 group-[.swiper-slide-active]/slide:bg-sky-500 transition-colors duration-500 ease-in-out blur-[60px]" />
                     </div>
                     <div className="flex flex-col p-6 h-full">
                       <Image className="mb-3" src={CarouselImg05} width={56} height={56} alt="Icon 05" />
@@ -5689,7 +5689,7 @@ export default function TestimonialsCarousel() {
                         <div className="text-slate-400 mb-3">Incorporate rich user profiling, and facilitate more transactions.</div>
                       </div>
                       <div className="text-right">
-                        <a className="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="#0">Learn More <span className="tracking-normal text-amber-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
+                        <a className="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="#0">Learn More <span className="tracking-normal text-sky-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
                       </div>
                     </div>
                   </div>
@@ -5702,13 +5702,13 @@ export default function TestimonialsCarousel() {
           <div className="flex mt-8 justify-end">
             <button className="carousel-prev relative z-20 w-12 h-12 flex items-center justify-center group">
               <span className="sr-only">Previous</span>
-              <svg className="w-4 h-4 fill-slate-500 group-hover:fill-amber-500 transition duration-150 ease-in-out" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+              <svg className="w-4 h-4 fill-slate-500 group-hover:fill-sky-500 transition duration-150 ease-in-out" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
                 <path d="M6.7 14.7l1.4-1.4L3.8 9H16V7H3.8l4.3-4.3-1.4-1.4L0 8z" />
               </svg>
             </button>
             <button className="carousel-next relative z-20 w-12 h-12 flex items-center justify-center group">
               <span className="sr-only">Next</span>
-              <svg className="w-4 h-4 fill-slate-500 group-hover:fill-amber-500 transition duration-150 ease-in-out" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+              <svg className="w-4 h-4 fill-slate-500 group-hover:fill-sky-500 transition duration-150 ease-in-out" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
                 <path d="M9.3 14.7l-1.4-1.4L12.2 9H0V7h12.2L7.9 2.7l1.4-1.4L16 8z" />
               </svg>
             </button>
@@ -5901,7 +5901,7 @@ export function HighlighterItem({
   children,
   className = ''
 }: HighlighterItemProps) {
-  return <div className={`relative h-full bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-amber-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden ${className}`}>{children}</div>
+  return <div className={`relative h-full bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-sky-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden ${className}`}>{children}</div>
 }
 
 export function HighlighterItem02({
@@ -5924,8 +5924,8 @@ export default function HeroAbout() {
 
     {/* Radial gradient */}
     <div className="absolute flex items-center justify-center top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-[800px] aspect-square" aria-hidden="true">
-      <div className="absolute inset-0 translate-z-0 bg-amber-500 rounded-full blur-[120px] opacity-30"></div>
-      <div className="absolute w-64 h-64 translate-z-0 bg-amber-400 rounded-full blur-[80px] opacity-70"></div>
+      <div className="absolute inset-0 translate-z-0 bg-sky-500 rounded-full blur-[120px] opacity-30"></div>
+      <div className="absolute w-64 h-64 translate-z-0 bg-sky-400 rounded-full blur-[80px] opacity-70"></div>
     </div>
 
     {/* Particles animation */}
@@ -5941,7 +5941,7 @@ export default function HeroAbout() {
 
         {/* Hero content */}
         <div className="text-center">
-          <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-amber-200 pb-3">The folks behind the product</div>
+          <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-3">The folks behind the product</div>
           <h1 className="h1 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-6">Turning security into innovation</h1>
           {/* Rings illustration */}
           <div className="inline-flex items-center justify-center relative">
@@ -6066,7 +6066,7 @@ export default function Customers() {
       {/* Radial gradient */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10" aria-hidden="true">
         <div className="absolute flex items-center justify-center top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 w-1/3 aspect-square">
-          <div className="absolute inset-0 translate-z-0 bg-amber-500 rounded-full blur-[120px] opacity-50"></div>
+          <div className="absolute inset-0 translate-z-0 bg-sky-500 rounded-full blur-[120px] opacity-50"></div>
         </div>
       </div>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -6090,7 +6090,7 @@ export default function Customers() {
                     </div>
                   </div>
                   <svg className="shrink-0" xmlns="http://www.w3.org/2000/svg" width="90" height="14">
-                    <path className="fill-amber-500" d="M7 0 5.006 5.368H0l4.232 3.221L2.195 14 7 10.344 11.82 14 9.768 8.589 14 5.368H8.98zM26 0l-1.994 5.368H19l4.232 3.221L21.195 14 26 10.344 30.82 14l-2.052-5.411L33 5.368h-5.02zM45 0l-1.994 5.368H38l4.232 3.221L40.195 14 45 10.344 49.82 14l-2.052-5.411L52 5.368h-5.02zM64 0l-1.994 5.368H57l4.232 3.221L59.195 14 64 10.344 68.82 14l-2.052-5.411L71 5.368h-5.02zM83 0l-1.994 5.368H76l4.232 3.221L78.195 14 83 10.344 87.82 14l-2.052-5.411L90 5.368h-5.02z" />
+                    <path className="fill-sky-500" d="M7 0 5.006 5.368H0l4.232 3.221L2.195 14 7 10.344 11.82 14 9.768 8.589 14 5.368H8.98zM26 0l-1.994 5.368H19l4.232 3.221L21.195 14 26 10.344 30.82 14l-2.052-5.411L33 5.368h-5.02zM45 0l-1.994 5.368H38l4.232 3.221L40.195 14 45 10.344 49.82 14l-2.052-5.411L52 5.368h-5.02zM64 0l-1.994 5.368H57l4.232 3.221L59.195 14 64 10.344 68.82 14l-2.052-5.411L71 5.368h-5.02zM83 0l-1.994 5.368H76l4.232 3.221L78.195 14 83 10.344 87.82 14l-2.052-5.411L90 5.368h-5.02z" />
                   </svg>
                 </div>
                 <p className="text-sm text-slate-400">{item.quote}</p>

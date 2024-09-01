@@ -69,8 +69,8 @@ export default function Features05() {
             <div className="bg-gradient-to-tr from-slate-800/50 to-slate-800/10 rounded-3xl border border-slate-800">
               <div className="flex items-center space-x-4 p-4 h-full">
                 <svg className="shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
-                  <path className="fill-amber-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
-                  <path className="fill-amber-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
+                  <path className="fill-sky-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
+                  <path className="fill-sky-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
                 </svg>
                 <p className="text-sm text-slate-400">
                   <strong className="text-slate-300 font-medium">맞춤형 빵 경험</strong>을 즐겨보세요. 당신의 취향을 학습하여 최적의 빵을 추천해드립니다.
@@ -81,8 +81,8 @@ export default function Features05() {
             <div className="bg-gradient-to-tr from-slate-800/50 to-slate-800/10 rounded-3xl border border-slate-800">
               <div className="flex items-center space-x-4 p-4 h-full">
                 <svg className="shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
-                  <path className="fill-amber-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
-                  <path className="fill-amber-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
+                  <path className="fill-sky-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
+                  <path className="fill-sky-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
                 </svg>
                 <p className="text-sm text-slate-400">
                   <strong className="text-slate-300 font-medium">시간대별 추천</strong>으로 아침에는 상큼하게, 저녁에는 달콤하게 하루를 즐기세요.
@@ -93,8 +93,8 @@ export default function Features05() {
             <div className="bg-gradient-to-tr from-slate-800/50 to-slate-800/10 rounded-3xl border border-slate-800">
               <div className="flex items-center space-x-4 p-4 h-full">
                 <svg className="shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
-                  <path className="fill-amber-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
-                  <path className="fill-amber-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
+                  <path className="fill-sky-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
+                  <path className="fill-sky-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
                 </svg>
                 <p className="text-sm text-slate-400">
                   <strong className="text-slate-300 font-medium">소셜 추천</strong>으로 친구들이 즐겨찾는 빵을 발견하고 새로운 맛의 세계를 경험해보세요.
@@ -105,8 +105,8 @@ export default function Features05() {
             <div className="bg-gradient-to-tr from-slate-800/50 to-slate-800/10 rounded-3xl border border-slate-800">
               <div className="flex items-center space-x-4 p-4 h-full">
                 <svg className="shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
-                  <path className="fill-amber-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
-                  <path className="fill-amber-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
+                  <path className="fill-sky-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
+                  <path className="fill-sky-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
                 </svg>
                 <p className="text-sm text-slate-400">
                   <strong className="text-slate-300 font-medium">건강한 선택</strong>을 도와드립니다. 당신의 건강 목표에 맞는 영양가 높은 빵을 제안해드려요.
@@ -117,8 +117,8 @@ export default function Features05() {
             <div className="bg-gradient-to-tr from-slate-800/50 to-slate-800/10 rounded-3xl border border-slate-800">
               <div className="flex items-center space-x-4 p-4 h-full">
                 <svg className="shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
-                  <path className="fill-amber-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
-                  <path className="fill-amber-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
+                  <path className="fill-sky-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
+                  <path className="fill-sky-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
                 </svg>
                 <p className="text-sm text-slate-400">
                   <strong className="text-slate-300 font-medium">특별한 순간</strong>을 위한 빵 추천. 기념일, 파티 등 각 상황에 어울리는 빵으로 분위기를 더욱 특별하게 만들어보세요.
@@ -129,8 +129,8 @@ export default function Features05() {
             <div className="bg-gradient-to-tr from-slate-800/50 to-slate-800/10 rounded-3xl border border-slate-800">
               <div className="flex items-center space-x-4 p-4 h-full">
                 <svg className="shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
-                  <path className="fill-amber-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
-                  <path className="fill-amber-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
+                  <path className="fill-sky-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
+                  <path className="fill-sky-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
                 </svg>
                 <p className="text-sm text-slate-400">
                   <strong className="text-slate-300 font-medium">간편한 주문</strong>으로 기다림 없이 신선한 빵을 만나보세요.

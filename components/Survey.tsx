@@ -251,7 +251,7 @@ ${JSON.stringify(breadData['빵 목록'])}
     return (
       <div className="max-w-2xl mx-auto mt-20 p-8 bg-slate-800 rounded-lg shadow-xl text-white">
         <ToastContainer />
-        <h2 className="text-3xl font-bold mb-6 text-center text-amber-400">맞춤 빵 추천 결과</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center text-sky-400">맞춤 빵 추천 결과</h2>
         {isLoading ? (
           <motion.div
             initial={{ opacity: 0 }}
@@ -259,7 +259,7 @@ ${JSON.stringify(breadData['빵 목록'])}
             exit={{ opacity: 0 }}
           >
             <SkeletonLoader />
-            <p className="text-center mt-4 text-amber-400">빵요미가 당신만을 위한 빵을 고르고 있습니다... 🍞</p>
+            <p className="text-center mt-4 text-sky-400">빵요미가 당신만을 위한 빵을 고르고 있습니다... 🍞</p>
           </motion.div>
         ) : recommendations.length > 0 ? (
           <motion.div
@@ -270,7 +270,7 @@ ${JSON.stringify(breadData['빵 목록'])}
           >
             {recommendations.map((bread, index) => (
               <div key={index} className="bg-slate-700 p-4 rounded-lg">
-                <h4 className="text-xl font-semibold text-amber-300">{bread.name}</h4>
+                <h4 className="text-xl font-semibold text-sky-300">{bread.name}</h4>
                 <div className="mt-2">
                   <p className="text-slate-300"><strong>가격:</strong> {bread.price}</p>
                   <p className="text-slate-300"><strong>특징:</strong> {bread.features}</p>
@@ -295,7 +295,7 @@ ${JSON.stringify(breadData['빵 목록'])}
         
         {!feedbackSubmitted && (
           <div className="mt-8">
-            <h3 className="text-xl font-semibold text-amber-300 mb-2">별점 및 피드백을 남겨주세요</h3>
+            <h3 className="text-xl font-semibold text-sky-300 mb-2">별점 및 피드백을 남겨주세요</h3>
             <StarRating rating={rating} setRating={setRating} />
             <textarea
               value={feedback}
@@ -319,7 +319,7 @@ ${JSON.stringify(breadData['빵 목록'])}
             />
             <button
               onClick={handleSubmitFeedback}
-              className="mt-4 px-6 py-3 bg-amber-500 text-white rounded hover:bg-amber-600 transition duration-150 ease-in-out w-full font-bold"
+              className="mt-4 px-6 py-3 bg-sky-500 text-white rounded hover:bg-sky-600 transition duration-150 ease-in-out w-full font-bold"
             >
               피드백 제출
             </button>
@@ -345,7 +345,7 @@ ${JSON.stringify(breadData['빵 목록'])}
           <div className="mt-8 space-y-6">
             {questions.map((q, index) => (
               <div key={q.id} className="bg-slate-700 p-4 rounded-lg">
-                <h3 className="font-semibold text-lg mb-2 text-amber-300">
+                <h3 className="font-semibold text-lg mb-2 text-sky-300">
                   {index + 1}. {q.question}
                 </h3>
                 <p className="mt-1 text-slate-200">
@@ -369,7 +369,7 @@ ${JSON.stringify(breadData['빵 목록'])}
       <div className="mb-6">
         <div className="w-full bg-slate-700 rounded-full h-2.5">
           <div
-            className="bg-amber-600 h-2.5 rounded-full transition-all duration-300 ease-in-out"
+            className="bg-sky-600 h-2.5 rounded-full transition-all duration-300 ease-in-out"
             style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
           ></div>
         </div>
@@ -391,7 +391,7 @@ ${JSON.stringify(breadData['빵 목록'])}
           </button>
           <button
             onClick={handleNextQuestion}
-            className="px-4 py-2 bg-amber-500 text-white rounded hover:bg-amber-600 transition duration-150 ease-in-out font-bold"
+            className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600 transition duration-150 ease-in-out font-bold"
           >
             다음
           </button>
@@ -412,7 +412,7 @@ ${JSON.stringify(breadData['빵 목록'])}
                     onClick={() => handleAnswer(option)}
                     className={`p-2 text-center rounded transition duration-150 ease-in-out ${
                       answers[currentQ.id]?.includes(option)
-                        ? 'bg-amber-400 hover:bg-amber-500 text-slate-800'
+                        ? 'bg-sky-400 hover:bg-sky-500 text-slate-800'
                         : 'bg-slate-700 hover:bg-slate-600'
                     }`}
                   >

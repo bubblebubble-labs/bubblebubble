@@ -47,8 +47,8 @@ export default function Hero() {
           {/* Hero content */}
           <div className="max-w-3xl mx-auto text-center">
             <div className="mb-6" data-aos="fade-down">
-              <div className="inline-flex relative before:absolute before:inset-0 before:bg-amber-500 before:blur-md">
-                <a className="btn-sm py-0.5 text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.amber.500),_theme(colors.amber.500))_padding-box,_linear-gradient(theme(colors.amber.500),_theme(colors.amber.200)_75%,_theme(colors.transparent)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/50 before:rounded-full before:pointer-events-none shadow" href="#0">
+              <div className="inline-flex relative before:absolute before:inset-0 before:bg-sky-500 before:blur-md">
+                <a className="btn-sm py-0.5 text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.sky.500),_theme(colors.sky.500))_padding-box,_linear-gradient(theme(colors.sky.500),_theme(colors.sky.200)_75%,_theme(colors.transparent)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/50 before:rounded-full before:pointer-events-none shadow" href="#0">
                   <span className="relative inline-flex items-center">
                     버블버블 서비스 런칭!
                   </span>
@@ -67,7 +67,7 @@ export default function Hero() {
             <div className="mt-4 max-w-xs mx-auto sm:max-w-none sm:inline-flex sm:justify-center space-y-4 sm:space-y-0 sm:space-x-4" data-aos="fade-down" data-aos-delay="400">
               <div>
                 <a className="btn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white w-full transition duration-150 ease-in-out group" href="/survey">
-                  법률 상담 받기 <span className="tracking-normal text-amber-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+                  법률 상담 받기 <span className="tracking-normal text-sky-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
                 </a>
               </div>
               {/* <div>
@@ -81,7 +81,7 @@ export default function Hero() {
               <div>
                 <a className="btn text-slate-200 hover:text-white bg-slate-900 bg-opacity-25 hover:bg-opacity-30 w-full transition duration-150 ease-in-out group" href="https://somoim.friendscube.com/g/b66c90ac-1765-11ef-be8e-0a1883465d731" target="_blank" rel="noopener noreferrer">
                   <span>코딩 교육받기</span>
-                  <span className="text-xs text-amber-500 ml-2 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out">(64명)</span>
+                  <span className="text-xs text-sky-500 ml-2 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out">(64명)</span>
                 </a>
               </div> */}
                
@@ -92,7 +92,7 @@ export default function Hero() {
                 href="https://somoim.friendscube.com/g/b66c90ac-1765-11ef-be8e-0a1883465d731" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="underline decoration-dotted underline-offset-2 hover:text-amber-500 hover:decoration-amber-500 transition-all duration-300"
+                className="underline decoration-dotted underline-offset-2 hover:text-sky-500 hover:decoration-sky-500 transition-all duration-300"
               >
                 [대전 IT] 나는 솔로프리너
               </a>

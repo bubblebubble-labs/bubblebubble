@@ -10,7 +10,7 @@ export function UpdateMdx({ code }: MdxProps) {
   const Component = useMDXComponent(code)
 
   return (
-    <div className="prose max-w-none text-slate-400 prose-p:leading-relaxed prose-a:text-amber-500 prose-a:no-underline hover:prose-a:underline prose-strong:text-slate-50 prose-strong:font-medium">
+    <div className="prose max-w-none text-slate-400 prose-p:leading-relaxed prose-a:text-sky-500 prose-a:no-underline hover:prose-a:underline prose-strong:text-slate-50 prose-strong:font-medium">
       <Component components={{ ...mdxComponents }} />
     </div>
   )

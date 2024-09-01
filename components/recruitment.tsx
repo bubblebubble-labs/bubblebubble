@@ -178,13 +178,13 @@ export default function Recruitment() {
 
             {items.map((item, index) => (
               <div key={index}>
-                <h4 className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-amber-200 pb-3">{item.area}</h4>
+                <h4 className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-3">{item.area}</h4>
                 <ul className="divide-y divide-slate-800">
                   {
                     item.positions.map((position, index) => (
                       <li key={index} className="flex flex-col md:flex-row flex-wrap justify-between py-5">
                         <span className="font-medium text-slate-50 mr-2">{position.title}</span>
-                        <a className="inline-flex text-sm font-medium text-amber-500 group" href={position.link}>{position.location} <span className="tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
+                        <a className="inline-flex text-sm font-medium text-sky-500 group" href={position.link}>{position.location} <span className="tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
                       </li>
                     ))
                   }

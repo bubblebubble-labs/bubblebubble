@@ -9,8 +9,8 @@ export default function Cta() {
         <div className="relative px-8 py-12 md:py-20 rounded-[3rem] overflow-hidden">
           {/* Radial gradient */}
           <div className="absolute flex items-center justify-center top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-1/3 aspect-square" aria-hidden="true">
-            <div className="absolute inset-0 translate-z-0 bg-amber-500 rounded-full blur-[120px] opacity-70" />
-            <div className="absolute w-1/4 h-1/4 translate-z-0 bg-amber-400 rounded-full blur-[40px]" />
+            <div className="absolute inset-0 translate-z-0 bg-sky-500 rounded-full blur-[120px] opacity-70" />
+            <div className="absolute w-1/4 h-1/4 translate-z-0 bg-sky-400 rounded-full blur-[40px]" />
           </div>
           {/* Blurred shape */}
           <div className="absolute bottom-0 translate-y-1/2 left-0 blur-2xl opacity-50 pointer-events-none -z-10" aria-hidden="true">
@@ -27,7 +27,7 @@ export default function Cta() {
           {/* Content */}
           <div className="max-w-3xl mx-auto text-center">
             <div>
-              <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-amber-200 pb-3">성심당의 특별한 AI 빵 추천 서비스</div>
+              <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-3">성심당의 특별한 AI 빵 추천 서비스</div>
             </div>
             <h2 className="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">당신만을 위한 AI 빵 소믈리에</h2>
             <p className="text-lg text-slate-400 mb-8">AI 기술로 고객님의 취향과 건강을 고려한 맞춤형 빵을 추천해드립니다. 새로운 빵의 세계를 경험해보세요.</p>
@@ -35,7 +35,7 @@ export default function Cta() {
                  <div className="mt-4 max-w-xs mx-auto sm:max-w-none sm:inline-flex sm:justify-center space-y-4 sm:space-y-0 sm:space-x-4" data-aos="fade-down" data-aos-delay="400">
               <div>
                 <a className="btn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white w-full transition duration-150 ease-in-out group" href="/survey">
-                  빵 맞춤 추천 받기 <span className="tracking-normal text-amber-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+                  빵 맞춤 추천 받기 <span className="tracking-normal text-sky-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
                 </a>
               </div>
               <div>
@@ -49,7 +49,7 @@ export default function Cta() {
               <div>
                 <a className="btn text-slate-200 hover:text-white bg-slate-900 bg-opacity-25 hover:bg-opacity-30 w-full transition duration-150 ease-in-out group" href="https://somoim.friendscube.com/g/b66c90ac-1765-11ef-be8e-0a1883465d731" target="_blank" rel="noopener noreferrer">
                   <span>코딩 교육받기</span>
-                  <span className="text-xs text-amber-500 ml-2 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out">(64명)</span>
+                  <span className="text-xs text-sky-500 ml-2 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out">(64명)</span>
                 </a>
               </div>
                
