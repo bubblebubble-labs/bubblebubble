@@ -14,82 +14,82 @@ export default function Customers() {
   const items = [
     {
       img: CustomerImg01,
-      quote: "처음엔 AI가 내 취향을 제대로 파악할 수 있을지 의심스러웠어요. 하지만 성심당 AI는 놀라워요! 제 취향을 정확히 분석해서 매번 새로운 빵을 발견하게 해줘요. 이제는 AI 추천 없이는 빵을 고르기 힘들 정도예요!",
-      name: '김지영',
+      quote: "처음에는 AI가 내 상황을 제대로 이해할 수 있을지 걱정했어요. 하지만 딥페이크 피해에 대해 물어봤을 때, 정말 자세하고 이해하기 쉽게 설명해줬어요. 플로라의 따뜻한 위로는 정말 큰 힘이 되었습니다. 앞으로도 계속 발전하길 바라요!",
+      name: '김민지',
       twitter: {
-        handle: '@jiyoung_kim',
+        handle: '@minji_kim',
         link: '#0'
       }
     },
     {
       img: CustomerImg02,
-      quote: "AI 추천이 개인정보를 너무 많이 요구할까 봐 걱정했는데, 최소한의 정보만으로도 정확한 추천을 받을 수 있어요. 바쁜 직장인인 저에게 성심당 AI는 시간 절약의 해결사예요. 점심시간에 고민 없이 맛있는 빵을 즐길 수 있죠.",
-      name: '이상훈',
+      quote: "전세사기 피해를 당할 뻔했는데, Bubble Bubble 덕분에 막을 수 있었어요. 티모가 계약 시 주의사항을 꼼꼼히 알려줘서 정말 도움됐습니다. 앞으로 더 많은 사람들이 이 서비스를 알게 되면 좋겠어요!",
+      name: '이정호',
       twitter: {
-        handle: '@sanghoon_lee',
+        handle: '@jungho_lee',
         link: '#0'
       }
     },
     {
       img: CustomerImg03,
-      quote: "다이어트 중에 빵을 먹으면 살찔까 봐 망설였어요. 그런데 AI가 칼로리와 영양을 고려해서 추천해주니 죄책감 없이 즐길 수 있어요. 오히려 균형 잡힌 식단으로 건강해지는 느낌이에요!",
-      name: '박서연',
+      quote: "처음에는 기계랑 대화하는 게 어색했어요. 그런데 음성으로 물어볼 수 있어서 편했고, 보이스피싱 예방법을 쉽게 설명해줘서 좋았어요. 플로라가 내 걱정을 들어주는 것 같아 마음이 편안해졌어요.",
+      name: '박영숙',
       twitter: {
-        handle: '@seoyeon_park',
+        handle: '@youngsook_park',
         link: '#0'
       }
     },
     {
       img: CustomerImg04,
-      quote: "AI 추천이 획일적일까는 우려가 있었는데, 오히려 다양성의 폭을 넓혀줬어요. 성심당 AI 덕분에 친구들과 빵 파티할 때 항상 인기 만점이에요! 새로운 맛을 발견하는 재미가 쏠쏠하고, 인스타에 올리기 좋은 예쁜 빵도 추천해줘요.",
-      name: '최민서',
+      quote: "회사에서 발생한 횡령 문제로 고민이 많았는데, Bubble Bubble의 조언이 큰 도움이 되었습니다. 법적 대응 방법을 명확히 알려줘서 좋았어요. 다만 더 구체적인 판례도 볼 수 있었으면 좋겠어요.",
+      name: '최준혁',
       twitter: {
-        handle: '@minseo_choi',
+        handle: '@junhyuk_choi',
         link: '#0'
       }
     },
     {
       img: CustomerImg05,
-      quote: "단체 주문 시 여러 사람의 취향을 맞추는 것이 어려웠어요. 하지만 AI 추천 덕분에 모임이나 회식 때 성심당 빵 고르기가 쉬워졌어요. 다양한 취향을 고려해 추천해주니 항상 호평이에요. 선택의 스트레스는 줄고, 만족도는 높아졌죠!",
-      name: '정우진',
+      quote: "데이트폭력 피해를 겪고 있었는데, Bubble Bubble이 제 상황을 정확히 파악하고 도움을 줬어요. 처음에는 개인정보 유출이 걱정됐지만, 안전하다는 걸 알고 안심했어요. 플로라의 위로가 특히 힘이 되었습니다.",
+      name: '송미라',
       twitter: {
-        handle: '@woojin_jung',
+        handle: '@mira_song',
         link: '#0'
       }
     },
     {
       img: CustomerImg06,
-      quote: "AI가 감정을 이해할 수 있을까 의문이었어요. 그런데 놀랍게도 제 기분에 따라 빵을 추천해주니 퇴근길이 더 즐거워졌어요. 직장 스트레스를 풀어주는 건 역시 성심당 빵이에요.",
-      name: '강미래',
+      quote: "투자 사기를 당했을 때 어떻게 대처해야 할지 몰랐는데, Bubble Bubble이 명확한 해결 방법을 제시해줬어요. 티모의 조언 덕분에 법적 대응을 할 수 있었습니다. 초기에 서비스 이용법을 익히는 게 조금 어려웠어요.",
+      name: '강동훈',
       twitter: {
-        handle: '@mirae_kang',
+        handle: '@donghoon_kang',
         link: '#0'
       }
     },
     {
       img: CustomerImg07,
-      quote: "손주들 선물로 성심당만한 게 없어요. AI가 아이들 취향을 잘 맞춰주니 할머니 인기가 날로 높아지네요. 요즘 애들 입맛을 어떻게 이렇게 잘 알아요?",
-      name: '박순자',
+      quote: "학교폭력 문제로 고민하다 Bubble Bubble을 사용했어요. AI가 제 상황을 이해할 수 있을지 걱정했지만, 정말 잘 이해하고 도와줬어요. 게임처럼 배우는 기능이 재미있어서 계속 사용하게 돼요.",
+      name: '이서연',
       twitter: {
-        handle: '@soonja_park',
+        handle: '@seoyeon_lee',
         link: '#0'
       }
     },
     {
       img: CustomerImg08,
-      quote: "알레르기가 있어서 빵 선택이 항상 조심스러웠어요. 성심당 AI는 제 알레르기 정보를 기억하고 안전한 빵만 추천해줘요. 이제는 걱정 없이 다양한 빵을 즐길 수 있어 정말 행복해요!",
-      name: '윤서진',
+      quote: "사이버 범죄에 대해 전혀 몰랐는데, Bubble Bubble이 쉽게 설명해줘서 좋았어요. 음성으로 대화할 수 있어 정말 편리했어요. 앞으로 더 다양한 주제로 확장되면 좋겠어요!",
+      name: '홍길동',
       twitter: {
-        handle: '@seojin_yoon',
+        handle: '@gildong_hong',
         link: '#0'
       }
     },
     {
       img: CustomerImg09,
-      quote: "빵 만드는 과정이 궁금해서 성심당 투어에 참여했는데, AI가 추천해준 빵들의 제조 과정을 자세히 볼 수 있었어요. 장인 정신과 첨단 기술의 조화를 직접 보니 성심당 빵이 더 특별하게 느껴져요!",
-      name: '한도윤',
+      quote: "저작권 침해 문제로 고민하다 Bubble Bubble을 찾았어요. 티모가 제시한 해결 방법이 정말 실용적이었어요. 앞으로 더 많은 실제 사례가 추가되면 더욱 유용할 것 같아요!",
+      name: '정수민',
       twitter: {
-        handle: '@doyoon_han',
+        handle: '@sumin_jung',
         link: '#0'
       }
     },
@@ -107,8 +107,8 @@ export default function Customers() {
         <div className="py-12 md:py-20">
           {/* Content */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-            <h2 className="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">성심당 빵 AI 추천, 어떠세요?</h2>
-            <p className="text-lg text-slate-400">매일 새로운 빵의 세계를 발견하세요. AI가 당신의 취향을 분석해 맞춤 추천을 제공합니다. 지금 바로 성심당의 특별한 맛을 경험해보세요!</p>
+            <h2 className="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Bubble Bubble과 함께한 법률 여정 어떠세요?</h2>
+            <p className="text-lg text-slate-400">당신의 권리를 지키는 스마트한 동행. 법률 문제로 고민하신 적 있나요? Bubble Bubble이 여러분의 든든한 법률 파트너가 되어드립니다. AI 기술을 활용한 맞춤형 상담으로 복잡한 법적 문제를 쉽게 해결해드립니다. 전세사기부터 사이버 범죄까지, 다양한 법률 이슈에 대한 정확한 정보와 해결책을 제시합니다. 여러분의 권리를 지키는 가장 스마트한 방법, 지금 바로 Bubble Bubble과 함께하세요.</p>
           </div>
           {/* Customers */}
           <div className="grid lg:grid-cols-3 gap-4 sm:gap-6 max-w-xs mx-auto lg:max-w-none">

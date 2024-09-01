@@ -24,9 +24,9 @@ export default function Features05() {
 
           {/* Section header */}
           <div className="max-w-3xl mx-auto text-center pb-12">
-            <h2 className="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">맛있는 빵의 세계로 초대합니다</h2>
+            <h2 className="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">플로라와 티모를 만나보세요</h2>
             <p className="text-lg text-slate-400">
-              AI 기술로 구현된 맞춤형 추천, 시간대별 제안, 소셜 기반 발견, 건강을 고려한 선택, 특별한 순간을 위한 제안, 그리고 간편한 주문까지 - 당신만의 특별한 빵 경험을 선사합니다.
+              감성적인 플로라와 논리적인 티모가 함께하는 AI 법률 비서, Bubble Bubble. 모든 법률 문제를 쉽고 편리하게 해결해드립니다.
             </p>
           </div>
 
@@ -65,27 +65,27 @@ export default function Features05() {
 
           {/* Features list */}
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Card #1 */}
+            {/* Card #1 - Flora */}
             <div className="bg-gradient-to-tr from-slate-800/50 to-slate-800/10 rounded-3xl border border-slate-800">
               <div className="flex items-center space-x-4 p-4 h-full">
                 <svg className="shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
-                  <path className="fill-sky-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
-                  <path className="fill-sky-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
+                  <path className="fill-pink-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
+                  <path className="fill-pink-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
                 </svg>
                 <p className="text-sm text-slate-400">
-                  <strong className="text-slate-300 font-medium">맞춤형 빵 경험</strong>을 즐겨보세요. 당신의 취향을 학습하여 최적의 빵을 추천해드립니다.
+                  <strong className="text-slate-300 font-medium">플로라의 감성 케어</strong>: 법률 문제로 불안할 때 공감과 위로를 제공합니다.
                 </p>
               </div>
             </div>
-            {/* Card #2 */}
+            {/* Card #2 - Timo */}
             <div className="bg-gradient-to-tr from-slate-800/50 to-slate-800/10 rounded-3xl border border-slate-800">
               <div className="flex items-center space-x-4 p-4 h-full">
                 <svg className="shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
-                  <path className="fill-sky-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
-                  <path className="fill-sky-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
+                  <path className="fill-blue-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
+                  <path className="fill-blue-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
                 </svg>
                 <p className="text-sm text-slate-400">
-                  <strong className="text-slate-300 font-medium">시간대별 추천</strong>으로 아침에는 상큼하게, 저녁에는 달콤하게 하루를 즐기세요.
+                  <strong className="text-slate-300 font-medium">티모의 논리적 조언</strong>: 구체적인 법률 해결책과 행동 요령을 제시합니다.
                 </p>
               </div>
             </div>
@@ -97,7 +97,7 @@ export default function Features05() {
                   <path className="fill-sky-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
                 </svg>
                 <p className="text-sm text-slate-400">
-                  <strong className="text-slate-300 font-medium">소셜 추천</strong>으로 친구들이 즐겨찾는 빵을 발견하고 새로운 맛의 세계를 경험해보세요.
+                  <strong className="text-slate-300 font-medium">24/7 AI 법률 비서</strong>: 언제 어디서나 접근 가능한 법률 도우미를 만나보세요.
                 </p>
               </div>
             </div>
@@ -109,7 +109,7 @@ export default function Features05() {
                   <path className="fill-sky-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
                 </svg>
                 <p className="text-sm text-slate-400">
-                  <strong className="text-slate-300 font-medium">건강한 선택</strong>을 도와드립니다. 당신의 건강 목표에 맞는 영양가 높은 빵을 제안해드려요.
+                  <strong className="text-slate-300 font-medium">음성 기반 상담</strong>: 편리한 음성 인터페이스로 신속한 법률 상담을 받아보세요.
                 </p>
               </div>
             </div>
@@ -121,7 +121,7 @@ export default function Features05() {
                   <path className="fill-sky-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
                 </svg>
                 <p className="text-sm text-slate-400">
-                  <strong className="text-slate-300 font-medium">특별한 순간</strong>을 위한 빵 추천. 기념일, 파티 등 각 상황에 어울리는 빵으로 분위기를 더욱 특별하게 만들어보세요.
+                  <strong className="text-slate-300 font-medium">맞춤형 법률 솔루션</strong>: 개인화된 법률 서비스로 모든 연령대의 문제를 해결합니다.
                 </p>
               </div>
             </div>
@@ -133,7 +133,7 @@ export default function Features05() {
                   <path className="fill-sky-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
                 </svg>
                 <p className="text-sm text-slate-400">
-                  <strong className="text-slate-300 font-medium">간편한 주문</strong>으로 기다림 없이 신선한 빵을 만나보세요.
+                  <strong className="text-slate-300 font-medium">원스톱 솔루션</strong>: 보이스피싱부터 학교폭력까지, 모든 법률 문제에 대응합니다.
                 </p>
               </div>
             </div>
