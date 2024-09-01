@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import LogoImg from '@/public/images/bbangyummy-logo.png'
+import LogoImg from '@/public/images/bubblebubble.png'
 
 export default function Logo() {
   return (
@@ -8,8 +8,8 @@ export default function Logo() {
       <Image 
         className="max-w-none animate-float" 
         src={LogoImg} 
-        width={50} 
-        height={50} 
+        width={100} 
+        height={100} 
         priority 
         alt="Stellar" 
       />
