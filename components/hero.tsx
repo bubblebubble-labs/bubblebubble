@@ -19,7 +19,7 @@ export default function Hero() {
         body: JSON.stringify({ email }),
       });
       if (response.ok) {
-        setMessage('성심당 AI 빵 추천 서비스 소식을 받아보실 수 있습니다!');
+        setMessage('버블버블 서비스 소식을 받아보실 수 있습니다!');
         setEmail('');
       } else {
         setMessage('등록 중 오류가 발생했습니다. 다시 시도해주세요.');
@@ -50,25 +50,28 @@ export default function Hero() {
               <div className="inline-flex relative before:absolute before:inset-0 before:bg-amber-500 before:blur-md">
                 <a className="btn-sm py-0.5 text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.amber.500),_theme(colors.amber.500))_padding-box,_linear-gradient(theme(colors.amber.500),_theme(colors.amber.200)_75%,_theme(colors.transparent)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/50 before:rounded-full before:pointer-events-none shadow" href="#0">
                   <span className="relative inline-flex items-center">
-                    성심당 AI 추천 서비스 런칭!
+                    버블버블 서비스 런칭!
                   </span>
                 </a>
               </div>
             </div>
-            <h1 className="h1 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4" data-aos="fade-down">AI 빵요미: 당신만을 위한 성심당 빵 추천</h1>
-            <p className="text-lg text-slate-300 mb-8" data-aos="fade-down" data-aos-delay="200">
-              성심당에서 어떤 빵을 고를지 고민되시나요? 수많은 선택지 앞에서 망설이고 계신가요? 걱정 마세요! AI 빵요미가 여러분의 취향을 분석해 딱 맞는 빵을 추천해드립니다. 이제 고민 없이 나만의 완벽히 개인화된 빵을 만나보세요!
+            <h1 className="h1 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4" data-aos="fade-down">버블버블: 우주에서 온 당신만의 법률 수호자</h1>
+            <p className="text-lg text-slate-200 mb-8" data-aos="fade-down" data-aos-delay="200">
+              법률 문제로 고민이신가요? 복잡한 법률 용어에 지치셨나요? 안드로메다 은하에서 온 플로라와 티모가 도와드립니다. 플로라의 따뜻한 위로와 티모의 명쾌한 해결책으로 여러분의 법률 고민을 쉽고 편안하게 해결해드려요. 이제 우주의 지혜로 법률의 벽을 넘어보세요!
+            </p>
+            <p className="text-sm text-slate-300 mb-6" data-aos="fade-down" data-aos-delay="300">
+              지구로부터 250만 광년 떨어진 '네오 주리디카' 행성에서 온 플로라와 티모. 그들의 임무는 대한민국 시민들에게 법률 문제에 대한 조언과 위로를 제공하는 것. 플로라의 따뜻한 공감과 티모의 날카로운 분석으로 여러분의 법률 고민을 해결해 드립니다.
             </p>
           
             <br/>
             <div className="mt-4 max-w-xs mx-auto sm:max-w-none sm:inline-flex sm:justify-center space-y-4 sm:space-y-0 sm:space-x-4" data-aos="fade-down" data-aos-delay="400">
               <div>
                 <a className="btn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white w-full transition duration-150 ease-in-out group" href="/survey">
-                  빵 맞춤 추천 받기 <span className="tracking-normal text-amber-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+                  법률 상담 받기 <span className="tracking-normal text-amber-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
                 </a>
               </div>
               {/* <div>
-                <a className="btn text-slate-200 hover:text-white bg-slate-900 bg-opacity-25 hover:bg-opacity-30 w-full transition duration-150 ease-in-out group" href="mailto:wks0968@gmail.com?subject=[빵요미]%20문의사항:%20&body=안녕하세요,%0D%0A%0D%0A빵요미에%20대한%20문의사항을%20아래에%20작성해%20주세요.%0D%0A%0D%0A1.%20문의%20유형:%20(예:%20서비스%20이용,%20기술적%20문제,%20제안사항%20등)%0D%0A2.%20상세내용:%0D%0A%0D%0A%0D%0A이름:%0D%0A연락처:%20(선택사항)%0D%0A%0D%0A감사합니다." target="_blank" rel="noopener noreferrer">
+                <a className="btn text-slate-200 hover:text-white bg-slate-900 bg-opacity-25 hover:bg-opacity-30 w-full transition duration-150 ease-in-out group" href="mailto:wks0968@gmail.com?subject=[버블버블]%20문의사항:%20&body=안녕하세요,%0D%0A%0D%0A버블버블에%20대한%20문의사항을%20아래에%20작성해%20주세요.%0D%0A%0D%0A1.%20문의%20유형:%20(예:%20서비스%20이용,%20기술적%20문제,%20제안사항%20등)%0D%0A2.%20상세내용:%0D%0A%0D%0A%0D%0A이름:%0D%0A연락처:%20(선택사항)%0D%0A%0D%0A감사합니다." target="_blank" rel="noopener noreferrer">
                   <svg className="shrink-0 fill-slate-300 mr-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
                     <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                   </svg>
@@ -83,7 +86,7 @@ export default function Hero() {
               </div> */}
                
             </div>
- <p className="text-sm text-slate-100 mt-8" data-aos="fade-down" data-aos-delay="300">
+            <p className="text-sm text-slate-100 mt-8" data-aos="fade-down" data-aos-delay="300">
               Powered by{' '}
               <a 
                 href="https://somoim.friendscube.com/g/b66c90ac-1765-11ef-be8e-0a1883465d731" 
