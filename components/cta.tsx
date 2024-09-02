@@ -46,16 +46,16 @@ export default function Cta() {
                   <span>협업 & 제안하기</span>
                 </a>
               </div>
-              <div>
+              {/* <div>
                 <a className="btn text-slate-200 hover:text-white bg-slate-900 bg-opacity-25 hover:bg-opacity-30 w-full transition duration-150 ease-in-out group" href="https://somoim.friendscube.com/g/b66c90ac-1765-11ef-be8e-0a1883465d731" target="_blank" rel="noopener noreferrer">
                   <span>코딩 교육받기</span>
                   <span className="text-xs text-sky-500 ml-2 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out">(64명)</span>
                 </a>
-              </div>
+              </div> */}
             </div>
-            <p className="text-sm text-slate-100 mt-8" data-aos="fade-down" data-aos-delay="300">
+            {/* <p className="text-sm text-slate-100 mt-8" data-aos="fade-down" data-aos-delay="300">
               Powered by [대전 IT] 나는 솔로프리너 🍞💻❤️
-            </p>
+            </p> */}
           </div>
         </div>
       </div>
