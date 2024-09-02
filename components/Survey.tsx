@@ -14,6 +14,7 @@ const questions = [{
   question: '몇 살이신지 살짝 물어봐도 될까요? 🙈',
   options: Array.from({length: 91}, (_, i) => (i + 11).toString()),
   multiSelect: false,
+  type: 'number',
 }];
 // const questions = [
 //   {
