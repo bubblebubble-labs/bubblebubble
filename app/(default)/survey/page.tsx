@@ -1,5 +1,5 @@
 export const metadata = {
-  title: '빵 추천 - AI 빵요미',
+  title: '버블버블 - AI 법률 서비스',
   description: 'Page description',
 }
 

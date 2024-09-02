@@ -8,28 +8,28 @@ const inter = Inter({
 })
 
 export const metadata = {
-  title: 'AI빵요미 - 성심당 빵 AI 추천 서비스',
-  description: '성심당의 개인화된 AI 추천 서비스, AI빵요미와 함께 당신의 취향에 맞는 최고의 빵을 찾아보세요!',
+  title: '버블버블 - AI 법률 서비스',
+  description: '버블버블 - AI 법률 서비스',
   openGraph: {
-    title: 'AI빵요미 - 성심당 빵 AI 추천 서비스',
-    description: '개인 취향과 건강 목표에 맞춘 맞춤형 빵 추천 서비스, AI빵요미로 특별한 빵을 발견하세요!',
+    title: '버블버블 - AI 법률 서비스',
+    description: '버블버블 - AI 법률 서비스',
     images: [
       {
         url: '/images/og-image.png', // Update this path
         width: 1200,
         height: 630,
-        alt: 'AI빵요미',
+        alt: '버블버블',
       },
     ],
     type: 'website',
     url: 'https://yourwebsite.com',
-    siteName: 'AI빵요미',
+    siteName: '버블버블',
     locale: 'ko_KR',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AI빵요미 - 성심당 AI 추천 서비스',
-    description: '당신만의 AI 빵 소믈리에와 함께, 개인화된 빵 추천을 경험하세요!',
+    title: '버블버블 - AI 법률 서비스',
+    description: '버블버블 - AI 법률 서비스',
     images: ['/images/og-image.png'], // Update this path
   },
 }

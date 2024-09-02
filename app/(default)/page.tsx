@@ -1,6 +1,6 @@
 export const metadata = {
-  title: 'AI 빵요미',
-  description: 'Page description',
+  title: '버블버블 - AI 법률 서비스',
+  description: '버블버블 - AI 법률 서비스',
 }
 
 import Hero from '@/components/hero'
