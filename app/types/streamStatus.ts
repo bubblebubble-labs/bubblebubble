@@ -1,0 +1,6 @@
+export enum StreamStatus {
+  IDLE,
+  INPUTSUBMITTED,
+  ISRESPONSEFETCHED,
+  ISFETCHING,
+}

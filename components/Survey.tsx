@@ -339,7 +339,8 @@ ${JSON.stringify(breadData['빵 목록'])}
 
   useEffect(() => {
     if (currentQuestion >= questions.length) {
-      getRecommendations();
+      sendQuestionToSlack(); // 설문 결과 전송
+      window.location.href = '/chat'; // 채팅 페이지로 리다이렉트
     }
   }, [currentQuestion]);
 
@@ -356,115 +357,13 @@ ${JSON.stringify(breadData['빵 목록'])}
     return (
       <div className="max-w-2xl mx-auto mt-20 p-8 bg-slate-800 rounded-lg shadow-xl text-white">
         <ToastContainer />
-        <h2 className="text-3xl font-bold mb-6 text-center text-sky-400">맞춤 빵 추천 결과</h2>
-        {isLoading ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <SkeletonLoader />
-            <p className="text-center mt-4 text-sky-400">빵요미가 당신만을 위한 빵을 고르고 있습니다... 🍞</p>
-          </motion.div>
-        ) : recommendations.length > 0 ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="space-y-6"
-          >
-            {recommendations.map((bread, index) => (
-              <div key={index} className="bg-slate-700 p-4 rounded-lg">
-                <h4 className="text-xl font-semibold text-sky-300">{bread.name}</h4>
-                <div className="mt-2">
-                  <p className="text-slate-300"><strong>가격:</strong> {bread.price}</p>
-                  <p className="text-slate-300"><strong>특징:</strong> {bread.features}</p>
-                  <p className="text-slate-300 mt-2"><strong>추천 이유:</strong> {bread.reason}</p>
-                </div>
-              </div>
-            ))}
-          </motion.div>
-        ) : (
-          <p className="text-center">추천 빵을 찾을 수 없습니다.</p>
-        )}
-        
-        {/* 주문하기 버튼 추가 */}
-        <a
-          href="https://www.sungsimdang.co.kr/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-8 px-6 py-3 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition duration-150 ease-in-out w-full block text-center font-bold"
-        >
-          성심당에서 주문하기
-        </a>
-        
-        {!feedbackSubmitted && (
-          <div className="mt-8">
-            <h3 className="text-xl font-semibold text-sky-300 mb-2">별점 및 피드백을 남겨주세요</h3>
-            <StarRating rating={rating} setRating={setRating} />
-            <textarea
-              value={feedback}
-              onChange={(e) => setFeedback(e.target.value)}
-              className="w-full p-2 mt-4 bg-slate-700 text-white rounded"
-              placeholder="어떤 점을 개선했으면 좋겠어요! 또는 추가적으로 제공해주실 정보가 있으실 경우 입력해주세요."
-            />
-            <input
-              type="text"
-              value={contactInfo.phone}
-              onChange={(e) => setContactInfo({ ...contactInfo, phone: e.target.value })}
-              className="w-full p-2 mt-4 bg-slate-700 text-white rounded"
-              placeholder="전화번호 (선택 사항)"
-            />
-            <input
-              type="email"
-              value={contactInfo.email}
-              onChange={(e) => setContactInfo({ ...contactInfo, email: e.target.value })}
-              className="w-full p-2 mt-4 bg-slate-700 text-white rounded"
-              placeholder="이메일 (선택 사항)"
-            />
-            <button
-              onClick={handleSubmitFeedback}
-              className="mt-4 px-6 py-3 bg-sky-500 text-white rounded hover:bg-sky-600 transition duration-150 ease-in-out w-full font-bold"
-            >
-              피드백 제출
-            </button>
-          </div>
-        )}
-
-         {/* 다시 추천받기 버튼 추가 */}
-        <button
-          onClick={handleRecommendAgain}
-          className="mt-4 px-6 py-3 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-150 ease-in-out w-full font-bold"
-        >
-          새로 빵 추천 받기
-        </button>
-        
-        <button
-          onClick={() => setShowAnswers(!showAnswers)}
-          className="mt-4 px-6 py-3 bg-green-500 text-white rounded hover:bg-green-600 transition duration-150 ease-in-out w-full"
-        >
-          {showAnswers ? '나의 응답 숨기기' : '나의 응답 보기'}
-        </button>
-        
-        {showAnswers && (
-          <div className="mt-8 space-y-6">
-            {questions.map((q, index) => (
-              <div key={q.id} className="bg-slate-700 p-4 rounded-lg">
-                <h3 className="font-semibold text-lg mb-2 text-sky-300">
-                  {index + 1}. {q.question}
-                </h3>
-                <p className="mt-1 text-slate-200">
-                  {Array.isArray(answers[q.id])
-                    ? answers[q.id].join(', ')
-                    : answers[q.id] || '응답 없음'}
-                </p>
-              </div>
-            ))}
-          </div>
-        )}
-
+        <h2 className="text-3xl font-bold mb-6 text-center text-sky-400">채팅 페이지로 이동합니다...</h2>
+        <div className="text-center">
+          <SkeletonLoader />
+          <p className="text-center mt-4 text-sky-400">잠시만 기다려주세요...</p>
+        </div>
       </div>
-    )
+    );
   }
 
   return (

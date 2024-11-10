@@ -1,3 +1,6 @@
+'use client'
+
+import { RecoilRoot } from 'recoil'
 import './css/style.css'
 import { Inter } from 'next/font/google'
 
@@ -7,7 +10,7 @@ const inter = Inter({
   display: 'swap'
 })
 
-export const metadata = {
+const metadata = {
   title: '버블버블 - AI 법률 서비스',
   description: '버블버블 - AI 법률 서비스',
   openGraph: {
@@ -53,7 +56,9 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} font-inter antialiased bg-slate-900 text-slate-100 tracking-tight`}>
         <div className="flex flex-col min-h-screen overflow-hidden supports-[overflow:clip]:overflow-clip">
-          {children}
+          <RecoilRoot>
+            {children}
+          </RecoilRoot>
         </div>
       </body>
     </html>
