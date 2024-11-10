@@ -382,10 +382,10 @@ const ChatClient: React.FC = () => {
   }, [answers, chatList.length]);
 
   return (
-    <div className="flex flex-col h-screen bg-purple-50">
+    <div className="flex flex-col h-screen bg-[#ABC1D1]">
       <Toaster position="top-center" reverseOrder={false} />
       <div className="p-4 flex items-center justify-between">
-        <button onClick={() => router.back()} className="mr-4">
+        <button onClick={() => router.push('/')} className="mr-4">
           <MemoizedImage src="/images/svg_back.svg" alt="Back" width={24} height={24} />
         </button>
       </div>
@@ -415,11 +415,11 @@ const ChatClient: React.FC = () => {
               <div 
                 className={`p-3 rounded-lg ${
                   chat.role === 'user' 
-                    ? 'text-white max-w-[70%] ml-auto shadow-md' 
+                    ? 'text-black max-w-[70%] ml-auto shadow-md'
                     : 'bg-white text-gray-800 max-w-[80%] shadow-sm border border-gray-200'
                 } select-text`}
                 style={{
-                  backgroundColor: chat.role === 'user' ? colors.kPurpleColor : 'white',
+                  backgroundColor: chat.role === 'user' ? '#FFE000' : 'white',
                 }}
               >
                 {chat.role === 'user' ? (
