@@ -3,8 +3,7 @@
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
-import { useRecoilState } from 'recoil';
-import { chatListAtom, chatStageAtom, inputTextAtom } from '../atoms/chatAtoms';
+import { useChatStore } from '../store/chatStore';
 import { StreamStatus } from '../types/streamStatus';
 import { Chat } from '../types/chat';
 import ReactMarkdown from 'react-markdown';
@@ -12,6 +11,7 @@ import remarkGfm from 'remark-gfm';
 import { Toaster, toast } from "react-hot-toast";
 import "../styles/Chat.css";
 import { colors } from '../styles/colors'
+import { useSurveyStore } from '../store/surveyStore';
 
 const isLogAvailable = false;
 
@@ -19,9 +19,14 @@ const ChatClient: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const summary = searchParams.get('summary');
-  const [chatList, setChatList] = useRecoilState(chatListAtom);
-  const [chatStage, setChatStage] = useRecoilState(chatStageAtom);
-  const [inputText, setInputText] = useRecoilState(inputTextAtom);
+  const { 
+    chatList, 
+    setChatList, 
+    chatStage, 
+    setChatStage, 
+    inputText, 
+    setInputText 
+  } = useChatStore();
   const chatEndRef = useRef<HTMLDivElement>(null);
   const [thumbsUpClicked, setThumbsUpClicked] = useState<{ [key: number]: boolean }>({});
   const [thumbsDownClicked, setThumbsDownClicked] = useState<{ [key: number]: boolean }>({});
@@ -35,6 +40,9 @@ const ChatClient: React.FC = () => {
   const [lastEnterPress, setLastEnterPress] = useState<number | null>(null);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const { currentQuestion, answers, setAnswer, nextQuestion, prevQuestion } = useSurveyStore()
+
 
   const resetTextareaHeight = () => {
     if (textareaRef.current) {
@@ -63,7 +71,7 @@ const ChatClient: React.FC = () => {
     if (messageToSend.trim() === '' || chatStage !== StreamStatus.IDLE) return;
     setChatStage(StreamStatus.INPUTSUBMITTED);
     const newUserChat: Chat = { content: messageToSend, role: 'user' };
-    setChatList(prevList => [...prevList, newUserChat]);
+    setChatList((prevList: Chat[]) => [...prevList, newUserChat]);
     setTimeout(() => {
       setInputText('');
       resetTextareaHeight();
@@ -99,8 +107,7 @@ const ChatClient: React.FC = () => {
         if (!isChatFetching) {
           isChatFetching = true;
           setChatStage(StreamStatus.ISFETCHING);
-          // 새로운 빈 응답 메시지 추가
-          setChatList(prevList => [...prevList, { content: '', role: 'assistant' }]);
+          setChatList((prevList: Chat[]) => [...prevList, { content: '', role: 'assistant' }]);
         }
         const chunk = decoder.decode(value);
         const regex = /data:{"output":"(.+?)"}/g;
@@ -119,7 +126,7 @@ const ChatClient: React.FC = () => {
             assistantResponse += output;
           });
           
-          setChatList(prevList => {
+          setChatList((prevList: Chat[]) => {
             const newList = [...prevList];
             newList[newList.length - 1] = { content: assistantResponse, role: 'assistant' };
             return newList;
@@ -326,6 +333,13 @@ const ChatClient: React.FC = () => {
     }
   ), []);
 
+  useEffect(() => {
+    if (chatList.length === 0 && answers.age && answers.category) {
+      const initialMessage = `안녕하세요! 저는 ${answers.age}살이고, ${answers.category}${answers.subcategory ? `, ${answers.subcategory}` : ''}${answers.subsubcategory ? `, ${answers.subsubcategory}` : ''} 관련 문제를 해결하고 싶습니다. 도와주실 수 있나요?`;
+      handleSend(initialMessage);
+    }
+  }, [answers, chatList.length]);
+
   return (
     <div className="flex flex-col h-screen bg-purple-50">
       <Toaster position="top-center" reverseOrder={false} />
@@ -516,7 +530,7 @@ const ChatClient: React.FC = () => {
                 }}
                 onKeyDown={handleKeyPress}
                 placeholder="메시지를 입력해주세요"
-                className="flex-grow bg-transparent outline-none border-none resize-none overflow-hidden min-h-[24px] text-[#1F2937] mr-2"
+                className="flex-grow bg-transparent outline-none border-none resize-none overflow-hidden min-h-[24px] text-[#1F2937] mr-2 focus:ring-0 focus:outline-none"
                 style={{ maxHeight: '120px' }}
               />
               <button 

@@ -1320,7 +1320,7 @@ export default function PricingSection() {
 File: ./app/(default)/survey/page.tsx
 Content:
 export const metadata = {
-  title: '빵 추천 - AI 빵요미',
+  title: '버블버블 - AI 법률 서비스',
   description: 'Page description',
 }
 
@@ -1342,8 +1342,8 @@ export default function Pricing() {
 File: ./app/(default)/page.tsx
 Content:
 export const metadata = {
-  title: 'AI 빵요미',
-  description: 'Page description',
+  title: '버블버블 - AI 법률 서비스',
+  description: '버블버블 - AI 법률 서비스',
 }
 
 import Hero from '@/components/hero'
@@ -1360,6 +1360,7 @@ import Testimonials from '@/components/testimonials'
 import Cta from '@/components/cta'
 import Customers from '@/components/customers'
 import Faqs from '@/components/faqs'
+import Cta03 from '@/components/cta-03'
 
 export default function Home() {
   return (
@@ -1377,6 +1378,7 @@ export default function Home() {
       <Faqs />
       <Testimonials />
       <Cta />
+
     </>
   )
 }
@@ -1450,10 +1452,691 @@ export default function Pricing() {
   )
 }
 
+File: ./app/atoms/chatAtoms.ts
+Content:
+import { atom } from 'recoil';
+import { Chat } from '../types/chat';
+import { Stock } from '../types/stock';
+import { StreamStatus } from '../types/streamStatus';
+
+export const chatListAtom = atom<Chat[]>({
+  key: 'chatListAtom',
+  default: [],
+});
+
+export const chatStageAtom = atom<StreamStatus>({
+  key: 'chatStageAtom',
+  default: StreamStatus.IDLE,
+
+});
+
+export const inputTextAtom = atom<string>({
+  key: 'inputTextAtom',
+  default: '',
+});
+File: ./app/types/streamStatus.ts
+Content:
+export enum StreamStatus {
+  IDLE,
+  INPUTSUBMITTED,
+  ISRESPONSEFETCHED,
+  ISFETCHING,
+}
+File: ./app/types/chat.ts
+Content:
+export interface Chat {
+  content: string;
+  role: 'user' | 'assistant';
+}
+File: ./app/types/stock.ts
+Content:
+export interface Stock {
+  name: string;
+  code: string;
+  image: string;
+  price: number;
+  prevPrice: number;
+  unit: string;
+  priceChangeRate: number;
+}
+File: ./app/chat/ChatClient.tsx
+Content:
+'use client';
+
+import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import Image from 'next/image';
+import { useRecoilState } from 'recoil';
+import { chatListAtom, chatStageAtom, inputTextAtom } from '../atoms/chatAtoms';
+import { StreamStatus } from '../types/streamStatus';
+import { Chat } from '../types/chat';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { Toaster, toast } from "react-hot-toast";
+import "../styles/Chat.css";
+import { colors } from '../styles/colors'
+import { useSurveyStore } from '../store/surveyStore';
+
+const isLogAvailable = false;
+
+const ChatClient: React.FC = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const summary = searchParams.get('summary');
+  const [chatList, setChatList] = useRecoilState(chatListAtom);
+  const [chatStage, setChatStage] = useRecoilState(chatStageAtom);
+  const [inputText, setInputText] = useRecoilState(inputTextAtom);
+  const chatEndRef = useRef<HTMLDivElement>(null);
+  const [thumbsUpClicked, setThumbsUpClicked] = useState<{ [key: number]: boolean }>({});
+  const [thumbsDownClicked, setThumbsDownClicked] = useState<{ [key: number]: boolean }>({});
+  const [isPlaying, setIsPlaying] = useState<{ [key: number]: boolean }>({});
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
+  const [showScrollToBottom, setShowScrollToBottom] = useState(false);
+  const [lastEnterPress, setLastEnterPress] = useState<number | null>(null);
+
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const { currentQuestion, answers, setAnswer, nextQuestion, prevQuestion } = useSurveyStore()
+
+
+  const resetTextareaHeight = () => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+    }
+  };
+
+  useEffect(() => {
+    if (summary) {
+      setChatList([{ role: 'assistant', content: summary }]);
+    }
+  }, [summary, setChatList]);
+
+  useEffect(() => {
+    // chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [chatList]);
+
+  const scrollToBottom = () => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  };
+
+  const handleSend = async (text?: string) => {
+    const messageToSend = text || inputText;
+    if (messageToSend.trim() === '' || chatStage !== StreamStatus.IDLE) return;
+    setChatStage(StreamStatus.INPUTSUBMITTED);
+    const newUserChat: Chat = { content: messageToSend, role: 'user' };
+    setChatList(prevList => [...prevList, newUserChat]);
+    setTimeout(() => {
+      setInputText('');
+      resetTextareaHeight();
+    }, 100);
+
+    try {
+      abortControllerRef.current = new AbortController();
+      const response = await fetch('http://211.188.55.96:8080/api/v6/chat/completion', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          messages: [
+            ...chatList,
+            newUserChat
+          ]
+        }),
+        signal: abortControllerRef.current.signal,
+      });
+
+      setChatStage(StreamStatus.ISRESPONSEFETCHED);
+
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
+      let assistantResponse = '';
+      let isChatFetching :boolean = false;
+      let logData = [];
+
+      while (true) {
+        const { done, value } = await reader?.read() || {};
+        if (done) break;
+        if (!isChatFetching) {
+          isChatFetching = true;
+          setChatStage(StreamStatus.ISFETCHING);
+          // 새로운 빈 응답 메시지 추가
+          setChatList(prevList => [...prevList, { content: '', role: 'assistant' }]);
+        }
+        const chunk = decoder.decode(value);
+        const regex = /data:{"output":"(.+?)"}/g;
+        const matches = Array.from(chunk.matchAll(regex));
+        
+        if (isLogAvailable) {
+          logData.push({
+            chunk: chunk,
+            data: matches.map(match => match[1]).join('')
+          });
+        }
+        
+        if (matches.length > 0) {
+          matches.forEach(match => {
+            const output = match[1]; 
+            assistantResponse += output;
+          });
+          
+          setChatList(prevList => {
+            const newList = [...prevList];
+            newList[newList.length - 1] = { content: assistantResponse, role: 'assistant' };
+            return newList;
+          });
+          scrollToBottom();
+        }
+      }
+
+
+
+      if (isLogAvailable) {
+        const logContent = logData.map(row => `chunk: ${row.chunk}\ndata: ${row.data}\n\n`).join('');
+        
+        const blob = new Blob([logContent], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'chat.log';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      }
+
+    } catch (error) {
+      if (error instanceof Error && error.name === 'AbortError') {
+        console.log('Request was aborted');
+      } else {
+        console.error("Error fetching chat response:", error);
+      }
+    }
+      setChatStage(StreamStatus.IDLE);
+  };
+
+  const handleStopRequest = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+      setChatStage(StreamStatus.IDLE);
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && e.shiftKey) {
+      return;
+    } else if (e.key === 'Enter') {
+      const now = Date.now();
+      if (lastEnterPress && now - lastEnterPress < 1000) {
+        handleSend();
+        setLastEnterPress(null);
+      } else {
+        setLastEnterPress(now);
+      }
+    }
+  };
+
+  const handleTextToSpeech = (text: string, chatId: number) => {
+    if (isPlaying[chatId]) {
+      // 재생 중이면 중지
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+      setIsPlaying(prev => ({ ...prev, [chatId]: false }));
+    } else {
+      // 재생 시작
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'ja-JP'; // 일본로 설정
+      utterance.onend = () => {
+        setIsPlaying(prev => ({ ...prev, [chatId]: false }));
+      };
+      setIsPlaying(prev => ({ ...prev, [chatId]: true }));
+      window.speechSynthesis.speak(utterance);
+    }
+  };
+
+  const handleCopyText = useCallback((text: string, index: number) => {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(() => {
+        setCopiedIndex(index);
+        toast("클립보드에 복사되었습니다.", { icon: '✅' });
+        setTimeout(() => setCopiedIndex(null), 2000);
+      });
+    } else {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        setCopiedIndex(index);
+        toast("클립보드에 복사되었습니다.", { icon: '✅' });
+        setTimeout(() => setCopiedIndex(null), 2000);
+      } catch (err) {
+        console.error('텍스트 복사에 실패했습니다', err);
+        toast("복사에 실패했습니다.", { icon: '❌' });
+      }
+      document.body.removeChild(textArea);
+    }
+  }, []);
+
+  const handleFeedback = useCallback((chatId: number, isPositive: boolean) => {
+    if (isPositive) {
+      setThumbsUpClicked(prev => {
+        const newState = { ...prev, [chatId]: !prev[chatId] };
+        if (newState[chatId]) {
+          setThumbsDownClicked(prev => ({ ...prev, [chatId]: false }));
+          toast("피드백 감사합니다!", { icon: '✅' });
+        }
+        return newState;
+      });
+    } else {
+      setThumbsDownClicked(prev => {
+        const newState = { ...prev, [chatId]: !prev[chatId] };
+        if (newState[chatId]) {
+          setThumbsUpClicked(prev => ({ ...prev, [chatId]: false }));
+          toast("피드백 감사합니다!", { icon: '✅' });
+        }
+        return newState;
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (chatContainerRef.current) {
+        const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
+        const isNearTop = scrollTop < 100;
+        const isNearBottom = scrollTop + clientHeight > scrollHeight - 100;
+
+        setShowScrollToTop(!isNearTop);
+        setShowScrollToBottom(!isNearBottom);
+      }
+    };
+
+    const chatContainer = chatContainerRef.current;
+    if (chatContainer) {
+      chatContainer.addEventListener('scroll', handleScroll);
+    }
+
+    return () => {
+      if (chatContainer) {
+        chatContainer.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = 0;
+    }
+  };
+
+  const MemoizedImage = useMemo(() => React.memo<{ src: string; alt: string; width: number; height: number; className?: string }>(
+    ({ src, alt, width, height, className }) => {
+      return (
+        <Image
+          src={src}
+          alt={alt}
+          width={width}
+          height={height}
+          className={className}
+        />
+      );
+    }
+  ), []);
+
+  const MemoizedFeedbackButton = useMemo(() => React.memo<{ onClick: () => void; icon: string; isActive: boolean }>(
+    ({ onClick, icon, isActive }) => {
+      return (
+        <button
+          onClick={onClick}
+          className={`p-2 rounded-full hover:bg-gray-100 transition-colors duration-200`}
+        >
+          <MemoizedImage
+            src={`/images/${icon}${isActive ? '_fill' : ''}.svg`}
+            alt={icon}
+            width={18}
+            height={18}
+            className={isActive ? '' : 'opacity-70'} // 비활성 상태일 때 약간 투명하게
+          />
+        </button>
+      );
+    }
+  ), []);
+
+  const MemoizedCopyButton = useMemo(() => React.memo<{ onClick: () => void }>(
+    ({ onClick }) => {
+      return (
+        <button
+          onClick={onClick}
+          className={`p-2 rounded-full hover:bg-gray-100 transition-colors duration-200`}
+        >
+          <MemoizedImage
+            src="/images/svg_copy.svg"
+            alt="Copy"
+            width={18}
+            height={18}
+            className="opacity-70" // 복사 버튼도 약간 투명하게
+          />
+        </button>
+      );
+    }
+  ), []);
+
+  useEffect(() => {
+      toast(`답변0: ${answers[0]}, 답변1: ${answers[1]}, 답변2: ${answers[2]}, 답변3: ${answers[3]}`, {
+        duration: 3000,
+        icon: 'ℹ️',
+      });
+  }, [currentQuestion, answers]);
+
+  return (
+    <div className="flex flex-col h-screen bg-purple-50">
+      <Toaster position="top-center" reverseOrder={false} />
+      <div className="p-4 flex items-center justify-between">
+        <button onClick={() => router.back()} className="mr-4">
+          <MemoizedImage src="/images/svg_back.svg" alt="Back" width={24} height={24} />
+        </button>
+      </div>
+
+      {/* Chat area */}
+      <div 
+        ref={chatContainerRef}
+        className="flex-grow overflow-y-auto p-4 pb-[200px] relative"
+      >
+        <div className="max-w-[800px] mx-auto">
+          {chatList.map((chat, index) => (
+            <div key={index} className={`mb-4 ${chat.role === 'user' ? 'flex justify-end' : ''}`}>
+              {chat.role === 'assistant' && (
+                <div className="flex items-center mb-2">
+                  <MemoizedImage
+                    src="/images/timo.png"
+                    alt="Avatar"
+                    width={40}
+                    height={40}
+                    className="rounded-full block mr-2"
+                  />
+                  <span className="text-sm font-semibold text-gray-600">티모</span>
+                </div>
+              )}
+              <div 
+                className={`p-3 rounded-lg ${
+                  chat.role === 'user' 
+                    ? 'text-white max-w-[70%] ml-auto shadow-md' 
+                    : 'bg-white text-gray-800 max-w-[80%] shadow-sm border border-gray-200'
+                } select-text`}
+                style={{
+                  backgroundColor: chat.role === 'user' ? colors.kPurpleColor : 'white',
+                }}
+              >
+                {chat.role === 'user' ? (
+                  <p className="whitespace-pre-wrap">{chat.content}</p>
+                ) : (
+                  <ReactMarkdown 
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      a: ({ node, ...props }) => (
+                        <a {...props} target="_blank" rel="noopener noreferrer" className="text-purple-600" />
+                      ),
+                      li: ({ node, ...props }) => (
+                        <li {...props} className="list-disc ml-5" />
+                      ),
+                      p: ({ node, ...props }) => (
+                        <p {...props} className="my-2 whitespace-pre-wrap" />
+                      ),
+                      table: ({ node, ...props }) => (
+                        <table {...props} className="border-collapse border border-gray-300 my-2 w-full" />
+                      ),
+                      thead: ({ node, ...props }) => (
+                        <thead {...props} className="bg-gray-100" />
+                      ),
+                      tr: ({ node, ...props }) => (
+                        <tr {...props} className="border-b border-gray-300" />
+                      ),
+                      th: ({ node, ...props }) => (
+                        <th {...props} className="border border-gray-300 px-4 py-2 font-bold" />
+                      ),
+                      td: ({ node, ...props }) => (
+                        <td {...props} className="border border-gray-300 px-4 py-2" />
+                      ),
+                      code: ({ node, ...props }) => (
+                        <code {...props} className="bg-gray-100 p-1 rounded" />
+                      ),
+                    }}
+                  >
+                    {chat.content
+                      .replace(/\\n/g, '\n')
+                      .replace(/\\u0026/g, '&') + 
+                      (index === chatList.length - 1 && 
+                       chat.role === 'assistant' && 
+                       [StreamStatus.ISRESPONSEFETCHED, StreamStatus.ISFETCHING].includes(chatStage) 
+                        ? ' ●' 
+                        : ''
+                      )
+                    }
+                  </ReactMarkdown>
+                )}
+              </div>
+              {chat.role === 'assistant' && (
+                <div className="mt-2">
+                  <div className="inline-flex items-center bg-white rounded-lg border border-gray-300 p-1 space-x-1">
+                    <MemoizedCopyButton
+                      onClick={() => handleCopyText(chat.content, index)}
+                    />
+                    <MemoizedFeedbackButton
+                      onClick={() => handleFeedback(index, true)}
+                      icon="svg_thumbs_up"
+                      isActive={thumbsUpClicked[index]}
+                    />
+                    <MemoizedFeedbackButton
+                      onClick={() => handleFeedback(index, false)}
+                      icon="svg_thumbs_down"
+                      isActive={thumbsDownClicked[index]}
+                    />
+                  </div>
+                </div>
+              )}
+
+            </div>
+          ))}
+
+          {[StreamStatus.INPUTSUBMITTED, StreamStatus.ISRESPONSEFETCHED, ].includes(chatStage) && (
+            <div className="text-left">
+              <div className="flex items-center mb-2">
+                <MemoizedImage
+                  src="/images/timo.png"
+                  alt="Avatar"
+                  width={40}
+                  height={40}
+                  className="rounded-full block mr-2"
+                />
+                <span className="text-sm font-semibold text-gray-600">티모</span>
+              </div>
+              {/* <div className="inline-block p-3 rounded-lg bg-white text-black"> */}
+                 <>
+                  <div className="h-6 bg-purple-200 rounded w-3/4 mr-4 mb-2 animate-pulse"></div>
+                  <div className="h-6 bg-purple-200 rounded w-3/4 mr-2 mb-2 animate-pulse"></div>
+                  <div className="h-6 bg-purple-200 rounded w-3/4 mr-2 mb-2 animate-pulse"></div>
+                  <div className="h-6 bg-purple-200 rounded w-3/4 mr-2 mb-2 animate-pulse"></div>
+                  <div className="h-6 bg-purple-200 rounded w-1/2 mr-2 mb-2 animate-pulse"></div>
+                </>
+                {/* <span className="animate-pulse">●</span> */}
+              {/* </div> */}
+            </div>
+          )}
+
+          <div className='h-[50px]'></div>
+        </div>
+
+        {/* Scroll buttons */}
+        <div className="fixed bottom-24 right-4 flex flex-col gap-2">
+          {showScrollToTop && (
+            <button
+              onClick={scrollToTop}
+              className="bg-white p-2 rounded-full shadow-md hover:bg-purple-300"
+            >
+              <MemoizedImage 
+                src="/images/svg_arrow_up.svg" 
+                alt="Scroll to top" 
+                width={24} 
+                height={24} 
+                className="invert"
+              />
+            </button>
+          )}
+          {showScrollToBottom && (
+            <button
+              onClick={scrollToBottom}
+              className="bg-white p-2 rounded-full shadow-md hover:bg-purple-300"
+            >
+              <MemoizedImage 
+                src="/images/svg_arrow_down.svg" 
+                alt="Scroll to bottom" 
+                width={24} 
+                height={24} 
+                className="invert"
+              />
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Input area */}
+      <div className="p-4 fixed bottom-0 left-0 right-0 bg-white md:bg-transparent center z-30">
+        <div className="mx-auto max-w-[800px]">
+          <div className="flex items-center bg-gray-100 rounded-[26px]">
+            <button className="p-2">
+              <MemoizedImage src="/images/svg_plus.svg" alt="Add" width={24} height={24} />
+            </button>
+            <div className='w-full flex items-center'>
+              <textarea
+                ref={textareaRef}
+                value={inputText}
+                rows={1}
+                onChange={(e) => {
+                  setInputText(e.target.value);
+                  e.target.style.height = 'auto';
+                  e.target.style.height = `${e.target.scrollHeight}px`;
+                }}
+                onKeyDown={handleKeyPress}
+                placeholder="메시지를 입력해주세요"
+                className="flex-grow bg-transparent outline-none border-none resize-none overflow-hidden min-h-[24px] text-[#1F2937] mr-2 focus:ring-0 focus:outline-none"
+                style={{ maxHeight: '120px' }}
+              />
+              <button 
+                onClick={() => chatStage === StreamStatus.IDLE ? handleSend() : handleStopRequest()}
+                className={`w-[32px] h-[32px] rounded-full flex items-center justify-center mr-2`}
+              >
+                { [StreamStatus.INPUTSUBMITTED, StreamStatus.ISRESPONSEFETCHED, StreamStatus.ISFETCHING].includes(chatStage) ? (
+                  <MemoizedImage src="/images/stop-circle.svg" alt="stop" width={32} height={32} />
+                ) : (
+                  <MemoizedImage src="/images/arrow-up-circle.svg" alt="send" width={32} height={32} />
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};  
+
+export default ChatClient;
+File: ./app/chat/page.tsx
+Content:
+import ChatClient from './ChatClient'
+
+export default function ChatPage() {
+  return <ChatClient />
+}
+
+export const dynamic = 'force-dynamic'
+
+File: ./app/styles/colors.ts
+Content:
+// styles/colors.ts
+
+export const colors = {
+  kTopTextColor: '#363644',
+  kSubTextColor: '#787887',
+  kGrayBadgeColor: '#F1F1F8',
+  kGrayBorderColor: '#E0E0E4',
+  kActiveBtnColor: '#121315',
+  kDisabledBtnColor: '#E8E9EB',
+  kWhiteColor: '#FFFFFF',
+  kActiveNavColor: '#242628',
+  kDisabledNavColor: '#B9BEC1',
+  kDisabledTopNavColor: '#A2A9AC',
+  kDivideColor: '#F5F6F8',
+  kBadgeBgColor: '#F4F5F7',
+  kReviewColor: '#697375',
+  kSearchSubColor: '#B8BCBF',
+  kDialogBgColor: '#23272A',
+  kBlueColor: '#4769F7',
+  kActiveBlueBtnColor: '#4769F7',
+  kDisabledBlueBtnColor: '#4769F7',
+  kPercentColor: '#EF7CD9',
+  kTimeColor: '#3B10B7',
+  kPrimaryBlueColor: '#0000FF',
+  kSecondaryBlueColor: '#4769F7',
+  kBrandColor: '#3B1E1E',
+  kKakaoBrownColor: '#3B1E1E',
+  kKakaoYellowColor: '#FDE500',
+  kAppleColor: '#23272A',
+  kReviewStarColor: '#FFAB36',
+  kSystemErrorColor: '#FC444F',
+  kSystemSuccessColor: '#30E181',
+  kSystemWarningColor: '#FFD362',
+  kBlackColor: '#000000',
+  kPrimaryColor: '#0000FF', // Same as kPrimaryBlueColor
+  kPrimaryGreenColor: '#30E181',
+  kLikeColor: '#FD4E4E',
+  kMouseColor80: '#808080',
+  kMouseColor5F: '#5F5F5F',
+  kCharcoalColor: '#36454F',
+  kPurpleColor: '#6248BF',
+  kLightPurpleColor: '#F8F4FF',
+  kReceivedChatColor: '#323F41',
+  kChatTimeColor: '#929292',
+  kChatInputTextColor: '#909090',
+  kChatBackgroundColor: '#F2F2F2',
+  kChatSendBackgroundColor: '#D1D1D1',
+  kIndigoColor: '#063A67',
+  kMinusBlueColor: '#0077C8',
+  kMenuSelectedBlueColor: '#3477f5',
+  kGreenColor: '#317933',
+  kLightGrayColor: '#EFF4F8',
+  kGrayColor: '#8999AF',
+  kCandleRedColor: '#FF5E55',
+  kCandleGreenColor: '#00C368',
+  kGrayButtonColor: '#EBECEE',
+  kGrayBorderColor2: '#F1F2F4',
+  kGrayIconColor: '#727272',
+  kGrayIconBorderColor: '#E5E5E5',
+  kGrayChatIconColor: '#8F939B',
+  kGrayChatBorderColor: '#E2E2DD',
+  kGrayChatTextColor: '#85837D',
+} as const;
+
+export type ColorKeys = keyof typeof colors;
 File: ./app/layout.tsx
 Content:
+'use client'
+
+import { RecoilRoot } from 'recoil'
 import './css/style.css'
 import { Inter } from 'next/font/google'
+// import './styles/globals.css';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -1461,29 +2144,29 @@ const inter = Inter({
   display: 'swap'
 })
 
-export const metadata = {
-  title: 'AI빵요미 - 성심당 빵 AI 추천 서비스',
-  description: '성심당의 개인화된 AI 추천 서비스, AI빵요미와 함께 당신의 취향에 맞는 최고의 빵을 찾아보세요!',
+const metadata = {
+  title: '버블버블 - AI 법률 서비스',
+  description: '버블버블 - AI 법률 서비스',
   openGraph: {
-    title: 'AI빵요미 - 성심당 빵 AI 추천 서비스',
-    description: '개인 취향과 건강 목표에 맞춘 맞춤형 빵 추천 서비스, AI빵요미로 특별한 빵을 발견하세요!',
+    title: '버블버블 - AI 법률 서비스',
+    description: '버블버블 - AI 법률 서비스',
     images: [
       {
         url: '/images/og-image.png', // Update this path
         width: 1200,
         height: 630,
-        alt: 'AI빵요미',
+        alt: '버블버블',
       },
     ],
     type: 'website',
     url: 'https://yourwebsite.com',
-    siteName: 'AI빵요미',
+    siteName: '버블버블',
     locale: 'ko_KR',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AI빵요미 - 성심당 AI 추천 서비스',
-    description: '당신만의 AI 빵 소믈리에와 함께, 개인화된 빵 추천을 경험하세요!',
+    title: '버블버블 - AI 법률 서비스',
+    description: '버블버블 - AI 법률 서비스',
     images: ['/images/og-image.png'], // Update this path
   },
 }
@@ -1507,21 +2190,162 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} font-inter antialiased bg-slate-900 text-slate-100 tracking-tight`}>
         <div className="flex flex-col min-h-screen overflow-hidden supports-[overflow:clip]:overflow-clip">
-          {children}
+            {children}
         </div>
       </body>
     </html>
   )
 }
 
-File: ./app/api/sendToSlack/route.ts
+File: ./app/api/submitFeedback/route.ts
 Content:
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
-  console.log('Slack Webhook URL:', process.env.NEXT_PUBLIC_SLACK_WEBHOOK_URL);
+  try {
+    console.log('Received request to send to Slack');
+    
+    const slackWebhookUrl = process.env.NEXT_PUBLIC_SLACK_WEBHOOK_URL;
+    console.log('Slack Webhook URL:', slackWebhookUrl ? 'Set' : 'Not set');
 
-  const { answers, recommendations } = await req.json();
+    if (!slackWebhookUrl) {
+      console.error('Slack Webhook URL is not defined');
+      return NextResponse.json({ message: 'Server configuration error' }, { status: 500 });
+    }
+
+    const { rating, feedback, contactInfo } = await req.json();
+    console.log('Received rating:', rating);
+    console.log('Received feedback:', feedback);
+    console.log('Received contact info:', contactInfo);
+
+    const message = {
+      text: "🎉 새로운 피드백이 도착했습니다! 🎉",
+      attachments: [
+        {
+          color: "#FF5918",
+          title: "피드백",
+          fields: [
+            {
+              title: "별점",
+              value: `${rating} / 5`,
+              short: false
+            },
+            {
+              title: "피드백 내용",
+              value: feedback || '응답 없음',
+              short: false
+            },
+            {
+              title: "연락처 정보",
+              value: `전화번호: ${contactInfo.phone || '없음'}, 이메일: ${contactInfo.email || '없음'}`,
+              short: false
+            }
+          ],
+        }
+      ],
+      footer: `응답 시간: ${new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}`
+    };
+
+    console.log('Sending message to Slack:', JSON.stringify(message));
+
+    const response = await fetch(slackWebhookUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(message),
+    });
+
+    if (!response.ok) {
+      console.error(`Slack API responded with status: ${response.status}`);
+      const responseText = await response.text();
+      console.error('Slack API response:', responseText);
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    console.log('Message sent to Slack successfully');
+    return NextResponse.json({ message: '피드백이 Slack으로 전송되었습니다.' });
+  } catch (error) {
+    console.error('Error in submitFeedback route:', error);
+    return NextResponse.json({ message: 'Slack으로 메시지 전송 중 오류 발생', error: (error as Error).message }, { status: 500 });
+  }
+}
+File: ./app/api/hello/route.ts
+Content:
+export async function GET(request: Request) {
+  return new Response('Hello, Next.js!')
+}
+
+File: ./app/api/sendQuestionToSlack/route.ts
+Content:
+import { NextResponse } from 'next/server';
+
+export async function POST(req: Request) {
+  try {
+    console.log('Received request to send to Slack');
+    
+    const slackWebhookUrl = process.env.NEXT_PUBLIC_SLACK_WEBHOOK_URL;
+    console.log('Slack Webhook URL:', slackWebhookUrl ? 'Set' : 'Not set');
+
+    if (!slackWebhookUrl) {
+      console.error('Slack Webhook URL is not defined');
+      return NextResponse.json({ message: 'Server configuration error' }, { status: 500 });
+    }
+
+    const { answers } = await req.json();
+    console.log('Received answers:', answers);
+
+    const surveyResults = Object.entries(answers).map(([key, value]) => ({
+      question: key,
+      answer: Array.isArray(value) ? value.join(', ') : value || '응답 없음'
+    }));
+
+    const message = {
+      text: "🎉 새로운 설문 응답이 도착했습니다! 🎉",
+      attachments: [
+        {
+          color: "#36a64f",
+          title: "설문 응답",
+          fields: surveyResults.map((result, index) => ({
+            title: `Q${index + 1}: ${result.question}`,
+            value: result.answer,
+            short: false
+          })),
+        }
+      ],
+      footer: `응답 시간: ${new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}`
+    };
+
+    console.log('Sending message to Slack:', JSON.stringify(message));
+
+    const response = await fetch(slackWebhookUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(message),
+    });
+
+    if (!response.ok) {
+      console.error(`Slack API responded with status: ${response.status}`);
+      const responseText = await response.text();
+      console.error('Slack API response:', responseText);
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    console.log('Message sent to Slack successfully');
+    return NextResponse.json({ message: '설문 결과가 Slack으로 전송되었습니다.' });
+  } catch (error) {
+    console.error('Error in sendToSlack route:', error);
+    return NextResponse.json({ message: 'Slack으로 메시지 전송 중 오류 발생', error: (error as Error).message }, { status: 500 });
+  }
+}
+File: ./app/api/registerWaitList/route.ts
+Content:
+import { NextResponse } from 'next/server';
+
+export async function POST(req: Request) {
+  const { email } = await req.json();
   const slackWebhookUrl = process.env.NEXT_PUBLIC_SLACK_WEBHOOK_URL;
 
   if (!slackWebhookUrl) {
@@ -1529,42 +2353,26 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: 'Server configuration error' }, { status: 500 });
   }
 
-  const surveyResults = Object.entries(answers).map(([key, value]) => ({
-    question: key,
-    answer: Array.isArray(value) ? value.join(', ') : value || '응답 없음'
-  }));
-
-  const recommendationResults = recommendations.map((bread: any) => ({
-    name: bread.name,
-    price: bread.price,
-    features: bread.features,
-    nutrition: bread.nutrition,
-    reason: bread.reason
-  }));
-
   const message = {
-    text: "🎉 새로운 설문 응답과 AI 추천 결과가 도착했습니다! 🎉",
-    attachments: [
+    text: "🎉 새로운 대기자 명단 등록이 있습니다! 🎉",
+    blocks: [
       {
-        color: "#36a64f",
-        title: "설문 응답",
-        fields: surveyResults.map((result, index) => ({
-          title: `Q${index + 1}: ${result.question}`,
-          value: result.answer,
-          short: false
-        })),
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: `*새로운 대기자 등록*\n이메일: ${email}`
+        }
       },
       {
-        color: "#9733EE",
-        title: "AI 추천 결과",
-        fields: recommendationResults.map((bread: any, index: number) => ({
-          title: `추천 ${index + 1}: ${bread.name}`,
-          value: `가격: ${bread.price}\n특징: ${bread.features}\n영양성분: ${bread.nutrition}\n추천 이유: ${bread.reason}`,
-          short: false
-        })),
+        type: "context",
+        elements: [
+          {
+            type: "mrkdwn",
+            text: `등록 시간: ${new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}`
+          }
+        ]
       }
-    ],
-    footer: `응답 시간: ${new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}`
+    ]
   };
 
   try {
@@ -1580,18 +2388,86 @@ export async function POST(req: Request) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    return NextResponse.json({ message: '설문 결과와 AI 추천이 Slack으로 전송되었습니다.' });
+    return NextResponse.json({ message: '대기자 명단 등록이 완료되었습니다.' });
   } catch (error) {
     console.error('Slack으로 메시지 전송 중 오류 발생:', error);
     return NextResponse.json({ message: 'Slack으로 메시지 전송 중 오류 발생' }, { status: 500 });
   }
 }
-File: ./app/api/hello/route.ts
+File: ./app/api/sendResponseToSlack/route.ts
 Content:
-export async function GET(request: Request) {
-  return new Response('Hello, Next.js!')
-}
+import { NextResponse } from 'next/server';
 
+export async function POST(req: Request) {
+  try {
+    console.log('Received request to send to Slack');
+    
+    const slackWebhookUrl = process.env.NEXT_PUBLIC_SLACK_WEBHOOK_URL;
+    console.log('Slack Webhook URL:', slackWebhookUrl ? 'Set' : 'Not set');
+
+    if (!slackWebhookUrl) {
+      console.error('Slack Webhook URL is not defined');
+      return NextResponse.json({ message: 'Server configuration error' }, { status: 500 });
+    }
+
+    const { answers, recommendedBreads } = await req.json();
+    console.log('Received answers:', answers);
+    console.log('Received recommended breads:', recommendedBreads);
+
+    const surveyResults = Object.entries(answers).map(([key, value]) => ({
+      question: key,
+      answer: Array.isArray(value) ? value.join(', ') : value || '응답 없음'
+    }));
+
+    const message = {
+      text: "🎉 새로운 설문 응답이 도착했습니다! 🎉",
+      attachments: [
+        {
+          color: "#36a64f",
+          title: "설문 응답",
+          fields: surveyResults.map((result, index) => ({
+            title: `Q${index + 1}: ${result.question}`,
+            value: result.answer,
+            short: false
+          })),
+        },
+        {
+          color: "#f2c744",
+          title: "추천된 빵",
+          fields: recommendedBreads.map((bread: any, index: number) => ({
+            title: `추천 ${index + 1}: ${bread.name}`,
+            value: `가격: ${bread.price}\n특징: ${bread.features}\n추천 이유: ${bread.reason}\n`,
+            short: false
+          })),
+        }
+      ],
+      footer: `응답 시간: ${new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}`
+    };
+
+    console.log('Sending message to Slack:', JSON.stringify(message));
+
+    const response = await fetch(slackWebhookUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(message),
+    });
+
+    if (!response.ok) {
+      console.error(`Slack API responded with status: ${response.status}`);
+      const responseText = await response.text();
+      console.error('Slack API response:', responseText);
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    console.log('Message sent to Slack successfully');
+    return NextResponse.json({ message: '설문 결과가 Slack으로 전송되었습니다.' });
+  } catch (error) {
+    console.error('Error in sendToSlack route:', error);
+    return NextResponse.json({ message: 'Slack으로 메시지 전송 중 오류 발생', error: (error as Error).message }, { status: 500 });
+  }
+}
 File: ./app/(auth)/signup/page.tsx
 Content:
 export const metadata = {
@@ -1866,32 +2742,58 @@ export default function AuthLogo() {
 }
 File: ./app/store/surveyStore.ts
 Content:
-import create from 'zustand'
+import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
 interface SurveyState {
   currentQuestion: number
-  answers: Record<string, any>
-  setAnswer: (question: string, answer: any) => void
+  answers: {
+    age?: string
+    category?: string
+    subcategory?: string
+    subsubcategory?: string
+    [key: string]: string | string[] | undefined
+  }
+  setAnswer: (questionId: string, answer: string | string[]) => void
   nextQuestion: () => void
   prevQuestion: () => void
+  resetSurvey: () => void
 }
 
-export const useSurveyStore = create<SurveyState>((set) => ({
-  currentQuestion: 0,
-  answers: {},
-  setAnswer: (question, answer) => set((state) => ({
-    answers: { ...state.answers, [question]: answer }
-  })),
-  nextQuestion: () => set((state) => ({
-    currentQuestion: state.currentQuestion + 1
-  })),
-  prevQuestion: () => set((state) => ({
-    currentQuestion: Math.max(0, state.currentQuestion - 1)
-  }))
-}))
+export const useSurveyStore = create<SurveyState>()(
+  persist(
+    (set) => ({
+      currentQuestion: 0,
+      answers: {},
+      setAnswer: (questionId, answer) => 
+        set((state) => ({
+          answers: {
+            ...state.answers,
+            [questionId]: answer
+          }
+        })),
+      nextQuestion: () => 
+        set((state) => ({
+          currentQuestion: state.currentQuestion + 1
+        })),
+      prevQuestion: () => 
+        set((state) => ({
+          currentQuestion: Math.max(0, state.currentQuestion - 1)
+        })),
+      resetSurvey: () => 
+        set({
+          currentQuestion: 0,
+          answers: {}
+        })
+    }),
+    {
+      name: 'survey-storage',
+    }
+  )
+)
 File: ./.next/types/app/(default)/page.ts
 Content:
-// File: /Users/icheolhui/Mirror/Github/React_NextJS/sungsimdang/app/(default)/page.tsx
+// File: /Users/icheolhui/Mirror/Github/React_NextJS/bubblebubble/app/(default)/page.tsx
 import * as entry from '../../../../app/(default)/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
@@ -1973,7 +2875,7 @@ type NonNegative<T extends Numeric> = T extends Zero ? T : Negative<T> extends n
 
 File: ./.next/types/app/(default)/layout.ts
 Content:
-// File: /Users/icheolhui/Mirror/Github/React_NextJS/sungsimdang/app/(default)/layout.tsx
+// File: /Users/icheolhui/Mirror/Github/React_NextJS/bubblebubble/app/(default)/layout.tsx
 import * as entry from '../../../../app/(default)/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
@@ -2055,7 +2957,7 @@ type NonNegative<T extends Numeric> = T extends Zero ? T : Negative<T> extends n
 
 File: ./.next/types/app/(default)/survey/page.ts
 Content:
-// File: /Users/icheolhui/Mirror/Github/React_NextJS/sungsimdang/app/(default)/survey/page.tsx
+// File: /Users/icheolhui/Mirror/Github/React_NextJS/bubblebubble/app/(default)/survey/page.tsx
 import * as entry from '../../../../../app/(default)/survey/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
@@ -2135,9 +3037,91 @@ type Zero = 0 | 0n
 type Negative<T extends Numeric> = T extends Zero ? never : `${T}` extends `-${string}` ? T : never
 type NonNegative<T extends Numeric> = T extends Zero ? T : Negative<T> extends never ? T : '__invalid_negative_number__'
 
+File: ./.next/types/app/chat/page.ts
+Content:
+// File: /Users/icheolhui/Mirror/Github/React_NextJS/bubblebubble/app/chat/page.tsx
+import * as entry from '../../../../app/chat/page.js'
+import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
+
+type TEntry = typeof import('../../../../app/chat/page.js')
+
+// Check that the entry is a valid entry
+checkFields<Diff<{
+  default: Function
+  config?: {}
+  generateStaticParams?: Function
+  revalidate?: RevalidateRange<TEntry> | false
+  dynamic?: 'auto' | 'force-dynamic' | 'error' | 'force-static'
+  dynamicParams?: boolean
+  fetchCache?: 'auto' | 'force-no-store' | 'only-no-store' | 'default-no-store' | 'default-cache' | 'only-cache' | 'force-cache'
+  preferredRegion?: 'auto' | 'global' | 'home' | string | string[]
+  runtime?: 'nodejs' | 'experimental-edge' | 'edge'
+  maxDuration?: number
+  
+  metadata?: any
+  generateMetadata?: Function
+  viewport?: any
+  generateViewport?: Function
+  
+}, TEntry, ''>>()
+
+// Check the prop type of the entry function
+checkFields<Diff<PageProps, FirstArg<TEntry['default']>, 'default'>>()
+
+// Check the arguments and return type of the generateMetadata function
+if ('generateMetadata' in entry) {
+  checkFields<Diff<PageProps, FirstArg<MaybeField<TEntry, 'generateMetadata'>>, 'generateMetadata'>>()
+  checkFields<Diff<ResolvingMetadata, SecondArg<MaybeField<TEntry, 'generateMetadata'>>, 'generateMetadata'>>()
+}
+
+// Check the arguments and return type of the generateViewport function
+if ('generateViewport' in entry) {
+  checkFields<Diff<PageProps, FirstArg<MaybeField<TEntry, 'generateViewport'>>, 'generateViewport'>>()
+  checkFields<Diff<ResolvingViewport, SecondArg<MaybeField<TEntry, 'generateViewport'>>, 'generateViewport'>>()
+}
+
+// Check the arguments and return type of the generateStaticParams function
+if ('generateStaticParams' in entry) {
+  checkFields<Diff<{ params: PageParams }, FirstArg<MaybeField<TEntry, 'generateStaticParams'>>, 'generateStaticParams'>>()
+  checkFields<Diff<{ __tag__: 'generateStaticParams', __return_type__: any[] | Promise<any[]> }, { __tag__: 'generateStaticParams', __return_type__: ReturnType<MaybeField<TEntry, 'generateStaticParams'>> }>>()
+}
+
+type PageParams = any
+export interface PageProps {
+  params?: any
+  searchParams?: any
+}
+export interface LayoutProps {
+  children?: React.ReactNode
+
+  params?: any
+}
+
+// =============
+// Utility types
+type RevalidateRange<T> = T extends { revalidate: any } ? NonNegative<T['revalidate']> : never
+
+// If T is unknown or any, it will be an empty {} type. Otherwise, it will be the same as Omit<T, keyof Base>.
+type OmitWithTag<T, K extends keyof any, _M> = Omit<T, K>
+type Diff<Base, T extends Base, Message extends string = ''> = 0 extends (1 & T) ? {} : OmitWithTag<T, keyof Base, Message>
+
+type FirstArg<T extends Function> = T extends (...args: [infer T, any]) => any ? unknown extends T ? any : T : never
+type SecondArg<T extends Function> = T extends (...args: [any, infer T]) => any ? unknown extends T ? any : T : never
+type MaybeField<T, K extends string> = T extends { [k in K]: infer G } ? G extends Function ? G : never : never
+
+
+
+function checkFields<_ extends { [k in keyof any]: never }>() {}
+
+// https://github.com/sindresorhus/type-fest
+type Numeric = number | bigint
+type Zero = 0 | 0n
+type Negative<T extends Numeric> = T extends Zero ? never : `${T}` extends `-${string}` ? T : never
+type NonNegative<T extends Numeric> = T extends Zero ? T : Negative<T> extends never ? T : '__invalid_negative_number__'
+
 File: ./.next/types/app/layout.ts
 Content:
-// File: /Users/icheolhui/Mirror/Github/React_NextJS/sungsimdang/app/layout.tsx
+// File: /Users/icheolhui/Mirror/Github/React_NextJS/bubblebubble/app/layout.tsx
 import * as entry from '../../../app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
@@ -2208,6 +3192,352 @@ type SecondArg<T extends Function> = T extends (...args: [any, infer T]) => any 
 type MaybeField<T, K extends string> = T extends { [k in K]: infer G } ? G extends Function ? G : never : never
 
 
+
+function checkFields<_ extends { [k in keyof any]: never }>() {}
+
+// https://github.com/sindresorhus/type-fest
+type Numeric = number | bigint
+type Zero = 0 | 0n
+type Negative<T extends Numeric> = T extends Zero ? never : `${T}` extends `-${string}` ? T : never
+type NonNegative<T extends Numeric> = T extends Zero ? T : Negative<T> extends never ? T : '__invalid_negative_number__'
+
+File: ./.next/types/app/api/sendQuestionToSlack/route.ts
+Content:
+// File: /Users/icheolhui/Mirror/Github/React_NextJS/bubblebubble/app/api/sendQuestionToSlack/route.ts
+import * as entry from '../../../../../app/api/sendQuestionToSlack/route.js'
+import type { NextRequest } from 'next/server.js'
+
+type TEntry = typeof import('../../../../../app/api/sendQuestionToSlack/route.js')
+
+// Check that the entry is a valid entry
+checkFields<Diff<{
+  GET?: Function
+  HEAD?: Function
+  OPTIONS?: Function
+  POST?: Function
+  PUT?: Function
+  DELETE?: Function
+  PATCH?: Function
+  config?: {}
+  generateStaticParams?: Function
+  revalidate?: RevalidateRange<TEntry> | false
+  dynamic?: 'auto' | 'force-dynamic' | 'error' | 'force-static'
+  dynamicParams?: boolean
+  fetchCache?: 'auto' | 'force-no-store' | 'only-no-store' | 'default-no-store' | 'default-cache' | 'only-cache' | 'force-cache'
+  preferredRegion?: 'auto' | 'global' | 'home' | string | string[]
+  runtime?: 'nodejs' | 'experimental-edge' | 'edge'
+  maxDuration?: number
+  
+}, TEntry, ''>>()
+
+// Check the prop type of the entry function
+if ('GET' in entry) {
+  checkFields<
+    Diff<
+      ParamCheck<Request | NextRequest>,
+      {
+        __tag__: 'GET'
+        __param_position__: 'first'
+        __param_type__: FirstArg<MaybeField<TEntry, 'GET'>>
+      },
+      'GET'
+    >
+  >()
+  checkFields<
+    Diff<
+      ParamCheck<PageParams>,
+      {
+        __tag__: 'GET'
+        __param_position__: 'second'
+        __param_type__: SecondArg<MaybeField<TEntry, 'GET'>>
+      },
+      'GET'
+    >
+  >()
+  
+  checkFields<
+    Diff<
+      {
+        __tag__: 'GET',
+        __return_type__: Response | void | never | Promise<Response | void | never>
+      },
+      {
+        __tag__: 'GET',
+        __return_type__: ReturnType<MaybeField<TEntry, 'GET'>>
+      },
+      'GET'
+    >
+  >()
+}
+// Check the prop type of the entry function
+if ('HEAD' in entry) {
+  checkFields<
+    Diff<
+      ParamCheck<Request | NextRequest>,
+      {
+        __tag__: 'HEAD'
+        __param_position__: 'first'
+        __param_type__: FirstArg<MaybeField<TEntry, 'HEAD'>>
+      },
+      'HEAD'
+    >
+  >()
+  checkFields<
+    Diff<
+      ParamCheck<PageParams>,
+      {
+        __tag__: 'HEAD'
+        __param_position__: 'second'
+        __param_type__: SecondArg<MaybeField<TEntry, 'HEAD'>>
+      },
+      'HEAD'
+    >
+  >()
+  
+  checkFields<
+    Diff<
+      {
+        __tag__: 'HEAD',
+        __return_type__: Response | void | never | Promise<Response | void | never>
+      },
+      {
+        __tag__: 'HEAD',
+        __return_type__: ReturnType<MaybeField<TEntry, 'HEAD'>>
+      },
+      'HEAD'
+    >
+  >()
+}
+// Check the prop type of the entry function
+if ('OPTIONS' in entry) {
+  checkFields<
+    Diff<
+      ParamCheck<Request | NextRequest>,
+      {
+        __tag__: 'OPTIONS'
+        __param_position__: 'first'
+        __param_type__: FirstArg<MaybeField<TEntry, 'OPTIONS'>>
+      },
+      'OPTIONS'
+    >
+  >()
+  checkFields<
+    Diff<
+      ParamCheck<PageParams>,
+      {
+        __tag__: 'OPTIONS'
+        __param_position__: 'second'
+        __param_type__: SecondArg<MaybeField<TEntry, 'OPTIONS'>>
+      },
+      'OPTIONS'
+    >
+  >()
+  
+  checkFields<
+    Diff<
+      {
+        __tag__: 'OPTIONS',
+        __return_type__: Response | void | never | Promise<Response | void | never>
+      },
+      {
+        __tag__: 'OPTIONS',
+        __return_type__: ReturnType<MaybeField<TEntry, 'OPTIONS'>>
+      },
+      'OPTIONS'
+    >
+  >()
+}
+// Check the prop type of the entry function
+if ('POST' in entry) {
+  checkFields<
+    Diff<
+      ParamCheck<Request | NextRequest>,
+      {
+        __tag__: 'POST'
+        __param_position__: 'first'
+        __param_type__: FirstArg<MaybeField<TEntry, 'POST'>>
+      },
+      'POST'
+    >
+  >()
+  checkFields<
+    Diff<
+      ParamCheck<PageParams>,
+      {
+        __tag__: 'POST'
+        __param_position__: 'second'
+        __param_type__: SecondArg<MaybeField<TEntry, 'POST'>>
+      },
+      'POST'
+    >
+  >()
+  
+  checkFields<
+    Diff<
+      {
+        __tag__: 'POST',
+        __return_type__: Response | void | never | Promise<Response | void | never>
+      },
+      {
+        __tag__: 'POST',
+        __return_type__: ReturnType<MaybeField<TEntry, 'POST'>>
+      },
+      'POST'
+    >
+  >()
+}
+// Check the prop type of the entry function
+if ('PUT' in entry) {
+  checkFields<
+    Diff<
+      ParamCheck<Request | NextRequest>,
+      {
+        __tag__: 'PUT'
+        __param_position__: 'first'
+        __param_type__: FirstArg<MaybeField<TEntry, 'PUT'>>
+      },
+      'PUT'
+    >
+  >()
+  checkFields<
+    Diff<
+      ParamCheck<PageParams>,
+      {
+        __tag__: 'PUT'
+        __param_position__: 'second'
+        __param_type__: SecondArg<MaybeField<TEntry, 'PUT'>>
+      },
+      'PUT'
+    >
+  >()
+  
+  checkFields<
+    Diff<
+      {
+        __tag__: 'PUT',
+        __return_type__: Response | void | never | Promise<Response | void | never>
+      },
+      {
+        __tag__: 'PUT',
+        __return_type__: ReturnType<MaybeField<TEntry, 'PUT'>>
+      },
+      'PUT'
+    >
+  >()
+}
+// Check the prop type of the entry function
+if ('DELETE' in entry) {
+  checkFields<
+    Diff<
+      ParamCheck<Request | NextRequest>,
+      {
+        __tag__: 'DELETE'
+        __param_position__: 'first'
+        __param_type__: FirstArg<MaybeField<TEntry, 'DELETE'>>
+      },
+      'DELETE'
+    >
+  >()
+  checkFields<
+    Diff<
+      ParamCheck<PageParams>,
+      {
+        __tag__: 'DELETE'
+        __param_position__: 'second'
+        __param_type__: SecondArg<MaybeField<TEntry, 'DELETE'>>
+      },
+      'DELETE'
+    >
+  >()
+  
+  checkFields<
+    Diff<
+      {
+        __tag__: 'DELETE',
+        __return_type__: Response | void | never | Promise<Response | void | never>
+      },
+      {
+        __tag__: 'DELETE',
+        __return_type__: ReturnType<MaybeField<TEntry, 'DELETE'>>
+      },
+      'DELETE'
+    >
+  >()
+}
+// Check the prop type of the entry function
+if ('PATCH' in entry) {
+  checkFields<
+    Diff<
+      ParamCheck<Request | NextRequest>,
+      {
+        __tag__: 'PATCH'
+        __param_position__: 'first'
+        __param_type__: FirstArg<MaybeField<TEntry, 'PATCH'>>
+      },
+      'PATCH'
+    >
+  >()
+  checkFields<
+    Diff<
+      ParamCheck<PageParams>,
+      {
+        __tag__: 'PATCH'
+        __param_position__: 'second'
+        __param_type__: SecondArg<MaybeField<TEntry, 'PATCH'>>
+      },
+      'PATCH'
+    >
+  >()
+  
+  checkFields<
+    Diff<
+      {
+        __tag__: 'PATCH',
+        __return_type__: Response | void | never | Promise<Response | void | never>
+      },
+      {
+        __tag__: 'PATCH',
+        __return_type__: ReturnType<MaybeField<TEntry, 'PATCH'>>
+      },
+      'PATCH'
+    >
+  >()
+}
+
+// Check the arguments and return type of the generateStaticParams function
+if ('generateStaticParams' in entry) {
+  checkFields<Diff<{ params: PageParams }, FirstArg<MaybeField<TEntry, 'generateStaticParams'>>, 'generateStaticParams'>>()
+  checkFields<Diff<{ __tag__: 'generateStaticParams', __return_type__: any[] | Promise<any[]> }, { __tag__: 'generateStaticParams', __return_type__: ReturnType<MaybeField<TEntry, 'generateStaticParams'>> }>>()
+}
+
+type PageParams = any
+export interface PageProps {
+  params?: any
+  searchParams?: any
+}
+export interface LayoutProps {
+  children?: React.ReactNode
+
+  params?: any
+}
+
+// =============
+// Utility types
+type RevalidateRange<T> = T extends { revalidate: any } ? NonNegative<T['revalidate']> : never
+
+// If T is unknown or any, it will be an empty {} type. Otherwise, it will be the same as Omit<T, keyof Base>.
+type OmitWithTag<T, K extends keyof any, _M> = Omit<T, K>
+type Diff<Base, T extends Base, Message extends string = ''> = 0 extends (1 & T) ? {} : OmitWithTag<T, keyof Base, Message>
+
+type FirstArg<T extends Function> = T extends (...args: [infer T, any]) => any ? unknown extends T ? any : T : never
+type SecondArg<T extends Function> = T extends (...args: [any, infer T]) => any ? unknown extends T ? any : T : never
+type MaybeField<T, K extends string> = T extends { [k in K]: infer G } ? G extends Function ? G : never : never
+
+type ParamCheck<T> = {
+  __tag__: string
+  __param_position__: string
+  __param_type__: T
+}
 
 function checkFields<_ extends { [k in keyof any]: never }>() {}
 
@@ -2331,11 +3661,36 @@ export function UpdateMdx({ code }: MdxProps) {
 
 File: ./components/hero.tsx
 Content:
+'use client'
 import Image from 'next/image'
 import Particles from './particles'
 import Illustration from '@/public/images/glow-bottom.svg'
+import { useState } from 'react';
 
 export default function Hero() {
+   const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('/api/registerWaitList', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+      if (response.ok) {
+        setMessage('버블버블 서비스 소식을 받아보실 수 있습니다!');
+        setEmail('');
+      } else {
+        setMessage('등록 중 오류가 발생했습니다. 다시 시도해주세요.');
+      }
+    } catch (error) {
+      setMessage('서버 오류가 발생했습니다. 나중에 다시 시도해주세요.');
+    }
+  };
   return (
     <section>
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
@@ -2356,33 +3711,65 @@ export default function Hero() {
           <div className="max-w-3xl mx-auto text-center">
             <div className="mb-6" data-aos="fade-down">
               <div className="inline-flex relative before:absolute before:inset-0 before:bg-sky-500 before:blur-md">
-                <a className="btn-sm py-0.5 text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.amber.500),_theme(colors.amber.500))_padding-box,_linear-gradient(theme(colors.amber.500),_theme(colors.amber.200)_75%,_theme(colors.transparent)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/50 before:rounded-full before:pointer-events-none shadow" href="#0">
+                <a className="btn-sm py-0.5 text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.sky.500),_theme(colors.sky.500))_padding-box,_linear-gradient(theme(colors.sky.500),_theme(colors.sky.200)_75%,_theme(colors.transparent)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/50 before:rounded-full before:pointer-events-none shadow" href="#0">
                   <span className="relative inline-flex items-center">
-                    성심당 AI 추천 서비스 오픈
+                    버블버블 서비스 런칭!
                   </span>
                 </a>
               </div>
             </div>
-            <h1 className="h1 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4" data-aos="fade-down">AI 빵요미: 성심당 빵 AI 추천 서비스</h1>
-            <p className="text-lg text-slate-300 mb-8" data-aos="fade-down" data-aos-delay="200">
-              성심당의 진열대 앞에서 어떤 빵을 골라야 할지 막막하셨나요? 너무 많은 선택지에 머리가 아프진 않으셨나요? 걱정 마세요! AI가 당신의 취향을 분석하여 최적의 선택을 추천해드립니다. 이제 고민과 스트레스 없이 맞춤형 빵 경험을 즐겨보세요!
+            <h1 className="h1 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4" data-aos="fade-down">버블버블: 우주에서 온 당신만의 법률 수호자</h1>
+            <p className="text-lg text-slate-200 mb-8" data-aos="fade-down" data-aos-delay="200">
+              법률 문제로 고민이신가요? 복잡한 법률 용어에 지치셨나요? 복잡한 법을 Bubble Bubble 해결하세요! 플로라의 따뜻한 위로와 티모의 명쾌한 해결책으로 여러분의 법률 고민을 편안하고 쉽게 해결해드려요. 
             </p>
-            <div className="max-w-xs mx-auto sm:max-w-none sm:inline-flex sm:justify-center space-y-4 sm:space-y-0 sm:space-x-4" data-aos="fade-down" data-aos-delay="400">
+            <p className="text-sm text-slate-300 mb-6" data-aos="fade-down" data-aos-delay="300">
+              지구로부터 250만 광년 떨어진 '네오 주리디카' 행성에서 온 플로라와 티모. 대한민국의 복잡한 법률 시스템을 보고 안타까움을 느낀 두 친구는 이 문제를 쉽게 해결하기 위해 왔습니다. 플로라의 따뜻한 공감 능력과 티모의 날카로운 분석력으로 무장한 그들은 이제 대한민국 시민들에게 독보적인 법률 자문과 위로를 제공합니다. 그들의 목표는 단 하나, 복잡한 법의 세계에서 길을 잃은 이들에게 빛이 되는 것입니다.
+            </p>
+          
+            <br/>
+            <div className="mt-4 max-w-xs mx-auto space-y-4" data-aos="fade-down" data-aos-delay="400">
               <div>
                 <a className="btn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white w-full transition duration-150 ease-in-out group" href="/survey">
-                  추천 받기 <span className="tracking-normal text-sky-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+                  플로라와 티모에게 물어보기 <span className="tracking-normal text-sky-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
                 </a>
               </div>
               {/* <div>
-                <a className="btn text-slate-200 hover:text-white bg-slate-900 bg-opacity-25 hover:bg-opacity-30 w-full transition duration-150 ease-in-out" href="#0">
-                  <svg className="shrink-0 fill-slate-300 mr-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
-                    <path d="m1.999 0 1 2-1 2 2-1 2 1-1-2 1-2-2 1zM11.999 0 1 2-1 2 2-1 2 1-1-2 1-2-2 1zM11.999 10l1 2-1 2 2-1 2 1-1-2 1-2-2 1zM6.292 7.586l2.646-2.647L11.06 7.06 8.413 9.707zM0 13.878l5.586-5.586 2.122 2.121L2.12 16z" />
-                  </svg>
-                  <span>이용 방법</span>
+                <a className="btn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white w-full transition duration-150 ease-in-out group" href="/game">
+                  버블버블 게임하기 <span className="tracking-normal text-sky-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
                 </a>
               </div> */}
+              <br/>
+              
+           
+              {/* <div>
+                <a className="btn text-slate-200 hover:text-white bg-slate-900 bg-opacity-25 hover:bg-opacity-30 w-full transition duration-150 ease-in-out group" href="mailto:wks0968@gmail.com?subject=[버블버블]%20문의사항:%20&body=안녕하세요,%0D%0A%0D%0A버블버블에%20대한%20문의사항을%20아래에%20작성해%20주세요.%0D%0A%0D%0A1.%20문의%20유형:%20(예:%20서비스%20이용,%20기술적%20문제,%20제안사항%20등)%0D%0A2.%20상세내용:%0D%0A%0D%0A%0D%0A이름:%0D%0A연락처:%20(선택사항)%0D%0A%0D%0A감사합니다." target="_blank" rel="noopener noreferrer">
+                  <svg className="shrink-0 fill-slate-300 mr-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                  </svg>
+                  <span>협업 & 제안하기</span>
+                </a>
+              </div>
+              <div>
+                <a className="btn text-slate-200 hover:text-white bg-slate-900 bg-opacity-25 hover:bg-opacity-30 w-full transition duration-150 ease-in-out group" href="https://somoim.friendscube.com/g/b66c90ac-1765-11ef-be8e-0a1883465d731" target="_blank" rel="noopener noreferrer">
+                  <span>코딩 교육받기</span>
+                  <span className="text-xs text-sky-500 ml-2 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out">(64명)</span>
+                </a>
+              </div> */}
+               
             </div>
-
+            
+            
+            {/* <p className="text-sm text-slate-100 mt-8" data-aos="fade-down" data-aos-delay="300">
+              Powered by{' '}
+              <a 
+                href="https://somoim.friendscube.com/g/b66c90ac-1765-11ef-be8e-0a1883465d731" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="underline decoration-dotted underline-offset-2 hover:text-sky-500 hover:decoration-sky-500 transition-all duration-300"
+              >
+                [대전 IT] 나는 솔로프리너
+              </a>
+            </p> */}
           </div>
 
         </div>
@@ -2390,6 +3777,7 @@ export default function Hero() {
     </section>
   )
 }
+
 File: ./components/ui/mobile-menu.tsx
 Content:
 'use client'
@@ -2546,10 +3934,10 @@ export default function Footer() {
             <h6 className="text-sm text-slate-50 font-medium mb-2">회사 소개</h6>
             <ul className="text-sm space-y-2">
               <li>
-                <a className="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out" href="#0">AI빵요미 소개</a>
+                <a className="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out" href="#0">버블버블 소개</a>
               </li>
               <li>
-                <a className="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out" href="#0">성심당 파트너십</a>
+                <a className="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out" href="#0">파트너십</a>
               </li>
               <li>
                 <a className="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out" href="#0">블로그</a>
@@ -2609,12 +3997,19 @@ File: ./components/ui/logo.tsx
 Content:
 import Link from 'next/link'
 import Image from 'next/image'
-import LogoImg from '@/public/images/bbangyummy-logo.png'
+import LogoImg from '@/public/images/bubblebubble.png'
 
 export default function Logo() {
   return (
     <Link className="inline-flex" href="/" aria-label="Cruip">
-      <Image className="max-w-none" src={LogoImg} width={50} height={50} priority alt="Stellar" />
+      <Image 
+        className="max-w-none animate-float" 
+        src={LogoImg} 
+        width={100} 
+        height={100} 
+        priority 
+        alt="Stellar" 
+      />
     </Link>
   )
 }
@@ -2631,7 +4026,7 @@ export default function Header() {
         <div className="flex items-center justify-between h-16 md:h-20">
 
           {/* Site branding */}
-          <div className="flex-1">
+          <div className="flex-1 mt-8">
             <Logo />
           </div>
 
@@ -3631,67 +5026,42 @@ import breadData from '../bread.json'
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 import { motion, AnimatePresence } from 'framer-motion'
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
-const questions = [
-  {
-    id: 'taste',
-    question: '어떤 맛의 빵이 당신의 입맛을 사로잡나요? 🤤 (여러 개 선택 가능)',
-    options: ['달콤한 🍯', '고소한 🥜', '담백한 🍞', '짭짤한 🧂', '풍미 있는 🌿', '새콤한 🍋'],
-    multiSelect: true,
-  },
-  {
-    id: 'texture',
-    question: '빵의 식감 중 어떤 게 가장 좋으세요? 😋 (여러 개 선택 가능)',
-    options: ['부드러운 ☁️', '촉촉한 💦', '겉바속촉 🥖', '바삭한 🥐', '쫄깃한 🍩', '푹신한 🧁'],
-    multiSelect: true,
-  },
-  {
-    id: 'allergies',
-    question: '혹시 알레르기가 있으신가요? 🤧 있다면 알려주세요!',
-    type: 'text',
-  },
-  {
-    id: 'dietRestrictions',
-    question: '특별한 식이 제한이 있나요? 🥗 자유롭게 말씀해주세요~',
-    type: 'text',
-  },
-  {
-    id: 'age',
-    question: '몇 살이신지 살짝 물어봐도 될까요? 🙈 (숫자만 입력해주세요)',
-    type: 'number',
-  },
-  {
-    id: 'gender',
-    question: '성별을 알려주시겠어요? 👫',
-    options: ['남성 👨', '여성 👩'],
-  },
-  {
-    id: 'nutritionalPreference',
-    question: '빵 고를 때 가장 신경 쓰는 영양 성분은 뭔가요? 🍽️ (여러 개 선택 가능)',
-    options: ['저지방 🥛', '단백질 💪', '식이섬유 🌾', '저탄수화물 🥖', '통곡물 🌿', '비타민/미네랄 🍎', '글루텐 프리 🚫🌾'],
-    multiSelect: true, 
-  },
-  {
-    id: 'occasion',
-    question: '어떤 때 우리 빵을 즐기고 싶으세요? 🎉',
-    options: ['간식 타임 🍰', '아침 식사 🌅', '친구와 함께 👯', '혼자만의 시간 🧘', '가족 모임 👨‍👩‍👧‍👦', '데이트 💑', '피크닉 🧺', '특별한 선물 🎁', '생일 파티 🎂'],
-  },
-  {
-    id: 'occasionDetails',
-    question: '방금 선택하신 상황에 대해 조금 더 자세히 말씀해주실 수 있나요? 📝',
-    type: 'text',
-  },
-  {
-    id: 'purchaseTime',
-    question: '주로 언제 빵을 사러 오시나요? ⏰',
-    options: ['오전 중 (9-12시) ☀️', '점심 시간 (12-14시) 🍽️', '오후 (14-17시) 🌇', '아침 일찍 (6-9시) 🌄', '저녁 (17-20시) 🌙', '밤 (20시 이후) 🌠'],
-  },
-  {
-    id: 'frequency',
-    question: '얼마나 자주 성심당을 찾아주시나요? 😊',
-    options: ['일주일에 한 번 📅', '일주일에 2-3번 🚶‍♀️', '한 달에 한 번 🌙', '2주에 한 번 🗓️', '특별한 날에만 ✨', '매일 🏃‍♂️'],
-  },
-]
+
+const questions = [{
+  id: 'age',
+  question: '몇 살이신지 살짝 물어봐도 될까요?',
+  options: Array.from({length: 91}, (_, i) => (i + 11).toString()),
+  multiSelect: false,
+  type: 'number',
+},
+{
+  id: 'category',
+  question: '다음 중 관심 있는 분야를 선택해주세요.',
+  options: [
+    '🔞 성범죄', '💰 재산범죄', '🚗 교통사고/범죄', '⚖️ 형사절차', '👊 폭행/협박', 
+    '🗣️ 명예훼손/모욕', '🔍 기타 형사범죄', '🏠 부동산/임대차', '💼 금전/계약 문제', 
+    '📜 민사절차', '🔎 기타 민사문제', '👪 가족', '🏢 회사', '🏥 의료/세금/행정', 
+    '💻 IT/지식재산/금융'
+  ],
+  multiSelect: false,
+},
+{
+  id: 'subcategory',
+  question: '선택한 분야의 세부 항목을 선택해주세요.',
+  options: [],
+  multiSelect: false,
+},
+{
+  id: 'subsubcategory',
+  question: '선택한 세부 항목의 구체적인 항목을 선택해주세요.',
+  options: [],
+  multiSelect: false,
+},
+];
+
 
 const SkeletonLoader: React.FC = () => (
   <div className="space-y-4">
@@ -3706,57 +5076,190 @@ const SkeletonLoader: React.FC = () => (
   </div>
 )
 
+const StarRating: React.FC<{ rating: number, setRating: (rating: number) => void }> = ({ rating, setRating }) => {
+  return (
+    <div className="flex space-x-1">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <svg
+          key={star}
+          onClick={() => setRating(star)}
+          className={`w-6 h-6 cursor-pointer ${star <= rating ? 'text-yellow-400' : 'text-gray-400'}`}
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.286 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.54-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.05 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z" />
+        </svg>
+      ))}
+    </div>
+  );
+};
+
 export const Survey: React.FC = () => {
   const { currentQuestion, answers, setAnswer, nextQuestion, prevQuestion } = useSurveyStore()
   const [recommendations, setRecommendations] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [showAnswers, setShowAnswers] = useState(false)
+  const [rating, setRating] = useState(0);
+  const [feedback, setFeedback] = useState('');
+  const [contactInfo, setContactInfo] = useState({ phone: '', email: '' });
+  const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
+
+  useEffect(() => {
+    // Reset survey when component mounts
+    useSurveyStore.getState().resetSurvey();
+  }, []);
 
   const handleAnswer = (answer: string) => {
-    const currentQ = questions[currentQuestion]
-    if (currentQ.multiSelect) {
-      const currentAnswers = answers[currentQ.id] || []
-      const updatedAnswers = currentAnswers.includes(answer)
-        ? currentAnswers.filter((a: string) => a !== answer)
-        : [...currentAnswers, answer]
-      setAnswer(currentQ.id, updatedAnswers)
+    const currentQ = questions[currentQuestion];
+    if (currentQ?.id === 'category') {
+      // Store category answer
+      setAnswer('category', answer);
+      toast(`현재 질문: ${currentQuestion}\n답변: ${answer}`, {
+        autoClose: 3000,
+      });
+      
+      // Define the type for subcategories
+      const subcategories: Record<string, string[]> = {
+        '🔞 성범죄': ['👠 성매매', '🚨 성폭력/강제추행 등', '👶 미성년 대상 성범죄', '💻 디지털 성범죄'],
+        '💰 재산범죄': ['💼 횡령/배임', '📞 사기/공갈', '🔍 기타 재산범죄'],
+        '🚗 교통사고/범죄': ['🚗 교통사고/도주', '🍷 음주/무면허'],
+        '⚖️ 형사절차': ['📜 고소/소송절차', '🚔 수사/체포/구속'],
+        '👊 폭행/협박': ['👊 폭행/협박/상해 일반'],
+        '🗣️ 명예훼손/모욕': ['🗣️ 명예훼손/모욕 일반', '💻 사이버 명예훼손/모욕'],
+        '🔍 기타 형사범죄': ['💊 마약/도박', '🏫 소년범죄/학교폭력', '⚖️ 형사일반/기타범죄'],
+        '🏠 부동산/임대차': ['🏗️ 건축/부동산 일반', '🏢 재개발/재건축', '🏠 매매/소유권 등', '🏠 임대차'],
+        '💼 금전/계약 문제': ['💰 손해배상', '💳 대여금/채권추심', '📄 계약일반/매매'],
+        '📜 민사절차': ['⚖️ 소송/집행절차', '🔒 가압류/가처분', '📉 회생/파산'],
+        '🔎 기타 민사문제': ['📜 공증/내용증명/조합/국제문제 등'],
+        '👪 가족': ['💔 이혼', '🏡 상속', '👪 가사 일반'],
+        '🏢 회사': ['🏢 기업법무', '👷 노동/인사'],
+        '🏥 의료/세금/행정': ['💰 세금/행정/헌법', '🏥 의료/식품의약', '🪖 병역/군형법'],
+        '💻 IT/지식재산/금융': ['🛍️ 소비자/공정거래', '💻 IT/개인정보', '🎨 지식재산권/엔터', '💰 금융/보험'],
+      };
+      const subcategoryQuestion = questions.find(q => q.id === 'subcategory');
+      if (subcategoryQuestion) {
+        subcategoryQuestion.options = subcategories[answer] || [];
+      }
+    } else if (currentQ?.id === 'subcategory') {
+      // Store subcategory answer
+      setAnswer('subcategory', answer);
+      toast(`현재 질문: ${currentQuestion}\n답변: ${answer}`, {
+        autoClose: 3000,
+      });
+      
+      // Define the type for subsubcategories
+      const subsubcategories: Record<string, string[]> = {
+        '👠 성���매': ['📱 조건만남', '💬 랜덤채팅', '🎤 유흥업소', '🔞 유사성매매 등'],
+        '🚨 성폭력/강제추행 등': ['🚨 성폭행', '💊 준강간', '💔 데이트폭력', '🗣️ 성희롱', '🙈 성추행 등'],
+        '👶 미성년 대상 성범죄': ['👶 아동청소년보호법', '🔞 미성년성매매 등'],
+        '💻 디지털 성범죄': ['📱 통신매체이용음란죄', '💻 웹하드', '📷 몰카', '📤 음란물유포 등'],
+        '💼 횡령/배임': ['💼 업무상 횡령/배임', '💳 신용카드 범죄', '🔍 점유이탈물횡령 등'],
+        '📞 사기/공갈': ['📞 보이스피싱', '🆔 명의 대여/도용', '💰 유사수신', '📦 중고사기 등'],
+        '🔍 기타 재산범죄': ['🔑 절도', '🏠 주거침입', '🔨 재물손괴', '👜 장물 등'],
+        '🚗 교통사고/도주': ['🚗 교통사고 합의', '📝 손해사정', '🚨 뺑소니', '🚗 보복운전 등'],
+        '🍷 음주/무면허': ['🍷 음주운전', '🚗 음주사고', '🚫 무면허운전 등'],
+        '📜 고소/소송절차': ['🤝 합의', '❌ 무혐의', '⏳ 공소시효', '🖋️ 고소대리', '📜 약식명령', '⚖️ 즉결심판 등'],
+        '🚔 수사/체포/구속': ['🚔 체포/구속', '📜 현행법', '🔍 영장', '🔍 압수수색', '💻 포렌식 등'],
+        '👊 폭행/협박/상해 일반': ['👊 폭행', '🗣️ 협박', '💥 상해', '🔒 감금', '🚫 유기', '👶 학대', '⚠️ 과실치상상', '🚔 공무집행방해 등'],
+        '🗣️ 명예훼손/모욕 일반': ['🗣️ 명예훼손죄', '🗣️ 모욕죄', '❌ 허위사실유포', '🗣️ 언어폭력 등'],
+        '💻 사이버 명예훼손/모욕': ['💻 정보통신망법', '💬 악성댓글 등'],
+        '💊 마약/도박': ['💊 항정신성의약품', '🌿 대마', '🎲 사설토토', '🎮 사행성게임', '✈️ 원정도박 등'],
+        '🏫 소년범죄/학교폭력': ['👶 아동학대', '🏫 학교폭력', '🚫 왕따', '👶 소년사건 등'],
+        '⚖️ 형사일반/기타범죄': ['📜 위증', '🚫 무고', '💰 뇌물', '📄 문서위조', '🚶 스토킹', '🔥 실화/방화 등'],
+        '🏗️ 건축/부동산 일반': ['🏗️ 건축법', '🔧 하자담보책임', '💧 누수', '🔊 층간소음', '💰 공사대금 등'],
+        '🏢 재개발/재건축': ['🏢 재개발', '🏗️ 재건축', '🏘️ 지역주택조합', '🏠 수용', '💰 보상 등'],
+        '🏠 매매/소유권 등': ['🏠 부동산매매', '🔒 유치권', '🏗️ 지상권', '🏠 경매', '📝 명의신탁 등'],
+        '🏠 임대차': ['🏠 주택/상가임대차', '💰 계약금', '💳 관리금', '💰 보증금', '🏠 전세계약 등'],
+        '💰 손해배상': ['💰 손해배상청구', '💔 정신적피해보상', '💰 위자료', '⚖️ 불법행위', '⚠️ 과실 등'],
+        '💳 대여금/채권추심': ['💰 대여금반환청구', '💳 채권양류 및 추심', '🤝 연대보증 등'],
+        '📄 계약일반/매매': ['📜 계약해지', '📝 계약서검토', '💰 계약금', '💰 중도금', '❌ 이중계약', '🚗 중고차매매 등'],
+        '⚖️ 소송/집행절차': ['📜 지급명령', '📄 등기/등록', '🤝 조정/화해/중재', '🔄 재심', '💰 공탁 등'],
+        '🔒 가압류/가처분': ['🔒 가처분/가압류 절차', '📜 가등기', '❌ 이의신청', '❌ 취소 등'],
+        '📉 회생/파산': ['📉 개인회생', '🏢 법인회생', '📉 파산', '📉 도산', '❌ 면책 등'],
+        '📜 공증/내용증명/조합/국제문제 등': ['📜 증여', '🔧 도급/용역', '🏢 조합/사단', '💰 부당이득', '🌍 국제', '⛪ 종교', '📜 공증 등'],
+        '💔 이혼': ['💔 합의이혼', '⚖️ 재판이혼', '💰 재산분할', '👶 양육권', '💔 상간', '💰 위자료', '🚫 외도 등'],
+        '🏡 상속': ['🏡 상속재산분할', '💰 증여세', '⚖️ 유류분', '❌ 한정승인', '🚫 상속포기 등'],
+        '👪 가사 일반': ['👪 친족', '👴 성년후견', '💰 부양료', '👶 친자확인', '👪 친권', '⚖️ 가사소송 등'],
+        '🏢 기업법무': ['🚫 경업금지', '🏢 합병', '🏢 영업양도', '🚀 스타트업', '📝 계약서검토', '🚫 부정경쟁방지법 등'],
+        '👷 노동/인사': ['👷 노무', '🚫 직장 내 괴롭힘', '💰 임금체불', '🚫 부당해고', '💰 실업급여', '⚠️ 산업재해보상 등'],
+        '💰 세금/행정/헌법': ['💰 세금', '💰 과태료', '🌿 환경', '🏢 인허가', '📜 헌법', '🛂 이민/비자', '🗳️ 선거', '📺 연금/방송', '⚖️ 행정소송 등'],
+        '🏥 의료/식품의약': ['💉 의료사고', '⚖️ 의료소송', '💊 약사법', '🍽️ 식품위생법 등'],
+        '🪖 병역/군형법': ['🪖 국방/병역', '⚖️ 군형법', '🎖️ 유공자/보훈', '⚖️ 군인징계 등'],
+        '🛍️ 소비자/공정거래': ['🛍️ 소비자피해', '⚖️ 집단소송', '💻 전자상거래', '🚫 불공정거래', '📜 약관', '❌ 허위/과대광고 등'],
+        '💻 IT/개인정보': ['🔒 개인정보유출/침해', '📞 감청', '📜 통신비밀�����법', '🤖 인공지능', '💬 SNS 등'],
+        '📜 지식재산권/엔터': ['📜 상표권', '📜 저작권', '📜 특허', '📺 방송', '🎵 음악', '🎬 영화 등'],
+        '💰 금융/보험': ['💰 가상화폐', '💰 투자', '📈 마진거래', '🛡️ 보험 등'],
+      };
+      const subsubcategoryQuestion = questions.find(q => q.id === 'subsubcategory');
+      if (subsubcategoryQuestion) {
+        subsubcategoryQuestion.options = subsubcategories[answer] || [];
+      }
+    } else if (currentQ?.id === 'subsubcategory') {
+      // Store subsubcategory answer
+      setAnswer('subsubcategory', answer);
+      toast(`현재 질문: ${currentQuestion}\n답변: ${answer}`, {
+        autoClose: 3000,
+      });
+    } else if (currentQ?.id === 'age') {
+      // Store age answer
+      setAnswer('age', answer);
+      toast(`현재 질문: ${currentQuestion}\n답변: ${answer}`, {
+        autoClose: 3000,
+      });
+    }
+
+    if (currentQ?.multiSelect) {
+      // Ensure we're working with an array
+      const currentAnswers = Array.isArray(answers[currentQ.id]) 
+        ? answers[currentQ.id] as string[]
+        : [];
+
+      let updatedAnswers: string[];
+      if (answer === '없음 ✅') {
+        updatedAnswers = ['없음 ✅'];
+      } else {
+        updatedAnswers = currentAnswers.includes(answer)
+          ? currentAnswers.filter(a => a !== answer && a !== '없음 ✅')
+          : [...currentAnswers.filter(a => a !== '없음 ✅'), answer];
+      }
+      setAnswer(currentQ.id, updatedAnswers);
     } else {
-      setAnswer(currentQ.id, answer)
-      nextQuestion()
+      setAnswer(currentQ?.id ?? '', answer);
+      nextQuestion();
     }
   }
 
   const handleNextQuestion = () => {
-    // 텍스트 입력 필드 초기화 로직 제거
     nextQuestion();
   }
-
+// 빵요미 세계관의 재미있는 허구적 에피소드를 포함시켜주세요. 빵을 의인화하해주세요.
+// 빵요미 세계관에서 허구적이고 창의적인 방식으로, 걱정되는 점과 좋은 점을 포함시켜주세요.
   const getRecommendations = async () => {
     setIsLoading(true)
-    const prompt = `다은 사용자의 성심당 빵 선호도 설 결과입니다:
-    ${Object.entries(answers).map(([key, value]) => `${key}: ${value}`).join('\n')}
-    
-    이 정보를 바탕으로 다음 빵 목록에서 가장 적합한 5개의 빵을 추천해주세요:
-    ${JSON.stringify(breadData['빵 목록'])}
-    
-    각 빵에 대해 다음 정보를 포함해 주세요:
-    1. 이름
-    2. 가격
-    3. 특징 (맛, 텍스처 등) - 이모지를 풍부하게 활용하여 설명해주세요.
-    4. 주요 영양성분 - 추정 비율로 표시해주세요.
-    5. 추천 이유 - 이모지를 풍부하게 활용하여 설명해주세요.
+const prompt = `다음은 사용자의 성심당 빵 선호도 설문 결과입니다:
+${Object.entries(answers).map(([key, value]) => `${key}: ${value}`).join('\n')}
 
-    응답은 다음과 같은 JSON 형식으로만 제공해 주세요:
-    [
-      {
-        "name": "빵 이름",
-        "price": "가격",
-        "features": "특징",
-        "nutrition": "주요 영양성분",
-        "reason": "추천 이유 (응답한 내용을 바탕으로 매우 자세히)"
-      },
-      ...
-    ]`
+이 정보를 바탕으로 다음 빵 목록에서 가장 적합한 5개의 빵을 추천해주세요:
+${JSON.stringify(breadData['빵 목록'])}
+
+성심당 빵요리사인 빵요미 캐릭터의 귀여운 말투로 해주세요. 이모지는 적절히 사용해주세요. 
+
+각 빵에 대해 다음 정보를 포함 세요:
+1. 이름
+2. 가격
+3. 특징 (맛, 텍스처, 크기/중량 등) - 이모지를 적절히 활용하여 구체적으로 설명해주세요.
+4. 추천 이유 - 사용자의 연령, 성별, 선호도, 구매 시간, 구매 빈도, 영양 선호도 등을 고려하여 상세히 설명해주세요.
+
+응답은 다음과 ���은 JSON 형식으로만 제공해 주세요:
+[
+  {
+    "name": "빵 이름",
+    "price": "가격",
+    "features": "특징 (맛, 텍스처, 크기/중량 등)",
+    "reason": "추천 이유"
+  },
+  ...
+]`;
 
     try {
       const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GOOGLE_API_KEY);
@@ -3764,111 +5267,94 @@ export const Survey: React.FC = () => {
 
       const result = await model.generateContent(prompt);
       const response = await result.response;
-      const text = response.text();
-      console.log(text);
+      const text = await response.text();
+      console.log('text', text);
       
-      const jsonMatch = text.match(/\[[\s\S]*\]/);
-      const jsonString = jsonMatch ? jsonMatch[0] : '[]';
-      const recommendedBreads = JSON.parse(jsonString);
-      setRecommendations(recommendedBreads)
+      try {
+        const jsonMatch = text.match(/\[[\s\S]*\]/);
+        const jsonString = jsonMatch ? jsonMatch[0] : '[]';
+        const recommendedBreads = JSON.parse(jsonString);
+        console.log('recommendedBreads', recommendedBreads);
+        setRecommendations(recommendedBreads);
+
+        // 추천 결과를 Slack으로 전송
+        await sendResponseToSlack(recommendedBreads);
+      } catch (jsonError) {
+        console.error('JSON 파싱 중 오류 발생:', jsonError);
+        setRecommendations([]);
+      }
+
     } catch (error) {
-      console.error('빵 추천 중 오류 발생:', error)
-      setRecommendations([])
+      console.error('빵 추천 중 오류 발생:', error);
+      setRecommendations([]);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
-  const sendToSlack = async () => {
+  const sendResponseToSlack = async (recommendedBreads: any[]) => {
     try {
-      await axios.post('/api/sendToSlack', { answers });
-      console.log('설문 결과가 서버로 전송되었습니다.');
+      const response = await axios.post('/api/sendResponseToSlack', { answers, recommendedBreads });
+      console.log('설문 결과와 추천 빵이 서버로 전송되었습니다.', response.data);
+    } catch (error) {
+      console.error('서버로 설문 결과 및 추천 빵 전송 중 오류 발생:', error);
+    }
+  };
+
+  const sendQuestionToSlack = async () => {
+    try {
+      const response = await axios.post('/api/sendQuestionToSlack', { answers });
+      console.log('설문 결과가 서버로 전송되었습니다.', response.data);
     } catch (error) {
       console.error('서버로 설문 결과 전송 중 오류 발생:', error);
     }
   };
 
-  const currentQ = questions[currentQuestion]
+  const handleSubmitFeedback = async () => {
+    try {
+      const response = await axios.post('/api/submitFeedback', { rating, feedback, contactInfo });
+      console.log('피드백이 서버로 전송되었습니다.', response.data);
+      toast.success('피드백을 제출해주셔서 감사합니다! 😊');
+      setFeedbackSubmitted(true); // 피드백 제출 상태 업데이트
+    } catch (error) {
+      console.error('서버로 피드백 전송 중 오류 발생:', error);
+      toast.error('피드백 제출 중 오류가 발생했습니다. 다시 시도해주세요.');
+    }
+  };
+
+  const currentQ = questions[currentQuestion];
 
   useEffect(() => {
     if (currentQuestion >= questions.length) {
-      getRecommendations()
-      sendToSlack(); // 설문이 완료되면 서버로 결과 전송
+      sendQuestionToSlack(); // 설문 결과 전송
+      window.location.href = '/chat'; // 채팅 페이지로 리다이렉트
     }
-  }, [currentQuestion])
+  }, [currentQuestion]);
+
+  const handleRecommendAgain = () => {
+    // Reset the survey to the first question
+    useSurveyStore.getState().resetSurvey();
+    // Clear recommendations
+    setRecommendations([]);
+    // Reset loading state
+    setIsLoading(false);
+  };
 
   if (currentQuestion >= questions.length) {
     return (
-      <div className="max-w-2xl mx-auto mt-10 p-8 bg-slate-800 rounded-lg shadow-xl text-white">
-        <h2 className="text-3xl font-bold mb-6 text-center text-sky-400">맞춤 빵 추천 결과</h2>
-        {isLoading ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <SkeletonLoader />
-          </motion.div>
-        ) : recommendations.length > 0 ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="space-y-6"
-          >
-            {recommendations.map((bread, index) => (
-              <div key={index} className="bg-slate-700 p-4 rounded-lg">
-                <h4 className="text-xl font-semibold text-sky-300">{bread.name}</h4>
-                <p className="text-slate-300"><strong>가격:</strong> {bread.price}</p>
-                <p className="text-slate-300"><strong>특징:</strong> {bread.features}</p>
-                <p className="text-slate-300"><strong>영양성분:</strong> {bread.nutrition}</p>
-                <p className="text-slate-300"><strong>추천 이유:</strong> {bread.reason}</p>
-              </div>
-            ))}
-          </motion.div>
-        ) : (
-          <p className="text-center">추천 빵을 찾을 수 없습니다.</p>
-        )}
-        
-        {/* 주문하기 버튼 추가 */}
-        <a
-          href="https://www.sungsimdang.co.kr/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-8 px-6 py-3 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition duration-150 ease-in-out w-full block text-center font-bold"
-        >
-          성심당에서 주문하기
-        </a>
-        
-        <button
-          onClick={() => setShowAnswers(!showAnswers)}
-          className="mt-4 px-6 py-3 bg-sky-500 text-white rounded hover:bg-sky-600 transition duration-150 ease-in-out w-full"
-        >
-          {showAnswers ? '응답 숨기기' : '응답 보기'}
-        </button>
-        
-        {showAnswers && (
-          <div className="mt-8 space-y-6">
-            {questions.map((q, index) => (
-              <div key={q.id} className="bg-slate-700 p-4 rounded-lg">
-                <h3 className="font-semibold text-lg mb-2 text-sky-300">
-                  {index + 1}. {q.question}
-                </h3>
-                <p className="mt-1 text-slate-200">
-                  {Array.isArray(answers[q.id])
-                    ? answers[q.id].join(', ')
-                    : answers[q.id] || '응답 없음'}
-                </p>
-              </div>
-            ))}
-          </div>
-        )}
+      <div className="max-w-2xl mx-auto mt-20 p-8 bg-slate-800 rounded-lg shadow-xl text-white">
+        <ToastContainer />
+        <h2 className="text-3xl font-bold mb-6 text-center text-sky-400">채팅 페이지로 이동합니다...</h2>
+        <div className="text-center">
+          <p className="text-center mt-4 text-sky-400">잠시만 기다려주세요...</p>
+        </div>
       </div>
-    )
+    );
   }
 
   return (
-    <div className="max-w-4xl mx-auto mt-10 p-6 bg-slate-800 rounded-lg shadow-xl text-white">
+    <div className="max-w-4xl mx-auto mt-20 p-6 bg-slate-800 rounded-lg shadow-xl text-white">
+      <ToastContainer />
       {/* Progress bar */}
       <div className="mb-6">
         <div className="w-full bg-slate-700 rounded-full h-2.5">
@@ -3884,8 +5370,8 @@ export const Survey: React.FC = () => {
 
       <div className="flex flex-col">
         <h2 className="text-2xl font-bold mb-4">{currentQ.question}</h2>
-          {/* 이전, 다음 버튼을 맨 아래로 이동 */}
-        <div className="flex justify-end">
+          {/* 이전, 다음 버튼 */}
+        <div className="flex justify-end mb-4">
           <button
             onClick={prevQuestion}
             disabled={currentQuestion === 0}
@@ -3895,12 +5381,11 @@ export const Survey: React.FC = () => {
           </button>
           <button
             onClick={handleNextQuestion}
-            className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600 transition duration-150 ease-in-out"
+            className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600 transition duration-150 ease-in-out font-bold"
           >
             다음
           </button>
         </div>
-        <div className="mb-3"></div>
         <AnimatePresence mode="wait">
           <motion.div
             key={currentQuestion}
@@ -3909,16 +5394,16 @@ export const Survey: React.FC = () => {
             exit={{ y: -20, opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            {currentQ.options ? (
-              <div className="space-y-2">
+            {currentQ?.options ? (
+              <div className={`grid ${currentQ.id === 'age' ? 'grid-cols-5' : 'grid-cols-2'} gap-2 ${currentQ.id === 'age' ? 'mt-4' : ''}`}>
                 {currentQ.options.map((option) => (
                   <button
                     key={option}
                     onClick={() => handleAnswer(option)}
-                    className={`w-full p-2 text-left rounded transition duration-150 ease-in-out ${
+                    className={`p-2 text-center rounded transition duration-150 ease-in-out ${
                       answers[currentQ.id]?.includes(option)
-                        ? 'bg-sky-600 hover:bg-sky-700'
-                        : 'hover:bg-slate-700'
+                        ? 'bg-sky-400 hover:bg-sky-500 text-slate-800'
+                        : 'bg-slate-700 hover:bg-slate-600'
                     }`}
                   >
                     {option}
@@ -3927,9 +5412,9 @@ export const Survey: React.FC = () => {
               </div>
             ) : (
               <input
-                type={currentQ.type || 'text'}
-                value={answers[currentQ.id] || ''}
-                onChange={(e) => setAnswer(currentQ.id, e.target.value)}
+                type={currentQ?.type || 'text'}
+                value={answers[currentQ?.id ?? ''] || ''}
+                onChange={(e) => setAnswer(currentQ?.id ?? '', e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleNextQuestion()}
                 className="w-full p-2 border rounded bg-slate-700 text-white"
               />
@@ -3967,7 +5452,7 @@ export default function Faqs() {
         {/* Section header */}
         <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
           <div>
-            <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-3">성심당 빵 AI 추천 서비스</div>
+            <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-3">버블버블 AI 법률 서비스</div>
           </div>
           <h2 className="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">자주 묻는 질문</h2>
         </div>
@@ -3980,20 +5465,20 @@ export default function Faqs() {
 
             {/* Item */}
             <div className="space-y-2">
-              <h4 className="font-semibold">성심당 빵 AI 추천 서비스란 무엇인가요?</h4>
-              <p className="text-slate-400">성심당 빵 AI 추천 서비스는 대전의 유명 베이커리 브랜드인 성심당의 제품을 개인화된 AI 기술을 통해 고객에게 추천하는 혁신적인 웹 애플리케이션입니다. 고객의 취향, 건강 목표, 상황 등을 고려한 맞춤형 추천을 제공합니다.</p>
+              <h4 className="font-semibold">Bubble Bubble(버블버블) AI 법률 서비스란 무엇인가요?</h4>
+              <p className="text-slate-400">Bubble Bubble은 AI 기술을 활용하여 모든 연령대의 시민들에게 접근 가능한 법률 정보와 범죄 예방 서비스를 제공하는 혁신적인 플랫폼입니다. 생애주기별 맞춤 서비스, 시민체감형 서비스, 원스톱 서비스를 통해 다양한 법률 문제에 대응합니다.</p>
             </div>
 
             {/* Item */}
             <div className="space-y-2">
               <h4 className="font-semibold">이 서비스는 어떤 기능을 제공하나요?</h4>
-              <p className="text-slate-400">개인 취향 기반 추천 시스템, 시간대별 맞춤 추천, 소셜 기반 협업 필터링 추천, 건강 목표 기반 추천 시스템, 상황별 테마 추천 서비스 등 다양한 기능을 제공합니다.</p>
+              <p className="text-slate-400">생애주기별 맞춤 서비스, 음성 및 채팅 기반 인터페이스, 최신 사례 기반 피해 예방 정보, 게임형 학습 서비스, 사용자 위험도에 따른 맞춤형 안내 및 정서적 지원, 다양한 법률 문제에 대한 원스톱 서비스 등을 제공합니다.</p>
             </div>
 
             {/* Item */}
             <div className="space-y-2">
-              <h4 className="font-semibold">이 서비스는 무료인가요?</h4>
-              <p className="text-slate-400">기본적인 서비스 이용은 무료입니다.</p>
+              {/* <h4 className="font-semibold">이 서비스는 무료인가요?</h4> */}
+              {/* <p className="text-slate-400">기본 서비스는 무료로 제공되며,</p> */}
             </div>
 
           </div>
@@ -4004,19 +5489,19 @@ export default function Faqs() {
             {/* Item */}
             <div className="space-y-2">
               <h4 className="font-semibold">개인정보는 안전하게 보호되나요?</h4>
-              <p className="text-slate-400">네, 철저한 개인정보 보호 정책을 수립하고 시행하고 있습니다.</p>
+              <p className="text-slate-400">네, 철저한 개인정보 보호 정책을 수립하고 시행하고 있습니다. 사용자의 데이터는 암호화되어 안전하게 저장되며, 법적 요구사항을 준수합니다.</p>
             </div>
 
             {/* Item */}
             <div className="space-y-2">
               <h4 className="font-semibold">고객 지원은 어떻게 이루어지나요?</h4>
-              <p className="text-slate-400">24/7 챗봇 고객 지원 서비스를 운영 예정이며, 평일 오전 9시부터 오후 6시까지는 전담 고객 지원팀이 직접 응대해 드립니다.</p>
+              <p className="text-slate-400">24/7 AI 기반 자동 응답 시스템을 운영하고 있으며, 필요한 경우 전문 고객지원팀이 추가적인 도움을 제공합니다.</p>
             </div>
 
             {/* Item */}
             <div className="space-y-2">
               <h4 className="font-semibold">이 서비스의 향후 계획은 무엇인가요?</h4>
-              <p className="text-slate-400">AI 기술 고도화를 통한 추천 정확도 개선, 타 베이커리 브랜드와의 제휴를 통한 서비스 확장, 그리고 해외 시장 진출 등을 계획하고 있습니다.</p>
+              <p className="text-slate-400">AI 기술 고도화를 통한 서비스 정확도 개선, 더 많은 법률 분야로의 서비스 확장, 그리고 국제적인 법률 지원 서비스로의 발전을 계획하고 있습니다.</p>
             </div>
 
           </div>
@@ -4039,7 +5524,7 @@ import Particles from './particles'
 import Illustration from '@/public/images/glow-top.svg'
 
 export default function Features() {
-  const [tab, setTab] = useState<number>(4)
+  const [tab, setTab] = useState<number>(1)
 
   return (
     <section>
@@ -4059,28 +5544,28 @@ export default function Features() {
               <div className="md:w-7/12 lg:w-1/2 order-1 md:order-none max-md:text-center" data-aos="fade-down">
                 {/* Content #1 */}
                 <div>
-                  <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-3">당신만의 빵 소믈리에, AI 추천 성심당</div>
+                  <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-3">AI 기반 법률 솔루션</div>
                 </div>
-                <h3 className="h3 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-3">매일 새로운 빵의 세계를 만나보세요</h3>
-                <p className="text-lg text-slate-400 mb-8">AI가 당신의 취향을 분석하여 최적의 빵을 추천해드립니다. 오늘은 어떤 빵이 당신의 하루를 특별하게 만들어줄까요?</p>
+                <h3 className="h3 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-3">법률 문제, 복잡한 법을 Bubble Bubble로 해결하세요</h3>
+                <p className="text-lg text-slate-400 mb-8">24시간 대기 중인 AI 법률 비서, 플로라와 티모가 당신의 모든 법률 문제를 스마트하게 해결해드립니다. 전세사기부터 디지털 성범죄까지, 어떤 문제든 상담해보세요.</p>
                 <div className="mt-8 max-w-xs max-md:mx-auto space-y-2">
                   <button className={`flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100 ${tab !== 1 ? 'border-slate-700 opacity-50' : 'border-sky-700 shadow shadow-sky-500/25'}`} onClick={() => setTab(1)}>
                     <svg className="shrink-0 fill-slate-300 mr-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
                       <path d="M14 0a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12Zm0 14V2H2v12h12Zm-3-7H5a1 1 0 1 1 0-2h6a1 1 0 0 1 0 2Zm0 4H5a1 1 0 0 1 0-2h6a1 1 0 0 1 0 2Z" />
                     </svg>
-                    <span>나만의 빵 프로필 만들기</span>
+                    <span>음성으로 묻고 AI로 답하는 상담</span>
                   </button>
                   <button className={`flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100 ${tab !== 2 ? 'border-slate-700 opacity-50' : 'border-sky-700 shadow shadow-sky-500/25'}`} onClick={() => setTab(2)}>
                     <svg className="shrink-0 fill-slate-300 mr-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
                       <path d="M2 6H0V2a2 2 0 0 1 2-2h4v2H2v4ZM16 6h-2V2h-4V0h4a2 2 0 0 1 2 2v4ZM14 16h-4v-2h4v-4h2v4a2 2 0 0 1-2 2ZM6 16H2a2 2 0 0 1-2-2v-4h2v4h4v2Z" />
                     </svg>
-                    <span>AI 분석 및 학습</span>
+                    <span>생애주기별 맞춤 법률 서비스</span>
                   </button>
                   <button className={`flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100 ${tab !== 3 ? 'border-slate-700 opacity-50' : 'border-sky-700 shadow shadow-sky-500/25'}`} onClick={() => setTab(3)}>
                     <svg className="shrink-0 fill-slate-300 mr-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
                       <path d="M14.3.3c.4-.4 1-.4 1.4 0 .4.4.4 1 0 1.4l-8 8c-.2.2-.4.3-.7.3-.3 0-.5-.1-.7-.3-.4-.4-.4-1 0-1.4l8-8ZM15 7c.6 0 1 .4 1 1 0 4.4-3.6 8-8 8s-8-3.6-8-8 3.6-8 8-8c.6 0 1 .4 1 1s-.4 1-1 1C4.7 2 2 4.7 2 8s2.7 6 6 6 6-2.7 6-6c0-.6.4-1 1-1Z" />
                     </svg>
-                    <span>개인화된 추천</span>
+                    <span>원스톱 법률 솔루션</span>
                   </button>
                 </div>
               </div>
@@ -4130,7 +5615,7 @@ export default function Features() {
                       >
                         <div className="relative flex items-center justify-center w-16 h-16 border border-transparent rounded-2xl shadow-2xl -rotate-[14deg] [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-2xl">
                           <svg className="relative fill-slate-200" xmlns="http://www.w3.org/2000/svg" width="23" height="25">
-                            <path fillRule="nonzero" d="M18 2h-2c0-1.1-.9-2-2-2s-2 .9-2 2H8c0-1.1-.9-2-2-2S4 .9 4 2H2C.9 2 0 2.9 0 4v18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 20H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4v-2h2v2zm10 8h-8v-2h8v2zm0-4h-8v-2h8v2zm0-4h-8v-2h8v2z"/>
+                            <path fillRule="nonzero" d="M18 2h-2c0-1.1-.9-2-2-2s-2 .9-2 2H8c0-1.1-.9-2-2-2S4 .9 4 2H2C.9 2 0 2.9 0 4v18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 20H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4v-2h2v2zm10 8h-8v-2h8v-4h2v4a2 2 0 0 1-2 2Zm0-4h-8v-2h8v2zm0-4h-8v-2h8v2z"/>
                           </svg>
                         </div>
                       </Transition>
@@ -4693,9 +6178,9 @@ export default function Features05() {
 
           {/* Section header */}
           <div className="max-w-3xl mx-auto text-center pb-12">
-            <h2 className="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">스마트한 맛의 여정</h2>
+            <h2 className="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">플로라와 티모를 만나보세요</h2>
             <p className="text-lg text-slate-400">
-              AI 기술로 구현된 맞춤형 추천, 시간대별 제안, 소셜 기반 발견, 건강 고려 선택, 특별한 순간 맞춤 제안, 그리고 간편한 주문까지 - 당신만의 완벽한 빵 경험을 만들어드립니다.
+              감성적인 플로라와 논리적인 티모가 함께하는 AI 법률 비서, Bubble Bubble. 모든 법률 문제를 쉽고 편리하게 해결해드립니다.
             </p>
           </div>
 
@@ -4734,27 +6219,27 @@ export default function Features05() {
 
           {/* Features list */}
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Card #1 */}
+            {/* Card #1 - Flora */}
             <div className="bg-gradient-to-tr from-slate-800/50 to-slate-800/10 rounded-3xl border border-slate-800">
               <div className="flex items-center space-x-4 p-4 h-full">
                 <svg className="shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
-                  <path className="fill-sky-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
-                  <path className="fill-sky-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
+                  <path className="fill-pink-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
+                  <path className="fill-pink-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
                 </svg>
                 <p className="text-sm text-slate-400">
-                  <strong className="text-slate-300 font-medium">맞춤형 빵 경험</strong>을 제공합니다. 당신의 취향을 학습하여 최적의 추천을 드립니다.
+                  <strong className="text-slate-300 font-medium">플로라의 감성 케어</strong>: 법률 문제로 불안할 때 공감과 위로를 제공합니다.
                 </p>
               </div>
             </div>
-            {/* Card #2 */}
+            {/* Card #2 - Timo */}
             <div className="bg-gradient-to-tr from-slate-800/50 to-slate-800/10 rounded-3xl border border-slate-800">
               <div className="flex items-center space-x-4 p-4 h-full">
                 <svg className="shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
-                  <path className="fill-sky-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
-                  <path className="fill-sky-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
+                  <path className="fill-blue-500" fillOpacity=".24" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Z" />
+                  <path className="fill-blue-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
                 </svg>
                 <p className="text-sm text-slate-400">
-                  <strong className="text-slate-300 font-medium">시간대별 추천</strong>으로 아침엔 상큼하게, 저녁엔 달콤하게 즐기세요.
+                  <strong className="text-slate-300 font-medium">티모의 논리적 조언</strong>: 구체적인 법률 해결책과 행동 요령을 제시합니다.
                 </p>
               </div>
             </div>
@@ -4766,7 +6251,7 @@ export default function Features05() {
                   <path className="fill-sky-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
                 </svg>
                 <p className="text-sm text-slate-400">
-                  <strong className="text-slate-300 font-medium">소셜 추천</strong>으로 친구들이 좋아하는 빵을 발견하고 새로운 맛의 세계를 경험하세요.
+                  <strong className="text-slate-300 font-medium">24/7 AI 법률 비서</strong>: 언제 어디서나 접근 가능한 법률 도우미를 만나보세요.
                 </p>
               </div>
             </div>
@@ -4778,7 +6263,7 @@ export default function Features05() {
                   <path className="fill-sky-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
                 </svg>
                 <p className="text-sm text-slate-400">
-                  <strong className="text-slate-300 font-medium">건강한 선택</strong>을 도와드립니다. 당신의 건강 목표에 맞는 영양가 있는 빵을 추천해드려요.
+                  <strong className="text-slate-300 font-medium">음성 기반 상담</strong>: 편리한 음성 인터페이스로 신속한 법률 상담을 받아보세요.
                 </p>
               </div>
             </div>
@@ -4790,7 +6275,7 @@ export default function Features05() {
                   <path className="fill-sky-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
                 </svg>
                 <p className="text-sm text-slate-400">
-                  <strong className="text-slate-300 font-medium">특별한 순간</strong>을 위한 빵 추천. 기념일, 파티 등 상황에 딱 맞는 빵으로 분위기를 살려보세요.
+                  <strong className="text-slate-300 font-medium">맞춤형 법률 솔루션</strong>: 개인화된 법률 서비스로 모든 연령대의 문제를 해결합니다.
                 </p>
               </div>
             </div>
@@ -4802,7 +6287,7 @@ export default function Features05() {
                   <path className="fill-sky-400" fillRule="nonzero" d="M13 6.586 14.414 8l-5.747 5.748-3.081-3.081L7 9.252l1.667 1.667z" />
                 </svg>
                 <p className="text-sm text-slate-400">
-                  <strong className="text-slate-300 font-medium">간편한 주문</strong>으로 기다림 없이 성심당 빵을 만나보세요. 클릭 한 번으로 맛있는 빵이 배달됩니다.
+                  <strong className="text-slate-300 font-medium">원스톱 솔루션</strong>: 보이스피싱부터 학교폭력까지, 모든 법률 문제에 대응합니다.
                 </p>
               </div>
             </div>
@@ -5104,21 +6589,21 @@ export default function Testimonials() {
   const items: Item[] = [
     {
       img: TestimonialImg01,
-      quote: "성심당 AI 추천 서비스를 친구에게 소개했더니 정말 좋아하더라고요! 개인 취향에 맞는 빵을 추천받을 수 있어서 매번 새로운 빵을 발견하는 재미가 있대요. 이제 제 주변 사람들에게 이 서비스를 자주 추천하고 있어요.",
+      quote: "Bubble Bubble 서비스로 전세사기 피해를 예방할 수 있었어요. AI가 계약서 검토부터 주의사항까지 꼼꼼히 알려줘서 안심하고 계약할 수 있었습니다. 이제 주변 사람들에게도 이 서비스를 적극 추천하고 있어요.",
       name: '김민지',
       role: '28세 직장인'
     },
     {
       img: TestimonialImg02,
-      quote: "성심당 AI 추천 서비스는 정말 혁신적이에요! 제 취향과 상황에 맞는 빵을 추천해주니 매일 어떤 빵을 추천해줄지 기대돼요. 빵 추천 서비스를 통해 쉽게 빵을 즐길 수 있게 되었어요.",
-      name: '이준호',
-      role: '35세 자영업자'
+      quote: "Bubble Bubble 덕분에 딥페이크 피해를 신속하고 효과적으로 해결할 수 있었어요. AI 법률 조언으로 제 권리를 정확히 알게 되었고, 대응 절차를 단계별로 안내받아 자신감 있게 대처할 수 있었죠. 특히 24시간 상담 가능한 점이 정말 큰 도움이 되었어요. 온라인상의 복잡한 법적 문제도 이제 Bubble Bubble과 함께라면 두렵지 않아요. 기술의 발전으로 생긴 새로운 법적 문제에 이렇게 혁신적으로 대응할 수 있다니 정말 감사해요.",
+      name: '김서연',
+      role: '26세 회사원'
     },
     {
       img: TestimonialImg03,
-      quote: "AI가 추천해주는 빵 세트로 집들이 준비를 했는데, 친구들이 정말 좋아했어요! 상황별 테마 추천 서비스 덕분에 고민 없이 완벽한 선택을 할 수 있었습니다.",
+      quote: "학교폭력 문제로 고민할 때 Bubble Bubble의 도움을 받았어요. 플로라가 제 마음을 위로해주고, 티모가 구체적인 대처 방법을 알려줘서 문제를 해결할 수 있었습니다. 모든 학생들에게 추천하고 싶은 서비스예요!",
       name: '박서연',
-      role: '22세 대학생'
+      role: '17세 고등학생'
     }
   ]
 
@@ -5421,7 +6906,11 @@ export default function Recruitment() {
 }
 File: ./components/cta.tsx
 Content:
+import { useState } from 'react';
+
 export default function Cta() {
+ 
+
   return (
     <section>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -5446,20 +6935,40 @@ export default function Cta() {
           {/* Content */}
           <div className="max-w-3xl mx-auto text-center">
             <div>
-              <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-3">성심당 빵 AI 추천 서비스</div>
+              <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-3">Bubble Bubble(버블버블): 생애주기별 시민체감형 법률 AI 원스톱 서비스</div>
             </div>
-            <h2 className="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">당신만의 빵 소믈리에, AI 추천 성심당</h2>
-            <p className="text-lg text-slate-400 mb-8">개인화된 AI 기술로 고객의 취향, 건강 목표, 상황을 고려한 맞춤형 빵 추천 서비스를 제공합니다.</p>
-            <div>
-              <a className="btn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white transition duration-150 ease-in-out group" href="/survey">
-                지금 시작하기 <span className="tracking-normal text-sky-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
-              </a>
+            <h2 className="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">당신만을 위한 AI 법률 도우미</h2>
+            <p className="text-lg text-slate-400 mb-8">AI 기술로 법률 서비스 취약계층을 보호하고, 범죄 예방 및 학습을 위한 솔루션을 제공합니다. 새로운 법률 서비스의 세계를 경험해보세요.</p>
+           
+            <div className="mt-4 max-w-xs mx-auto sm:max-w-none sm:inline-flex sm:justify-center space-y-4 sm:space-y-0 sm:space-x-4" data-aos="fade-down" data-aos-delay="400">
+              <div>
+                <a className="btn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white w-full transition duration-150 ease-in-out group" href="/survey">
+                  법률 맞춤 추천 받기 <span className="tracking-normal text-sky-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+                </a>
+              </div>
+              <div>
+                <a className="btn text-slate-200 hover:text-white bg-slate-900 bg-opacity-25 hover:bg-opacity-30 w-full transition duration-150 ease-in-out group" href="mailto:wks0968@gmail.com?subject=[버블버블]%20문의사항:%20&body=안녕하세요,%0D%0A%0D%0A버블버블에%20대한%20문의사항을%20아래에%20작성해%20주세요.%0D%0A%0D%0A1.%20문의%20유형:%20(예:%20서비스%20이용,%20기술적%20문제,%20제안사항%20등)%0D%0A2.%20상세내용:%0D%0A%0D%0A%0D%0A이름:%0D%0A연락처:%20(선택사항)%0D%0A%0D%0A감사합니다." target="_blank" rel="noopener noreferrer">
+                  <svg className="shrink-0 fill-slate-300 mr-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                  </svg>
+                  <span>협업 & 제안하기</span>
+                </a>
+              </div>
+              {/* <div>
+                <a className="btn text-slate-200 hover:text-white bg-slate-900 bg-opacity-25 hover:bg-opacity-30 w-full transition duration-150 ease-in-out group" href="https://somoim.friendscube.com/g/b66c90ac-1765-11ef-be8e-0a1883465d731" target="_blank" rel="noopener noreferrer">
+                  <span>코딩 교육받기</span>
+                  <span className="text-xs text-sky-500 ml-2 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out">(64명)</span>
+                </a>
+              </div> */}
             </div>
+            {/* <p className="text-sm text-slate-100 mt-8" data-aos="fade-down" data-aos-delay="300">
+              Powered by [대전 IT] 나는 솔로프리너 🍞💻❤️
+            </p> */}
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
 File: ./components/story.tsx
 Content:
@@ -5724,18 +7233,7 @@ Content:
 'use client'
 
 import { useEffect } from 'react'
-import Image from 'next/image'
 import Particles from './particles'
-
-import Client01 from '@/public/images/client-01.svg'
-import Client02 from '@/public/images/client-02.svg'
-import Client03 from '@/public/images/client-03.svg'
-import Client04 from '@/public/images/client-04.svg'
-import Client05 from '@/public/images/client-05.svg'
-import Client06 from '@/public/images/client-06.svg'
-import Client07 from '@/public/images/client-07.svg'
-import Client08 from '@/public/images/client-08.svg'
-import Client09 from '@/public/images/client-09.svg'
 
 // Import Swiper
 import Swiper, { Autoplay } from 'swiper'
@@ -5743,6 +7241,36 @@ import 'swiper/swiper.min.css'
 Swiper.use([Autoplay])
 
 export default function Clients() {
+
+  const crimes = [
+    "전세사기",
+    "교통사고 피해",
+    "루머",
+    "명예훼손",
+    "허위사실 유포",
+    "사이버 렉카 피해",
+    "딥페이크 범죄",
+    "디지털 성범죄",
+    "사이버 범죄",
+    "사이버 불링",
+    "의료 사기",
+    "투자 사기",
+    "스토킹",
+    "아동 대상 범죄",
+    "가정폭력",
+    "횡령 및 배임",
+    "마약 관련 범죄",
+    "보이스피싱",
+    "음주운전",
+    "데이트폭력",
+    "학교폭력",
+    "신용카드 사기",
+    "보험 사기",
+    "불법 도박",
+    "저작권 침해",
+    "신분 도용",
+    "주가 조작",
+  ]
 
   useEffect(() => {
     const carousel = new Swiper('.clients-carousel', {
@@ -5776,36 +7304,11 @@ export default function Clients() {
             <div className="clients-carousel swiper-container relative before:absolute before:inset-0 before:w-32 before:z-10 before:pointer-events-none before:bg-gradient-to-r before:from-slate-900 after:absolute after:inset-0 after:left-auto after:w-32 after:z-10 after:pointer-events-none after:bg-gradient-to-l after:from-slate-900">
               <div className="swiper-wrapper !ease-linear select-none items-center">
                 {/* Carousel items */}
-                <div className="swiper-slide !w-auto">
-                  <div className="text-[#C4CFDD] text-xl font-bold">튀김소보로</div>
-                </div>
-                <div className="swiper-slide !w-auto">
-                  <div className="text-[#C4CFDD] text-xl font-bold">크림치즈화이트번</div>
-                </div>
-                <div className="swiper-slide !w-auto">
-                  <div className="text-[#C4CFDD] text-xl font-bold">단팥빵</div>
-                </div>
-                <div className="swiper-slide !w-auto">
-                  <div className="text-[#C4CFDD] text-xl font-bold">소보로</div>
-                </div>
-                <div className="swiper-slide !w-auto">
-                  <div className="text-[#C4CFDD] text-xl font-bold">크로상</div>
-                </div>
-                <div className="swiper-slide !w-auto">
-                  <div className="text-[#C4CFDD] text-xl font-bold">찹쌀방망이</div>
-                </div>
-                <div className="swiper-slide !w-auto">
-                  <div className="text-[#C4CFDD] text-xl font-bold">모찌모찌식빵</div>
-                </div>
-                <div className="swiper-slide !w-auto">
-                  <div className="text-[#C4CFDD] text-xl font-bold">에멘탈바질치아바타</div>
-                </div>
-                <div className="swiper-slide !w-auto">
-                  <div className="text-[#C4CFDD] text-xl font-bold">월넛브레드</div>
-                </div>
-                <div className="swiper-slide !w-auto">
-                  <div className="text-[#C4CFDD] text-xl font-bold">카스테라</div>
-                </div>
+                {crimes.map((crime, index) => (
+                  <div key={index} className="swiper-slide !w-auto">
+                    <div className="text-[#C4CFDD] text-xl font-bold">{crime}</div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -5980,82 +7483,82 @@ export default function Customers() {
   const items = [
     {
       img: CustomerImg01,
-      quote: "성심당 AI 추천 서비스는 정말 대단해요! 제 취향을 정확히 파악해서 매번 새로운 빵을 발견하게 해줘요. 이제 성심당 없인 못 살아요!",
-      name: '김지영',
+      quote: "처음에는 AI가 내 상황을 제대로 이해할 수 있을지 걱정했어요. 하지만 딥페이크 피해에 대해 물어봤을 때, 정말 자세하고 이해하기 쉽게 설명해줬어요. 플로라의 따뜻한 위로는 정말 큰 힘이 되었습니다. 앞으로도 계속 발전하길 바라요!",
+      name: '김민지',
       twitter: {
-        handle: '@jiyoung_kim',
+        handle: '@minji_kim',
         link: '#0'
       }
     },
     {
       img: CustomerImg02,
-      quote: "바쁜 직장인인 저에게 성심당 AI는 구원자예요. 점심시간에 뭘 먹을지 고민할 필요 없이 딱 맞는 추천을 받아요. 시간과 돈을 동시에 아낄 수 있어 좋아요!",
-      name: '이상훈',
+      quote: "전세사기 피해를 당할 뻔했는데, Bubble Bubble 덕분에 막을 수 있었어요. 티모가 계약 시 주의사항을 꼼꼼히 알려줘서 정말 도움됐습니다. 앞으로 더 많은 사람들이 이 서비스를 알게 되면 좋겠어요!",
+      name: '이정호',
       twitter: {
-        handle: '@sanghoon_lee',
+        handle: '@jungho_lee',
         link: '#0'
       }
     },
     {
       img: CustomerImg03,
-      quote: "다이어트 중인데도 성심당을 포기할 수 없었어요. AI가 칼로리와 영양을 고려해서 추천해주니 죄책감 없이 즐길 수 있어요. 건강해지는 것 같아요!",
-      name: '박서연',
+      quote: "처음에는 기계랑 대화하는 게 어색했어요. 그런데 음성으로 물어볼 수 있어서 편했고, 보이스피싱 예방법을 쉽게 설명해줘서 좋았어요. 플로라가 내 걱정을 들어주는 것 같아 마음이 편안해졌어요.",
+      name: '박영숙',
       twitter: {
-        handle: '@seoyeon_park',
+        handle: '@youngsook_park',
         link: '#0'
       }
     },
     {
       img: CustomerImg04,
-      quote: "성심당 AI 덕분에 친구들과 빵 파티할 때 항상 인기 만점이에요! 새로운 맛을 발견하는 재미가 쏠쏠하고, 인스타에 올리기 좋은 예쁜 빵도 추천해줘요.",
-      name: '최민서',
+      quote: "회사에서 발생한 횡령 문제로 고민이 많았는데, Bubble Bubble의 조언이 큰 도움이 되었습니다. 법적 대응 방법을 명확히 알려줘서 좋았어요. 다만 더 구체적인 판례도 볼 수 있었으면 좋겠어요.",
+      name: '최준혁',
       twitter: {
-        handle: '@minseo_choi',
+        handle: '@junhyuk_choi',
         link: '#0'
       }
     },
     {
       img: CustomerImg05,
-      quote: "모임이나 회식 때 성심당 빵을 사가는 게 고민이었는데, AI 추천 덕분에 쉬워졌어요. 다양한 취향을 고려해서 추천해주니 항상 호평이에요. 이제 빵 고르는 시간도 줄고, 만족도는 높아졌죠!",
-      name: '정우진',
+      quote: "데이트폭력 피해를 겪고 있었는데, Bubble Bubble이 제 상황을 정확히 파악하고 도움을 줬어요. 처음에는 개인정보 유출이 걱정됐지만, 안전하다는 걸 알고 안심했어요. 플로라의 위로가 특히 힘이 되었습니다.",
+      name: '송미라',
       twitter: {
-        handle: '@woojin_jung',
+        handle: '@mira_song',
         link: '#0'
       }
     },
     {
       img: CustomerImg06,
-      quote: "직장 스트레스를 풀어주는 건 역시 성심당 빵이에요. AI가 제 기분에 따라 빵을 추천해주니 퇴근길이 더 즐거워졌어요.",
-      name: '강미래',
+      quote: "투자 사기를 당했을 때 어떻게 대처해야 할지 몰랐는데, Bubble Bubble이 명확한 해결 방법을 제시해줬어요. 티모의 조언 덕분에 법적 대응을 할 수 있었습니다. 초기에 서비스 이용법을 익히는 게 조금 어려웠어요.",
+      name: '강동훈',
       twitter: {
-        handle: '@mirae_kang',
+        handle: '@donghoon_kang',
         link: '#0'
       }
     },
     {
       img: CustomerImg07,
-      quote: "손주들 선물로 성심당만한 게 없어요. AI가 아이들 취향을 잘 맞춰주니 할머니 인기가 날로 높아지네요. 요즘 애들 입맛을 어떻게 알아요?",
-      name: '박순자',
+      quote: "학교폭력 문제로 고민하다 Bubble Bubble을 사용했어요. AI가 제 상황을 이해할 수 있을지 걱정했지만, 정말 잘 이해하고 도와줬어요. 게임처럼 배우는 기능이 재미있어서 계속 사용하게 돼요.",
+      name: '이서연',
       twitter: {
-        handle: '@soonja_park',
+        handle: '@seoyeon_lee',
         link: '#0'
       }
     },
     {
       img: CustomerImg08,
-      quote: "운동 후 보충식으로 성심당 빵을 즐겨 먹어요. AI가 단백질 함량 높은 빵을 추천해줘서 근손실 걱정 없이 맛있게 먹을 수 있어요!",
-      name: '임재현',
+      quote: "사이버 범죄에 대해 전혀 몰랐는데, Bubble Bubble이 쉽게 설명해줘서 좋았어요. 음성으로 대화할 수 있어 정말 편리했어요. 앞으로 더 다양한 주제로 확장되면 좋겠어요!",
+      name: '홍길동',
       twitter: {
-        handle: '@jaehyun_lim',
+        handle: '@gildong_hong',
         link: '#0'
       }
     },
     {
       img: CustomerImg09,
-      quote: "해외에 나가있을 때 제일 그리운 게 성심당이에요. 한국에 올 때마다 AI 추천으로 새로 나온 빵을 몽땅 맛보는 재미가 있어요!",
-      name: '송지원',
+      quote: "저작권 침해 문제로 고민하다 Bubble Bubble을 찾았어요. 티모가 제시한 해결 방법이 정말 실용적이었어요. 앞으로 더 많은 실제 사례가 추가되면 더욱 유용할 것 같아요!",
+      name: '정수민',
       twitter: {
-        handle: '@jiwon_song',
+        handle: '@sumin_jung',
         link: '#0'
       }
     },
@@ -6073,8 +7576,8 @@ export default function Customers() {
         <div className="py-12 md:py-20">
           {/* Content */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-            <h2 className="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">성심당 빵 AI 추천, 어떠세요?</h2>
-            <p className="text-lg text-slate-400">매일 새로운 빵의 세계를 발견하세요. AI가 당신의 취향을 분석해 맞춤 추천을 제공합니다. 지금 바로 성심당의 특별한 맛을 경험해보세요!</p>
+            <h2 className="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Bubble Bubble과 함께한 법률 여정 어떠세요?</h2>
+            <p className="text-lg text-slate-400">당신의 권리를 지키는 스마트한 동행. 법률 문제로 고민하신 적 있나요? Bubble Bubble이 여러분의 든든한 법률 파트너가 되어드립니다. AI 기술을 활용한 맞춤형 상담으로 복잡한 법적 문제를 쉽게 해결해드립니다. 전세사기부터 사이버 범죄까지, 다양한 법률 이슈에 대한 정확한 정보와 해결책을 제시합니다. 여러분의 권리를 지키는 가장 스마트한 방법, 지금 바로 Bubble Bubble과 함께하세요.</p>
           </div>
           {/* Customers */}
           <div className="grid lg:grid-cols-3 gap-4 sm:gap-6 max-w-xs mx-auto lg:max-w-none">

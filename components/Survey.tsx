@@ -30,84 +30,17 @@ const questions = [{
 {
   id: 'subcategory',
   question: '선택한 분야의 세부 항목을 선택해주세요.',
-  options: [], // This will be dynamically populated based on the previous answer
+  options: [],
   multiSelect: false,
 },
 {
   id: 'subsubcategory',
   question: '선택한 세부 항목의 구체적인 항목을 선택해주세요.',
-  options: [], // This will be dynamically populated based on the previous answer
+  options: [],
   multiSelect: false,
 },
 ];
-// const questions = [
-//   {
-//     id: 'taste',
-//     question: '어떤 맛의 빵이 당신의 입맛을 사로잡나요? 🤤 (여러 개 선택 가능)',
-//     options: ['달콤한 🍯', '고소한 🥜', '담백한 🍞', '짭짤한 🧂', '풍미 있는 🌿', '새콤한 🍋'],
-//     multiSelect: true,
-//   },
-//   {
-//     id: 'texture',
-//     question: '빵의 식감 중 어떤 게 가장 좋으세요? 😋 (여러 개 선택 가능)',
-//     options: ['부드러운 ☁️', '촉촉한 💦', '겉바속촉 🥖', '바삭한 🥐', '쫄깃한 🍩', '푹신한 🧁'],
-//     multiSelect: true,
-//   },
-//   {
-//     id: 'allergies',
-//     question: '혹시 알레르기가 있으신가요? 🤧 해당하는 항목을 모두 선택해주세요.',
-//     options: [
-//       '없음',
-//       '밀 (글루텐) 🌾',
-//       '우유 (유제품) 🥛',
-//       '계란 🥚',
-//       '견과류 (특히 아몬드, 호두) 🥜',
-//       '대두 (콩) 🫘',
-//       '참깨 🌰',
-//       '효모 🍞',
-//       '옥수수 🌽',
-//       '설탕 (설탕 불내증) 🍬',
-//       '방부제 및 첨가물 🧪',
-//     ],
-//     multiSelect: true,
-//   },
-//   {
-//     id: 'age',
-//     question: '몇 살이신지 살짝 물어봐도 될까요? 🙈',
-//     options: Array.from({length: 91}, (_, i) => (i + 11).toString()),
-//   },
-//   {
-//     id: 'gender',
-//     question: '성별을 알려주시겠어요? 👫',
-//     options: ['남성 👨', '여성 👩'],
-//   },
-//   {
-//     id: 'nutritionalPreference',
-//     question: '빵 고를 때 가장 신경 쓰는 영양 성분은 뭔요? 🍽️ (여러 개 선택 가능)',
-//     options: ['저지방 🥛', '단백질 💪', '식이섬유 🌾', '저탄수화물 🥖', '통곡물 🌿', '비타민/미네랄 🍎', '글루텐 프리 🚫🌾'],
-//     multiSelect: true, 
-//   },
-//   {
-//     id: 'occasion',
-//     question: '어떤 때 우리 빵을 즐기고 싶으세요? 🎉',
-//     options: ['간식 타임 🍰', '아침 식사 🌅', '친구와 함께 👯', '혼자만의 시간 🧘', '가족 모임 👨‍👩‍👧‍👦', '데이트 💑', '피닉 🧺', '특한 선물 🎁', '생일 파티 🎂'],
-//   },
-//   {
-//     id: 'occasionDetails',
-//     question: '방금 선택하신 상황에 대해 조금 더 자세히 들려주세요. 어떤 분위기나 특별한 점이 있나요? 🤔💭',
-//     type: 'text',
-//   },
-//   {
-//     id: 'purchaseTime',
-//     question: '주로 언제 빵을 사러 오시나요? ⏰',
-//     options: ['오전 중 (9-12시) ☀️', '점심 시간 (12-14시) 🍽️', '오후 (14-17시) 🌇', '아침 일찍 (6-9시) 🌄', '저녁 (17-20시) 🌙', '밤 (20시 이후) 🌠'],
-//   },
-//   {
-//     id: 'frequency',
-//     question: '얼마나 자주 성심당을 찾아주시나요? 😊',
-//     options: ['일주일에 한 번 📅', '일주일에 2-3번 🚶‍♀️', '한 달에 한 번 🌙', '2주에 한 번 🗓️', '특별한 날에만 ✨', '매일 ‍♂'],
-//   },
-// ]
+
 
 const SkeletonLoader: React.FC = () => (
   <div className="space-y-4">
@@ -150,9 +83,20 @@ export const Survey: React.FC = () => {
   const [contactInfo, setContactInfo] = useState({ phone: '', email: '' });
   const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
 
+  useEffect(() => {
+    // Reset survey when component mounts
+    useSurveyStore.getState().resetSurvey();
+  }, []);
+
   const handleAnswer = (answer: string) => {
     const currentQ = questions[currentQuestion];
     if (currentQ?.id === 'category') {
+      // Store category answer
+      setAnswer('category', answer);
+      toast(`현재 질문: ${currentQuestion}\n답변: ${answer}`, {
+        autoClose: 3000,
+      });
+      
       // Define the type for subcategories
       const subcategories: Record<string, string[]> = {
         '🔞 성범죄': ['👠 성매매', '🚨 성폭력/강제추행 등', '👶 미성년 대상 성범죄', '💻 디지털 성범죄'],
@@ -176,9 +120,15 @@ export const Survey: React.FC = () => {
         subcategoryQuestion.options = subcategories[answer] || [];
       }
     } else if (currentQ?.id === 'subcategory') {
+      // Store subcategory answer
+      setAnswer('subcategory', answer);
+      toast(`현재 질문: ${currentQuestion}\n답변: ${answer}`, {
+        autoClose: 3000,
+      });
+      
       // Define the type for subsubcategories
       const subsubcategories: Record<string, string[]> = {
-        '👠 성매매': ['📱 조건만남', '💬 랜덤채팅', '🎤 유흥업소', '🔞 유사성매매 등'],
+        '👠 성���매': ['📱 조건만남', '💬 랜덤채팅', '🎤 유흥업소', '🔞 유사성매매 등'],
         '🚨 성폭력/강제추행 등': ['🚨 성폭행', '💊 준강간', '💔 데이트폭력', '🗣️ 성희롱', '🙈 성추행 등'],
         '👶 미성년 대상 성범죄': ['👶 아동청소년보호법', '🔞 미성년성매매 등'],
         '💻 디지털 성범죄': ['📱 통신매체이용음란죄', '💻 웹하드', '📷 몰카', '📤 음란물유포 등'],
@@ -215,7 +165,7 @@ export const Survey: React.FC = () => {
         '🏥 의료/식품의약': ['💉 의료사고', '⚖️ 의료소송', '💊 약사법', '🍽️ 식품위생법 등'],
         '🪖 병역/군형법': ['🪖 국방/병역', '⚖️ 군형법', '🎖️ 유공자/보훈', '⚖️ 군인징계 등'],
         '🛍️ 소비자/공정거래': ['🛍️ 소비자피해', '⚖️ 집단소송', '💻 전자상거래', '🚫 불공정거래', '📜 약관', '❌ 허위/과대광고 등'],
-        '💻 IT/개인정보': ['🔒 개인정보유출/침해', '📞 감청', '📜 통신비밀보호법', '🤖 인공지능', '💬 SNS 등'],
+        '💻 IT/개인정보': ['🔒 개인정보유출/침해', '📞 감청', '📜 통신비밀�����법', '🤖 인공지능', '💬 SNS 등'],
         '📜 지식재산권/엔터': ['📜 상표권', '📜 저작권', '📜 특허', '📺 방송', '🎵 음악', '🎬 영화 등'],
         '💰 금융/보험': ['💰 가상화폐', '💰 투자', '📈 마진거래', '🛡️ 보험 등'],
       };
@@ -223,17 +173,33 @@ export const Survey: React.FC = () => {
       if (subsubcategoryQuestion) {
         subsubcategoryQuestion.options = subsubcategories[answer] || [];
       }
+    } else if (currentQ?.id === 'subsubcategory') {
+      // Store subsubcategory answer
+      setAnswer('subsubcategory', answer);
+      toast(`현재 질문: ${currentQuestion}\n답변: ${answer}`, {
+        autoClose: 3000,
+      });
+    } else if (currentQ?.id === 'age') {
+      // Store age answer
+      setAnswer('age', answer);
+      toast(`현재 질문: ${currentQuestion}\n답변: ${answer}`, {
+        autoClose: 3000,
+      });
     }
 
     if (currentQ?.multiSelect) {
-      const currentAnswers = answers[currentQ.id] || [];
-      let updatedAnswers;
+      // Ensure we're working with an array
+      const currentAnswers = Array.isArray(answers[currentQ.id]) 
+        ? answers[currentQ.id] as string[]
+        : [];
+
+      let updatedAnswers: string[];
       if (answer === '없음 ✅') {
         updatedAnswers = ['없음 ✅'];
       } else {
         updatedAnswers = currentAnswers.includes(answer)
-          ? currentAnswers.filter((a: string) => a !== answer && a !== '없음 ✅')
-          : [...currentAnswers.filter((a: string) => a !== '없음 ✅'), answer];
+          ? currentAnswers.filter(a => a !== answer && a !== '없음 ✅')
+          : [...currentAnswers.filter(a => a !== '없음 ✅'), answer];
       }
       setAnswer(currentQ.id, updatedAnswers);
     } else {
@@ -263,7 +229,7 @@ ${JSON.stringify(breadData['빵 목록'])}
 3. 특징 (맛, 텍스처, 크기/중량 등) - 이모지를 적절히 활용하여 구체적으로 설명해주세요.
 4. 추천 이유 - 사용자의 연령, 성별, 선호도, 구매 시간, 구매 빈도, 영양 선호도 등을 고려하여 상세히 설명해주세요.
 
-응답은 다음과 같은 JSON 형식으로만 제공해 주세요:
+응답은 다음과 ���은 JSON 형식으로만 제공해 주세요:
 [
   {
     "name": "빵 이름",
