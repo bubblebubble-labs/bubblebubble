@@ -507,11 +507,11 @@ const ChatClient: React.FC = () => {
               </div>
               {/* <div className="inline-block p-3 rounded-lg bg-white text-black"> */}
                  <>
-                  <div className="h-6 bg-purple-200 rounded w-3/4 mr-4 mb-2 animate-pulse"></div>
-                  <div className="h-6 bg-purple-200 rounded w-3/4 mr-2 mb-2 animate-pulse"></div>
-                  <div className="h-6 bg-purple-200 rounded w-3/4 mr-2 mb-2 animate-pulse"></div>
-                  <div className="h-6 bg-purple-200 rounded w-3/4 mr-2 mb-2 animate-pulse"></div>
-                  <div className="h-6 bg-purple-200 rounded w-1/2 mr-2 mb-2 animate-pulse"></div>
+                  <div className="h-6 bg-white/30 rounded w-3/4 mr-4 mb-2 animate-pulse"></div>
+                  <div className="h-6 bg-white/30 rounded w-3/4 mr-2 mb-2 animate-pulse"></div>
+                  <div className="h-6 bg-white/30 rounded w-3/4 mr-2 mb-2 animate-pulse"></div>
+                  <div className="h-6 bg-white/30 rounded w-3/4 mr-2 mb-2 animate-pulse"></div>
+                  <div className="h-6 bg-white/30 rounded w-1/2 mr-2 mb-2 animate-pulse"></div>
                 </>
                 {/* <span className="animate-pulse">●</span> */}
               {/* </div> */}
