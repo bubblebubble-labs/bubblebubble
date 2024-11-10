@@ -50,24 +50,30 @@ export default function Hero() {
               <div className="inline-flex relative before:absolute before:inset-0 before:bg-sky-500 before:blur-md">
                 <a className="btn-sm py-0.5 text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.sky.500),_theme(colors.sky.500))_padding-box,_linear-gradient(theme(colors.sky.500),_theme(colors.sky.200)_75%,_theme(colors.transparent)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/50 before:rounded-full before:pointer-events-none shadow" href="#0">
                   <span className="relative inline-flex items-center">
-                    버블버블 서비스 런칭!
+                    🚀 신개념 법률 서비스 출시!
                   </span>
                 </a>
               </div>
             </div>
-            <h1 className="h1 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4" data-aos="fade-down">버블버블: 우주에서 온 당신만의 법률 수호자</h1>
+            <h1 className="h1 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4" data-aos="fade-down">
+              복잡한 법률 문제가 쉬워지는 마법, 버블버블
+            </h1>
             <p className="text-lg text-slate-200 mb-8" data-aos="fade-down" data-aos-delay="200">
-              법률 문제로 고민이신가요? 복잡한 법률 용어에 지치셨나요? 복잡한 법을 Bubble Bubble 해결하세요! 플로라의 따뜻한 위로와 티모의 명쾌한 해결책으로 여러분의 법률 고민을 편안하고 쉽게 해결해드려요. 
+              법률 문제로 고민이신가요? 이제 버블버블과 함께라면 걱정 끝! 
+              당신만의 AI 법률 비서가 되어 모든 순간 함께합니다.
             </p>
             <p className="text-sm text-slate-300 mb-6" data-aos="fade-down" data-aos-delay="300">
-              지구로부터 250만 광년 떨어진 '네오 주리디카' 행성에서 온 플로라와 티모. 대한민국의 복잡한 법률 시스템을 보고 안타까움을 느낀 두 친구는 이 문제를 쉽게 해결하기 위해 왔습니다. 플로라의 따뜻한 공감 능력과 티모의 날카로운 분석력으로 무장한 그들은 이제 대한민국 시민들에게 독보적인 법률 자문과 위로를 제공합니다. 그들의 목표는 단 하나, 복잡한 법의 세계에서 길을 잃은 이들에게 빛이 되는 것입니다.
+              ✨ 초간단 AI 법률 상담으로 시간과 비용 절약 <br/>
+              💡 어려운 법률 용어를 쉽게 풀어드려요<br/>
+              ⚡️ 언제 어디서나 즉시 답변 가능<br/>
+              ✅ 변호사가 검증한 신뢰할 수 있는 정보<br/>
             </p>
           
             <br/>
             <div className="mt-4 max-w-xs mx-auto space-y-4" data-aos="fade-down" data-aos-delay="400">
               <div>
                 <a className="btn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white w-full transition duration-150 ease-in-out group" href="/survey">
-                  플로라와 티모에게 물어보기 <span className="tracking-normal text-sky-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+                  무료로 법률 상담 시작하기 
                 </a>
               </div>
               {/* <div>
