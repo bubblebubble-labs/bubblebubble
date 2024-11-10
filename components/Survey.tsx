@@ -93,10 +93,7 @@ export const Survey: React.FC = () => {
     if (currentQ?.id === 'category') {
       // Store category answer
       setAnswer('category', answer);
-      toast(`현재 질문: ${currentQuestion}\n답변: ${answer}`, {
-        autoClose: 3000,
-      });
-      
+   
       // Define the type for subcategories
       const subcategories: Record<string, string[]> = {
         '🔞 성범죄': ['👠 성매매', '🚨 성폭력/강제추행 등', '👶 미성년 대상 성범죄', '💻 디지털 성범죄'],
@@ -122,9 +119,7 @@ export const Survey: React.FC = () => {
     } else if (currentQ?.id === 'subcategory') {
       // Store subcategory answer
       setAnswer('subcategory', answer);
-      toast(`현재 질문: ${currentQuestion}\n답변: ${answer}`, {
-        autoClose: 3000,
-      });
+ 
       
       // Define the type for subsubcategories
       const subsubcategories: Record<string, string[]> = {
@@ -176,15 +171,11 @@ export const Survey: React.FC = () => {
     } else if (currentQ?.id === 'subsubcategory') {
       // Store subsubcategory answer
       setAnswer('subsubcategory', answer);
-      toast(`현재 질문: ${currentQuestion}\n답변: ${answer}`, {
-        autoClose: 3000,
-      });
+ 
     } else if (currentQ?.id === 'age') {
       // Store age answer
       setAnswer('age', answer);
-      toast(`현재 질문: ${currentQuestion}\n답변: ${answer}`, {
-        autoClose: 3000,
-      });
+ 
     }
 
     if (currentQ?.multiSelect) {

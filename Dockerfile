@@ -6,13 +6,13 @@ WORKDIR /app
 
 # Install pnpm
 RUN npm install -g pnpm
-RUN npm i sharp
 
 # Copy package.json and pnpm-lock.yaml (if you're using pnpm)
 COPY package.json pnpm-lock.yaml* ./
 
 # Install dependencies
 RUN pnpm install --frozen-lockfile
+RUN pnpm i sharp
 
 # Copy the rest of the application code
 COPY . .
