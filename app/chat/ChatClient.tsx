@@ -52,7 +52,7 @@ const ChatClient: React.FC = () => {
 
   useEffect(() => {
     if (summary) {
-      setChatList([{ role: 'assistant', content: summary }]);
+      setChatList([{ role: 'assistant', content: summary, character: 'timo' }]);
     }
   }, [summary, setChatList]);
 
@@ -70,7 +70,7 @@ const ChatClient: React.FC = () => {
     const messageToSend = text || inputText;
     if (messageToSend.trim() === '' || chatStage !== StreamStatus.IDLE) return;
     setChatStage(StreamStatus.INPUTSUBMITTED);
-    const newUserChat: Chat = { content: messageToSend, role: 'user' };
+    const newUserChat: Chat = { content: messageToSend, role: 'user', character: 'flora' };
     setChatList((prevList: Chat[]) => [...prevList, newUserChat]);
     setTimeout(() => {
       setInputText('');
@@ -78,8 +78,9 @@ const ChatClient: React.FC = () => {
     }, 100);
 
     try {
+      // First request to v7
       abortControllerRef.current = new AbortController();
-      const response = await fetch('http://211.188.55.96:8080/api/v6/chat/completion', {
+      let response = await fetch('http://211.188.55.96:8080/api/v7/chat/completion', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -95,10 +96,12 @@ const ChatClient: React.FC = () => {
 
       setChatStage(StreamStatus.ISRESPONSEFETCHED);
 
+      // Process v7 response stream
       const reader = response.body?.getReader();
       const decoder = new TextDecoder();
-      let assistantResponse = '';
-      let isChatFetching :boolean = false;
+      let v7Response = '';
+      let v6Response = '';
+      let isChatFetching = false;
       let logData = [];
 
       while (true) {
@@ -107,7 +110,7 @@ const ChatClient: React.FC = () => {
         if (!isChatFetching) {
           isChatFetching = true;
           setChatStage(StreamStatus.ISFETCHING);
-          setChatList((prevList: Chat[]) => [...prevList, { content: '', role: 'assistant' }]);
+          setChatList((prevList: Chat[]) => [...prevList, { content: '', role: 'assistant', character: 'flora' }]);
         }
         const chunk = decoder.decode(value);
         const regex = /data:{"output":"(.+?)"}/g;
@@ -122,20 +125,58 @@ const ChatClient: React.FC = () => {
         
         if (matches.length > 0) {
           matches.forEach(match => {
-            const output = match[1]; 
-            assistantResponse += output;
+            const output = match[1];
+            v7Response += output;
           });
           
           setChatList((prevList: Chat[]) => {
             const newList = [...prevList];
-            newList[newList.length - 1] = { content: assistantResponse, role: 'assistant' };
+            newList[newList.length - 1] = { content: v7Response, role: 'assistant', character: 'flora' };
             return newList;
           });
-          scrollToBottom();
+          // scrollToBottom();
         }
       }
 
+      // After v7 is complete, add Timo's response
+      setChatList((prevList: Chat[]) => [...prevList, { content: '', role: 'assistant', character: 'timo' }]);
 
+      // Process v6 response stream
+      response = await fetch('http://211.188.55.96:8080/api/v6/chat/completion', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          messages: [
+            ...chatList,
+            newUserChat
+          ]
+        }),
+        signal: abortControllerRef.current.signal,
+      });
+
+      const reader2 = response.body?.getReader();
+      while (true) {
+        const { done, value } = await reader2?.read() || {};
+        if (done) break;
+        const chunk = decoder.decode(value);
+        const regex = /data:{"output":"(.+?)"}/g;
+        const matches = Array.from(chunk.matchAll(regex));
+        
+        if (matches.length > 0) {
+          matches.forEach(match => {
+            const output = match[1];
+            v6Response += output;
+          });
+          
+          setChatList((prevList: Chat[]) => {
+            const newList = [...prevList];
+            newList[newList.length - 1] = { content: v6Response, role: 'assistant', character: 'timo' };
+            return newList;
+          });
+        }
+      }
 
       if (isLogAvailable) {
         const logContent = logData.map(row => `chunk: ${row.chunk}\ndata: ${row.data}\n\n`).join('');
@@ -335,7 +376,7 @@ const ChatClient: React.FC = () => {
 
   useEffect(() => {
     if (chatList.length === 0 && answers.age && answers.category) {
-      const initialMessage = `안녕하세요! 저는 ${answers.age}살이고, ${answers.category}${answers.subcategory ? `, ${answers.subcategory}` : ''}${answers.subsubcategory ? `, ${answers.subsubcategory}` : ''} 관련 문제를 해결하고 싶습니다. 도와주실 수 있나요?`;
+      const initialMessage = `안녕하세요. 저는 ${answers.age}살이고, ${answers.category}${answers.subcategory ? `, ${answers.subcategory}` : ''}${answers.subsubcategory ? `, ${answers.subsubcategory}` : ''} 피해를 입었습니다. 이런 상황에서 제가 어떤 법적 조치를 취할 수 있는지, 그리고 앞으로 어떻게 대응해야 할지 조언을 구하고 싶습니다. 제가 받을 수 있는 지원이나 도움은 어떤 것들이 있을까요?`;
       handleSend(initialMessage);
     }
   }, [answers, chatList.length]);
@@ -360,13 +401,15 @@ const ChatClient: React.FC = () => {
               {chat.role === 'assistant' && (
                 <div className="flex items-center mb-2">
                   <MemoizedImage
-                    src="/images/timo.png"
+                    src={chat.character === 'flora' ? "/images/flora.png" : "/images/timo.png"}
                     alt="Avatar"
                     width={40}
                     height={40}
                     className="rounded-full block mr-2"
                   />
-                  <span className="text-sm font-semibold text-gray-600">티모</span>
+                  <span className="text-sm font-semibold text-gray-600">
+                    {chat.character === 'flora' ? '플로라' : '티모'}
+                  </span>
                 </div>
               )}
               <div 
@@ -454,13 +497,13 @@ const ChatClient: React.FC = () => {
             <div className="text-left">
               <div className="flex items-center mb-2">
                 <MemoizedImage
-                  src="/images/timo.png"
+                  src="/images/flora.png"
                   alt="Avatar"
                   width={40}
                   height={40}
                   className="rounded-full block mr-2"
                 />
-                <span className="text-sm font-semibold text-gray-600">티모</span>
+                <span className="text-sm font-semibold text-gray-600">플로라</span>
               </div>
               {/* <div className="inline-block p-3 rounded-lg bg-white text-black"> */}
                  <>
