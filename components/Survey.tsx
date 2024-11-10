@@ -359,7 +359,6 @@ ${JSON.stringify(breadData['빵 목록'])}
         <ToastContainer />
         <h2 className="text-3xl font-bold mb-6 text-center text-sky-400">채팅 페이지로 이동합니다...</h2>
         <div className="text-center">
-          <SkeletonLoader />
           <p className="text-center mt-4 text-sky-400">잠시만 기다려주세요...</p>
         </div>
       </div>

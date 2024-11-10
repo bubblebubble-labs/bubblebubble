@@ -12,7 +12,6 @@ import remarkGfm from 'remark-gfm';
 import { Toaster, toast } from "react-hot-toast";
 import "../styles/Chat.css";
 import { colors } from '../styles/colors'
-import '../styles/Chat.css';
 
 const isLogAvailable = false;
 
@@ -188,7 +187,7 @@ const ChatClient: React.FC = () => {
     } else {
       // 재생 시작
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'ja-JP'; // 일본어로 설정
+      utterance.lang = 'ja-JP'; // 일본로 설정
       utterance.onend = () => {
         setIsPlaying(prev => ({ ...prev, [chatId]: false }));
       };
@@ -517,7 +516,7 @@ const ChatClient: React.FC = () => {
                 }}
                 onKeyDown={handleKeyPress}
                 placeholder="메시지를 입력해주세요"
-                className="flex-grow bg-transparent outline-none resize-none overflow-hidden min-h-[24px] text-[#1F2937] mr-2"
+                className="flex-grow bg-transparent outline-none border-none resize-none overflow-hidden min-h-[24px] text-[#1F2937] mr-2"
                 style={{ maxHeight: '120px' }}
               />
               <button 
