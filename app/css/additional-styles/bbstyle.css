@@ -21,8 +21,7 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 	font-weight:600;
 }
 .bbstyle h2, .bbstyle h3{text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.2);}
-.bbstyle h6,
-.bbstyle li>a {font-size:1rem; color:#fff;}
+.bbstyle h6, .bbstyle li>a {font-size:1rem; color:#fff;}
 .bbstyle p {font-size:1.4rem;}
 
 .bbstyle .bg-slate-700 {background:#1a2b51;}
@@ -45,8 +44,9 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 }
 .bbstyle .bbtn:hover {box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);}
 .bbstyle .bbox {
-	background:rgba(255,255,255,.5);
+	min-height:80vh;
 	border-radius:25px;
+	background:rgba(255,255,255,.5);
 }
 .bbstyle .bbtab button {
 	font-size:1rem;
@@ -59,6 +59,7 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 	background:rgba(158,0,134,.1);
 }
 .bbstyle .bbitem .border {border:1px solid rgba(0,0,0,.2);}
+.bbstyle .bg-sky-400 {background:rgba(199, 81, 223, 1); color:#fff;}
 .bbstyle .none {display:none;}
 
 /* 설문조사 */ 
@@ -66,6 +67,23 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 .bbstyle .bbox .w-full {background:#7f7aa0;}
 .bbstyle .bbox .bbbg {background:#c751df;}
 .bbstyle .bbox .num {color:#334155;}
+
+.bbstyle .bbox .css-1qltlow-MuiTabs-indicator {background:none;}
+.bbstyle .bbox .MuiTabs-root button[aria-selected="true"] {
+	color:#fff;
+	background:#7a45bd;
+}
+.bbstyle .bbox .MuiTabs-root button {
+	color:#334155;
+	font-weight:600;
+	font-size:1.2rem;
+}
+.bbstyle .bbox .tab-content > h2 {
+	font-size:1.4rem;
+
+}
+
+
 
 .bbstyle_2 .swiper-container:before,
 .bbstyle_2 .swiper-container:after {content:none;}
