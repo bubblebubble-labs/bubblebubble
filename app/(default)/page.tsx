@@ -1,6 +1,6 @@
 export const metadata = {
-  title: '버블버블 - AI 법률 서비스',
-  description: '버블버블 - AI 법률 서비스',
+  title: '버블버블 : AI 법률지식 서비스',
+  description: '버블버블 : AI 법률지식 서비스',
 }
 
 import Hero from '@/components/hero'
@@ -9,6 +9,7 @@ import Features from '@/components/features'
 import Features02 from '@/components/features-02'
 import Features03 from '@/components/features-03'
 import Features05 from '@/components/features-05'
+// import Keyword from '@/components/keyword'
 
 import TestimonialsCarousel from '@/components/testimonials-carousel'
 import Features04 from '@/components/features-04'
@@ -25,16 +26,17 @@ export default function Home() {
       <Hero />
       <Clients />
       <Features />
-       <Features05 />
+      <Features05 />
+      {/* <Keyword />  */}
       {/* <Features02 /> */}
       {/* <Features03 /> */}
       {/* <TestimonialsCarousel /> */}
       {/* <Features04 /> */}
       {/* <Pricing /> */}
-      <Customers />
+      {/* <Customers />
       <Faqs />
       <Testimonials />
-      <Cta />
+      <Cta />  */}
 
     </>
   )

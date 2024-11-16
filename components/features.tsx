@@ -10,7 +10,7 @@ export default function Features() {
   const [tab, setTab] = useState<number>(1)
 
   return (
-    <section>
+    <section className="bbstyle">
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
         {/* Illustration */}
         <div className="absolute inset-0 -z-10 -mx-28 rounded-t-[3rem] pointer-events-none overflow-hidden" aria-hidden="true">
@@ -27,28 +27,28 @@ export default function Features() {
               <div className="md:w-7/12 lg:w-1/2 order-1 md:order-none max-md:text-center" data-aos="fade-down">
                 {/* Content #1 */}
                 <div>
-                  <div className="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-sky-200 pb-3">AI 기반 법률 솔루션</div>
+                  <div className="inline-flex font-medium bg-clip-text bg-gradient-to-r from-sky-500 to-sky-200 pb-3"></div>
                 </div>
-                <h3 className="h3 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-3">법률 문제, 복잡한 법을 Bubble Bubble로 해결하세요</h3>
-                <p className="text-lg text-slate-400 mb-8">24시간 대기 중인 AI 법률 비서, 플로라와 티모가 당신의 모든 법률 문제를 스마트하게 해결해드립니다. 전세사기부터 디지털 성범죄까지, 어떤 문제든 상담해보세요.</p>
-                <div className="mt-8 max-w-xs max-md:mx-auto space-y-2">
+                <h3 className="h3 bg-clip-text  bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-3">신종문제와 해결방법을 <span className="bb block">'버블버블'로 해결하세요</span></h3>
+                <p className="text-lg mb-8">24시간 대기 중인 AI 법률 비서, <span className="bb block">모든 법률 문제를 스마트하게!</span></p>
+                <div className="bbtab mt-8 max-w-xs max-md:mx-auto space-y-2">
                   <button className={`flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100 ${tab !== 1 ? 'border-slate-700 opacity-50' : 'border-sky-700 shadow shadow-sky-500/25'}`} onClick={() => setTab(1)}>
                     <svg className="shrink-0 fill-slate-300 mr-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
                       <path d="M14 0a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12Zm0 14V2H2v12h12Zm-3-7H5a1 1 0 1 1 0-2h6a1 1 0 0 1 0 2Zm0 4H5a1 1 0 0 1 0-2h6a1 1 0 0 1 0 2Z" />
                     </svg>
-                    <span>음성으로 묻고 AI로 답하는 상담</span>
+                    <span>자주쓰는 법률 키워드</span>
                   </button>
                   <button className={`flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100 ${tab !== 2 ? 'border-slate-700 opacity-50' : 'border-sky-700 shadow shadow-sky-500/25'}`} onClick={() => setTab(2)}>
                     <svg className="shrink-0 fill-slate-300 mr-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
                       <path d="M2 6H0V2a2 2 0 0 1 2-2h4v2H2v4ZM16 6h-2V2h-4V0h4a2 2 0 0 1 2 2v4ZM14 16h-4v-2h4v-4h2v4a2 2 0 0 1-2 2ZM6 16H2a2 2 0 0 1-2-2v-4h2v4h4v2Z" />
                     </svg>
-                    <span>생애주기별 맞춤 법률 서비스</span>
+                    <span>생애주기별 맞춤 서비스</span>
                   </button>
                   <button className={`flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100 ${tab !== 3 ? 'border-slate-700 opacity-50' : 'border-sky-700 shadow shadow-sky-500/25'}`} onClick={() => setTab(3)}>
                     <svg className="shrink-0 fill-slate-300 mr-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
                       <path d="M14.3.3c.4-.4 1-.4 1.4 0 .4.4.4 1 0 1.4l-8 8c-.2.2-.4.3-.7.3-.3 0-.5-.1-.7-.3-.4-.4-.4-1 0-1.4l8-8ZM15 7c.6 0 1 .4 1 1 0 4.4-3.6 8-8 8s-8-3.6-8-8 3.6-8 8-8c.6 0 1 .4 1 1s-.4 1-1 1C4.7 2 2 4.7 2 8s2.7 6 6 6 6-2.7 6-6c0-.6.4-1 1-1Z" />
                     </svg>
-                    <span>원스톱 법률 솔루션</span>
+                    <span>AI로 찾는 법률 상식</span>
                   </button>
                 </div>
               </div>

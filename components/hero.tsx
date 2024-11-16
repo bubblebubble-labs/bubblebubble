@@ -2,10 +2,11 @@
 import Image from 'next/image'
 import Particles from './particles'
 import Illustration from '@/public/images/glow-bottom.svg'
+import Animate from '@/components/Animate'
 import { useState } from 'react';
 
 export default function Hero() {
-   const [email, setEmail] = useState('');
+  const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -29,7 +30,7 @@ export default function Hero() {
     }
   };
   return (
-    <section>
+    <section className="bbstyle">
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
 
         {/* Particles animation */}
@@ -48,34 +49,28 @@ export default function Hero() {
           <div className="max-w-3xl mx-auto text-center">
             <div className="mb-6" data-aos="fade-down">
               <div className="inline-flex relative before:absolute before:inset-0 before:bg-sky-500 before:blur-md">
-                <a className="btn-sm py-0.5 text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.sky.500),_theme(colors.sky.500))_padding-box,_linear-gradient(theme(colors.sky.500),_theme(colors.sky.200)_75%,_theme(colors.transparent)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/50 before:rounded-full before:pointer-events-none shadow" href="#0">
-                  <span className="relative inline-flex items-center">
-                    🚀 신개념 법률 서비스 출시!
-                  </span>
+                <a className="box btn-sm py-0.5 text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.sky.500),_theme(colors.sky.500))_padding-box,_linear-gradient(theme(colors.sky.500),_theme(colors.sky.200)_75%,_theme(colors.transparent)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/50 before:rounded-full before:pointer-events-none shadow" href="#0">
+                  <span className="tit">신개념 법률지식 서비스</span>
                 </a>
               </div>
             </div>
-            <h1 className="h1 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4" data-aos="fade-down">
-              복잡한 법률 문제가 쉬워지는 마법, 버블버블
-            </h1>
-            <p className="text-lg text-slate-200 mb-8" data-aos="fade-down" data-aos-delay="200">
-              법률 문제로 고민이신가요? 이제 버블버블과 함께라면 걱정 끝! 
-              당신만의 AI 법률 비서가 되어 모든 순간 함께합니다.
+            <h3 className="h3 bg-clip-text bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4" data-aos="fade-down">법을 더 가까이, 더 손쉽게!<span className="bb">'버블버블'</span></h3>
+            <p className="text-lg mb-8" data-aos="fade-down" data-aos-delay="200">
+              법률 문제로 고민이신가요?<br/>
+              당신만의 <b>AI 법률 비서</b>가 모든 순간 함께합니다.
             </p>
-            <p className="text-sm text-slate-300 mb-6" data-aos="fade-down" data-aos-delay="300">
+            {/* <p className="text-sm text-slate-300 mb-6" data-aos="fade-down" data-aos-delay="300">
               ✨ 초간단 AI 법률 상담으로 시간과 비용 절약 <br/>
               💡 어려운 법률 용어를 쉽게 풀어드려요<br/>
               ⚡️ 언제 어디서나 즉시 답변 가능<br/>
               ✅ 변호사가 검증한 신뢰할 수 있는 정보<br/>
-            </p>
+              </p> */}
           
-            <br/>
-            <div className="mt-4 max-w-xs mx-auto space-y-4" data-aos="fade-down" data-aos-delay="400">
-              <div>
-                <a className="btn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white w-full transition duration-150 ease-in-out group" href="/survey">
-                  무료로 법률 상담 시작하기 
+            <Animate />
+            <div className="max-w-xs mx-auto space-y-4" data-aos="fade-down" data-aos-delay="400">
+                <a className="bbtn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white w-full transition duration-150 ease-in-out group" href="/survey">
+                  무료 법률상담 시작하기 
                 </a>
-              </div>
               {/* <div>
                 <a className="btn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white w-full transition duration-150 ease-in-out group" href="/game">
                   버블버블 게임하기 <span className="tracking-normal text-sky-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>

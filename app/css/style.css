@@ -1,11 +1,13 @@
 @import 'tailwindcss/base';
+@import 'tailwindcss/utilities';
 @import 'tailwindcss/components';
 
-/* Additional styles */
-@import 'additional-styles/utility-patterns.css';
-@import 'additional-styles/theme.css';
+@import 'additional-styles/bbstyle.css';  /* 웹접근 준수 스타일 */
 
-@import 'tailwindcss/utilities';
+/* Additional styles */
+@import 'additional-styles/utility-patterns.css'; 
+@import 'additional-styles/theme.css';   
+
 
 /* Additional Tailwind directives: https://tailwindcss.com/docs/functions-and-directives/#responsive */
 @layer utilities {
@@ -13,4 +15,5 @@
         direction: rtl;
     }
 }
+
 

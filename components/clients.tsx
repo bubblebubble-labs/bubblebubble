@@ -57,7 +57,7 @@ export default function Clients() {
   }, [])
 
   return (
-    <section>
+    <section className="bbstyle bbstyle_2">
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
 
         {/* Particles animation */}
@@ -74,7 +74,7 @@ export default function Clients() {
                 {/* Carousel items */}
                 {crimes.map((crime, index) => (
                   <div key={index} className="swiper-slide !w-auto">
-                    <div className="text-[#C4CFDD] text-xl font-bold">{crime}</div>
+                    <div className="text-xl font-bold">{crime}</div>
                   </div>
                 ))}
               </div>

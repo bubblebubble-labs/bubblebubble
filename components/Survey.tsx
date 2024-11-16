@@ -11,10 +11,17 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const questions = [{
   id: 'age',
-  question: '몇 살이신지 살짝 물어봐도 될까요?',
+  question: '나이를 물어봐도 될까요?',
   options: Array.from({length: 91}, (_, i) => (i + 11).toString()),
   multiSelect: false,
   type: 'number',
+},
+{
+  id: 'gender',
+  question: '성별을 알려주실 수 있나요?',
+  options: ['남성', '여성', '기타', '말하고 싶지 않음'],
+  multiSelect: false,
+  type: 'text',
 },
 {
   id: 'category',
@@ -314,7 +321,7 @@ ${JSON.stringify(breadData['빵 목록'])}
     return (
       <div className="max-w-2xl mx-auto mt-20 p-8 bg-slate-800 rounded-lg shadow-xl text-white">
         <ToastContainer />
-        <h2 className="text-3xl font-bold mb-6 text-center text-sky-400">채팅 페이지로 이동합니다...</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center text-sky-400">채팅 페이지로 이동중입니다</h2>
         <div className="text-center">
           <p className="text-center mt-4 text-sky-400">잠시만 기다려주세요...</p>
         </div>
@@ -323,18 +330,19 @@ ${JSON.stringify(breadData['빵 목록'])}
   }
 
   return (
-    <div className="max-w-4xl mx-auto mt-20 p-6 bg-slate-800 rounded-lg shadow-xl text-white">
+    <div className="bbstyle">
+    <div className="bbox max-w-4xl mx-auto mt-20 p-6 bg-slate-800 rounded-lg shadow-xl text-white">
       <ToastContainer />
       {/* Progress bar */}
       <div className="mb-6">
-        <div className="w-full bg-slate-700 rounded-full h-2.5">
+        <div className="w-full rounded-full h-2.5">
           <div
-            className="bg-sky-600 h-2.5 rounded-full transition-all duration-300 ease-in-out"
+            className="bbbg h-2.5 rounded-full transition-all duration-300 ease-in-out"
             style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
           ></div>
         </div>
-        <div className="text-right text-sm text-slate-400 mt-2">
-          {currentQuestion + 1} / {questions.length}
+        <div className="num text-right text-sm mt-2">
+          {currentQuestion + 1} / <b>{questions.length}</b>
         </div>
       </div>
 
@@ -351,7 +359,7 @@ ${JSON.stringify(breadData['빵 목록'])}
           </button>
           <button
             onClick={handleNextQuestion}
-            className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600 transition duration-150 ease-in-out font-bold"
+            className="bbbg px-4 py-2 text-white rounded transition duration-150 ease-in-out font-bold"
           >
             다음
           </button>
@@ -394,6 +402,7 @@ ${JSON.stringify(breadData['빵 목록'])}
         
       
       </div>
+    </div>
     </div>
   )
 }

@@ -434,9 +434,22 @@ const ChatClient: React.FC = () => {
                       li: ({ node, ...props }) => (
                         <li {...props} className="list-disc ml-5" />
                       ),
-                      p: ({ node, ...props }) => (
-                        <p {...props} className="my-2 whitespace-pre-wrap" />
-                      ),
+                      p: ({ node, children, ...props }) => {
+                        // URL 패턴을 찾기 위한 정규식
+                        const imageUrlPattern = /^https?:\/\/.*\.(jpg|jpeg|png|gif|webp)$/i;
+                        
+                        // children이 단일 문자열이고 이미지 URL인 경우
+                        if (typeof children === 'string' && imageUrlPattern.test(children)) {
+                          return (
+                            <div className="my-2">
+                              <img src={children} alt="Linked content" className="max-w-full rounded-lg" />
+                            </div>
+                          );
+                        }
+                        
+                        // 일반적인 텍스트의 경우 기존 스타일 유지
+                        return <p {...props} className="my-2 whitespace-pre-wrap">{children}</p>;
+                      },
                       table: ({ node, ...props }) => (
                         <table {...props} className="border-collapse border border-gray-300 my-2 w-full" />
                       ),
@@ -454,6 +467,11 @@ const ChatClient: React.FC = () => {
                       ),
                       code: ({ node, ...props }) => (
                         <code {...props} className="bg-gray-100 p-1 rounded" />
+                      ),
+                      img: ({ node, ...props }) => (
+                        <div className="my-2">
+                          <img {...props} className="max-w-full rounded-lg" />
+                        </div>
                       ),
                     }}
                   >

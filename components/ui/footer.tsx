@@ -2,7 +2,7 @@ import Logo from './logo'
 
 export default function Footer() {
   return (
-    <footer>
+    <footer className="bbstyle">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
 
         {/* Blocks */}
@@ -15,7 +15,7 @@ export default function Footer() {
                 <div className="mb-4">
                   <Logo />
                 </div>
-                <div className="text-sm text-slate-300">© 나는 솔로프리너 <span className="text-slate-500">-</span> All rights reserved.</div>
+                <div className="text-sm text-slate-300">© 민관협력 플랫폼 <span className="text-slate-500">-</span> All rights reserved.</div>
               </div>
               {/* Social links */}
               <ul className="flex">
@@ -45,7 +45,7 @@ export default function Footer() {
           </div>
 
           {/* 2nd block */}
-          <div className="sm:col-span-6 md:col-span-3 lg:col-span-2">
+          <div className="m:col-span-6 md:col-span-3 lg:col-span-2">
             <h6 className="text-sm text-slate-50 font-medium mb-2">서비스</h6>
             <ul className="text-sm space-y-2">
               <li>
@@ -115,7 +115,7 @@ export default function Footer() {
                 <a className="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out" href="#0">개인정보 처리방침</a>
               </li>
               <li>
-                <a className="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out" href="#0">책임의 한계와 법적고지</a>
+                <a className="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out" href="#0">책임의 한계와 고지</a>
               </li>
               <li>
                 <a className="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out" href="#0">브랜드 가이드라인</a>
