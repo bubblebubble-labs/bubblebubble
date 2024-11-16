@@ -15,10 +15,15 @@ import { useSurveyStore } from '../store/surveyStore';
 
 const isLogAvailable = false;
 
+const TTS_CONFIG = {
+  clientId: process.env.NEXT_PUBLIC_NAVER_CLIENT_ID,
+  clientSecret: process.env.NEXT_PUBLIC_NAVER_CLIENT_SECRET,
+};
+
 const ChatClient: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const summary = searchParams.get('summary');
+  const summary = searchParams?.get('summary');
   const { 
     chatList, 
     setChatList, 
@@ -38,6 +43,9 @@ const ChatClient: React.FC = () => {
   const [showScrollToTop, setShowScrollToTop] = useState(false);
   const [showScrollToBottom, setShowScrollToBottom] = useState(false);
   const [lastEnterPress, setLastEnterPress] = useState<number | null>(null);
+  const [isRecording, setIsRecording] = useState(false);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const chunksRef = useRef<Blob[]>([]);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -270,23 +278,62 @@ const ChatClient: React.FC = () => {
     }
   };
 
-  const handleTextToSpeech = (text: string, chatId: number) => {
+  const handleTextToSpeech = async (text: string, chatId: number) => {
     if (isPlaying[chatId]) {
-      // 재생 중이면 중지
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current = null;
       }
       setIsPlaying(prev => ({ ...prev, [chatId]: false }));
-    } else {
-      // 재생 시작
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'ja-JP'; // 일본로 설정
-      utterance.onend = () => {
+      return;
+    }
+
+    try {
+      const formData = new URLSearchParams();
+      formData.append('speaker', 'nara');
+      formData.append('text', text);
+      formData.append('volume', '0');
+      formData.append('speed', '-1');
+      formData.append('pitch', '1');
+      formData.append('emotion', '2');
+      formData.append('emotion-strength', '1');
+      formData.append('format', 'wav');
+      formData.append('sampling-rate', '8000');
+      formData.append('alpha', '0');
+      formData.append('end-pitch', '0');
+
+      const response = await fetch('https://naveropenapi.apigw.ntruss.com/tts-premium/v1/tts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'X-NCP-APIGW-API-KEY-ID': process.env.X_NCP_APIGW_API_KEY_ID || 'isbs4fsm1a',
+          'X-NCP-APIGW-API-KEY': process.env.X_NCP_APIGW_API_KEY || 'Q7XvNEmR4nptBcMPF0b53dzAQOeuElEnsh4EjZe6',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        },
+        body: formData,
+      });
+
+      if (!response.ok) throw new Error('TTS request failed');
+
+      const audioBlob = await response.blob();
+      const audioUrl = URL.createObjectURL(audioBlob);
+      
+      const audio = new Audio(audioUrl);
+      audioRef.current = audio;
+      
+      audio.onended = () => {
         setIsPlaying(prev => ({ ...prev, [chatId]: false }));
+        URL.revokeObjectURL(audioUrl);
       };
+
       setIsPlaying(prev => ({ ...prev, [chatId]: true }));
-      window.speechSynthesis.speak(utterance);
+      audio.play();
+    } catch (error) {
+      console.error('TTS error:', error);
+      toast.error('음성 변환에 실패했습니다.');
+      setIsPlaying(prev => ({ ...prev, [chatId]: false }));
     }
   };
 
@@ -420,12 +467,77 @@ const ChatClient: React.FC = () => {
     }
   ), []);
 
+  const MemoizedTTSButton = useMemo(() => React.memo<{ onClick: () => void; isPlaying: boolean }>(
+    ({ onClick, isPlaying }) => {
+      return (
+        <button
+          onClick={onClick}
+          className={`p-2 rounded-full hover:bg-gray-100 transition-colors duration-200`}
+        >
+          <MemoizedImage
+            src={`/images/${isPlaying ? 'svg_stop' : 'svg_volume'}.svg`}
+            alt={isPlaying ? "Stop" : "Play"}
+            width={18}
+            height={18}
+            className="opacity-70"
+          />
+        </button>
+      );
+    }
+  ), []);
+
   useEffect(() => {
     if (chatList.length === 0 && answers.age && answers.category) {
       const initialMessage = `안녕하세요. 저는 ${answers.age}살이고, ${answers.category}${answers.subcategory ? `, ${answers.subcategory}` : ''}${answers.subsubcategory ? `, ${answers.subsubcategory}` : ''} 피해를 입었습니다. 이런 상황에서 제가 어떤 법적 조치를 취할 수 있는지, 그리고 앞으로 어떻게 대응해야 할지 조언을 구하고 싶습니다. 제가 받을 수 있는 지원이나 도움은 어떤 것들이 있을까요?`;
       handleSend(initialMessage);
     }
   }, [answers, chatList.length]);
+
+  const handleSpeechToText = async () => {
+    if (isRecording) {
+      // Stop recording
+      mediaRecorderRef.current?.stop();
+      setIsRecording(false);
+    } else {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const mediaRecorder = new MediaRecorder(stream);
+        mediaRecorderRef.current = mediaRecorder;
+        chunksRef.current = [];
+
+        mediaRecorder.ondataavailable = (e) => {
+          chunksRef.current.push(e.data);
+        };
+
+        mediaRecorder.onstop = async () => {
+          const audioBlob = new Blob(chunksRef.current, { type: 'audio/wav' });
+          
+          try {
+            const response = await fetch('/api/speech-to-text', {
+              method: 'POST',
+              body: audioBlob,
+            });
+
+            const data = await response.json();
+            if (data.text) {
+              setInputText(data.text);
+              handleSend(data.text);
+            }
+          } catch (error) {
+            console.error('Speech to text error:', error);
+            toast.error('음성 인식에 실패했습니다.');
+          }
+          stream.getTracks().forEach(track => track.stop());
+        };
+
+        mediaRecorder.start();
+        setIsRecording(true);
+      } catch (error) {
+        console.error('Microphone access error:', error);
+        toast.error('마이크 접근 권한이 필요합니다.');
+      }
+    }
+  };
 
   return (
     <div className="flex flex-col h-screen bg-[#ABC1D1]">
@@ -540,6 +652,10 @@ const ChatClient: React.FC = () => {
                     <MemoizedCopyButton
                       onClick={() => handleCopyText(chat.content, index)}
                     />
+                    <MemoizedTTSButton
+                      onClick={() => handleTextToSpeech(chat.content, index)}
+                      isPlaying={isPlaying[index]}
+                    />
                     <MemoizedFeedbackButton
                       onClick={() => handleFeedback(index, true)}
                       icon="svg_thumbs_up"
@@ -640,9 +756,21 @@ const ChatClient: React.FC = () => {
                 className="flex-grow bg-transparent outline-none border-none resize-none overflow-hidden min-h-[24px] text-[#1F2937] mr-2 focus:ring-0 focus:outline-none"
                 style={{ maxHeight: '120px' }}
               />
+              <button
+                onClick={handleSpeechToText}
+                className="w-[32px] h-[32px] rounded-full flex items-center justify-center mr-2"
+              >
+                <MemoizedImage
+                  src={isRecording ? "/images/mic-active.svg" : "/images/mic.svg"}
+                  alt="microphone"
+                  width={24}
+                  height={24}
+                  className={isRecording ? "animate-pulse" : ""}
+                />
+              </button>
               <button 
                 onClick={() => chatStage === StreamStatus.IDLE ? handleSend() : handleStopRequest()}
-                className={`w-[32px] h-[32px] rounded-full flex items-center justify-center mr-2`}
+                className="w-[32px] h-[32px] rounded-full flex items-center justify-center mr-2"
               >
                 { [StreamStatus.INPUTSUBMITTED, StreamStatus.ISRESPONSEFETCHED, StreamStatus.ISFETCHING].includes(chatStage) ? (
                   <MemoizedImage src="/images/stop-circle.svg" alt="stop" width={32} height={32} />
