@@ -20,6 +20,29 @@ const TTS_CONFIG = {
   clientSecret: process.env.NEXT_PUBLIC_NAVER_CLIENT_SECRET,
 };
 
+const VOICE_CHARACTERS = {
+  FLORA: {
+    speaker: 'nara',
+    volume: 0,
+    speed: -1,
+    pitch: 1,
+    emotion: 2,
+    emotionStrength: 2,
+    alpha: 1,
+    endPitch: 1
+  },
+  TIMO: {
+    speaker: 'ndonghyun',
+    volume: 0,
+    speed: 0,
+    pitch: -1,
+    emotion: 0,
+    emotionStrength: 1,
+    alpha: -1,
+    endPitch: -1
+  }
+};
+
 const ChatClient: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -278,7 +301,7 @@ const ChatClient: React.FC = () => {
     }
   };
 
-  const handleTextToSpeech = async (text: string, chatId: number) => {
+  const handleTextToSpeech = async (text: string, chatId: number, character: string) => {
     if (isPlaying[chatId]) {
       if (audioRef.current) {
         audioRef.current.pause();
@@ -289,28 +312,25 @@ const ChatClient: React.FC = () => {
     }
 
     try {
+      const voiceConfig = character === 'flora' ? VOICE_CHARACTERS.FLORA : VOICE_CHARACTERS.TIMO;
+      
       const formData = new URLSearchParams();
-      formData.append('speaker', 'nara');
+      formData.append('speaker', voiceConfig.speaker);
       formData.append('text', text);
-      formData.append('volume', '0');
-      formData.append('speed', '-1');
-      formData.append('pitch', '1');
-      formData.append('emotion', '2');
-      formData.append('emotion-strength', '1');
+      formData.append('volume', voiceConfig.volume.toString());
+      formData.append('speed', voiceConfig.speed.toString());
+      formData.append('pitch', voiceConfig.pitch.toString());
+      formData.append('emotion', voiceConfig.emotion.toString());
+      formData.append('emotion-strength', voiceConfig.emotionStrength.toString());
       formData.append('format', 'wav');
       formData.append('sampling-rate', '8000');
-      formData.append('alpha', '0');
-      formData.append('end-pitch', '0');
+      formData.append('alpha', voiceConfig.alpha.toString());
+      formData.append('end-pitch', voiceConfig.endPitch.toString());
 
-      const response = await fetch('https://naveropenapi.apigw.ntruss.com/tts-premium/v1/tts', {
+      const response = await fetch('/api/tts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'X-NCP-APIGW-API-KEY-ID': process.env.X_NCP_APIGW_API_KEY_ID || 'isbs4fsm1a',
-          'X-NCP-APIGW-API-KEY': process.env.X_NCP_APIGW_API_KEY || 'Q7XvNEmR4nptBcMPF0b53dzAQOeuElEnsh4EjZe6',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
         },
         body: formData,
       });
@@ -475,7 +495,7 @@ const ChatClient: React.FC = () => {
           className={`p-2 rounded-full hover:bg-gray-100 transition-colors duration-200`}
         >
           <MemoizedImage
-            src={`/images/${isPlaying ? 'svg_stop' : 'svg_volume'}.svg`}
+            src={`/images/${isPlaying ? 'svg_stop_circle' : 'svg_volume'}.svg`}
             alt={isPlaying ? "Stop" : "Play"}
             width={18}
             height={18}
@@ -653,7 +673,7 @@ const ChatClient: React.FC = () => {
                       onClick={() => handleCopyText(chat.content, index)}
                     />
                     <MemoizedTTSButton
-                      onClick={() => handleTextToSpeech(chat.content, index)}
+                      onClick={() => handleTextToSpeech(chat.content, index, chat.character)}
                       isPlaying={isPlaying[index]}
                     />
                     <MemoizedFeedbackButton
