@@ -12,7 +12,6 @@ import 'react-toastify/dist/ReactToastify.css';
 const questions = [{
   id: 'age',
   question: '나이를 물어봐도 될까요?',
-  options: Array.from({length: 91}, (_, i) => (i + 11).toString()),
   multiSelect: false,
   type: 'number',
 },
@@ -395,6 +394,8 @@ ${JSON.stringify(breadData['빵 목록'])}
                 onChange={(e) => setAnswer(currentQ?.id ?? '', e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleNextQuestion()}
                 className="w-full p-2 border rounded bg-slate-700 text-white"
+                pattern="\d*"
+                inputMode="numeric"
               />
             )}
           </motion.div>
