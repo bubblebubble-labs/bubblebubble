@@ -79,7 +79,7 @@ const KeywordComponent = () => {
 
   return (
     <div className="bbstyle">
-      <div className="bbox max-w-4xl mx-auto mt-20 p-6 bg-slate-800 rounded-lg shadow-xl text-white keyword-analysis">
+      <div className="bbox graph keyword-analysis">
         <Tabs value={selectedTab} onChange={handleTabChange} variant="fullWidth">
           <Tab label="분야별" />
           <Tab label="연령별" />
@@ -88,7 +88,7 @@ const KeywordComponent = () => {
  
         {selectedTab === 0 && (
           <div className="tab-content">
-            <h2>분야별 가장 많이 검색한 법률키워드는?</h2>
+            <h2><b>분야별</b> 가장 많이 검색한 법률키워드는?</h2>
             <ResponsiveContainer width="100%" height={400}>
               <BarChart layout="vertical" data={dummyData.topics} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -96,7 +96,7 @@ const KeywordComponent = () => {
                 <YAxis type="category" dataKey="keyword" />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="value" fill="#8884d8" />
+                <Bar dataKey="value" fill="#FF6347" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -104,7 +104,7 @@ const KeywordComponent = () => {
 
         {selectedTab === 1 && (
           <div className="tab-content">
-            <h2>연령별 가장 많이 검색한 법률키워드는?</h2>
+            <h2><b>연령별</b> 가장 많이 검색한 법률키워드는?</h2>
             <ResponsiveContainer width="100%" height={400}>
               <ScatterChart margin={{ top: 20, right: 30, bottom: 10, left: 0 }}>
                 <CartesianGrid />
@@ -112,7 +112,7 @@ const KeywordComponent = () => {
                 <YAxis dataKey="value" name="검색 빈도" />
                 <Tooltip cursor={{ strokeDasharray: '3 3' }} />
                 {dummyData.ageGroup.map((group, index) => (
-                  <Scatter key={index} name={group.name} data={group.keywords.map((keyword) => ({ name: group.name, value: keyword.value }))} fill="#8884d8" />
+                  <Scatter key={index} name={group.name} data={group.keywords.map((keyword) => ({ name: group.name, value: keyword.value }))} fill={group.name === '10대' ? "#1E90FF" : group.name === '20대' ? "#FF6347" : group.name === '30대' ? "#3CB371" : group.name === '40대' ? "#FFD700" : group.name === '50대' ? "#FF69B4" : "#8A2BE2"} />
                 ))}
               </ScatterChart>
             </ResponsiveContainer>
@@ -121,20 +121,20 @@ const KeywordComponent = () => {
 
         {selectedTab === 2 && (
           <div className="tab-content">
-            <h2>지역별 가장 많이 검색한 법률키워드는?</h2>
+            <h2><b>지역별</b> 가장 많이 검색한 법률키워드는?</h2>
             <ResponsiveContainer width="100%" height={400}>
               <Treemap
                 data={dummyData.region.map((region) => ({ name: region.name, size: region.value }))}
                 dataKey="size"
                 nameKey="name"
                 stroke="#fff"
-                fill="#8884d8"
+                fill="#FF69B4"
                 aspectRatio={4 / 3}
               />
             </ResponsiveContainer>
           </div>
         )}
-      <span>@로톡 분류별 범죄 순위 참고</span>
+      <span><b>@로톡</b> 분류별 범죄 순위 참고</span>
       </div>
     </div>
   );

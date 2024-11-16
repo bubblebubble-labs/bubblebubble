@@ -44,7 +44,6 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 }
 .bbstyle .bbtn:hover {box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);}
 .bbstyle .bbox {
-	min-height:80vh;
 	border-radius:25px;
 	background:rgba(255,255,255,.5);
 }
@@ -63,7 +62,8 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 .bbstyle .none {display:none;}
 
 /* 설문조사 */ 
-.bbstyle .bbox h2, .bbstyle .bbox h3 {color:#334155; text-shadow:none; font-weight:800;}
+.bbstyle .bbox h2, 
+.bbstyle .bbox h3 {color:#334155; text-shadow:none; font-weight:800;}
 .bbstyle .bbox .w-full {background:#7f7aa0;}
 .bbstyle .bbox .bbbg {background:#c751df;}
 .bbstyle .bbox .num {color:#334155;}
@@ -72,19 +72,24 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 .bbstyle .bbox .MuiTabs-root button[aria-selected="true"] {
 	color:#fff;
 	background:#7a45bd;
+	border-radius:15px 15px 0 0;
 }
 .bbstyle .bbox .MuiTabs-root button {
-	color:#334155;
+	color:#fff;
 	font-weight:600;
 	font-size:1.2rem;
 }
 .bbstyle .bbox .tab-content > h2 {
+	color:#fff;
+	margin:2rem 0;
 	font-size:1.4rem;
-
 }
-
-
-
+.bbstyle .bbox.graph {
+	margin:0;
+	border-radius:0;
+	padding:4rem;
+	background:rgba(165,97,180,.2);
+}
 .bbstyle_2 .swiper-container:before,
 .bbstyle_2 .swiper-container:after {content:none;}
 .bbstyle_2 {

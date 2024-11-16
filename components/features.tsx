@@ -29,7 +29,7 @@ export default function Features() {
                 <div>
                   <div className="inline-flex font-medium bg-clip-text bg-gradient-to-r from-sky-500 to-sky-200 pb-3"></div>
                 </div>
-                <h3 className="h3 bg-clip-text  bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-3">신종문제와 해결방법을 <span className="bb block">'버블버블'로 해결하세요</span></h3>
+                <h3 className="h3 bg-clip-text bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60">신종문제와 해결방법을 <span className="bb block">'버블버블'로 해결하세요</span></h3>
                 <p className="text-lg mb-8">24시간 대기 중인 AI 법률 비서, <span className="bb block">모든 법률 문제를 스마트하게!</span></p>
                 <div className="bbtab mt-8 max-w-xs max-md:mx-auto space-y-2">
                   <button className={`flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100 ${tab !== 1 ? 'border-slate-700 opacity-50' : 'border-sky-700 shadow shadow-sky-500/25'}`} onClick={() => setTab(1)}>
