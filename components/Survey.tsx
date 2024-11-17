@@ -316,6 +316,13 @@ ${JSON.stringify(breadData['빵 목록'])}
     setIsLoading(false);
   };
 
+  const handleDontKnow = () => {
+    // Save current answers
+    sendQuestionToSlack();
+    // Redirect to chat page
+    window.location.href = '/chat';
+  };
+
   if (currentQuestion >= questions.length) {
     return (
       <div className="max-w-2xl mx-auto mt-20 p-8 bg-slate-800 rounded-lg shadow-xl text-white">
@@ -372,21 +379,31 @@ ${JSON.stringify(breadData['빵 목록'])}
             transition={{ duration: 0.3 }}
           >
             {currentQ?.options ? (
-              <div className={`grid ${currentQ.id === 'age' ? 'grid-cols-5' : 'grid-cols-2'} gap-2 ${currentQ.id === 'age' ? 'mt-4' : ''}`}>
-                {currentQ.options.map((option) => (
+              <>
+                <div className={`grid ${currentQ.id === 'age' ? 'grid-cols-5' : 'grid-cols-2'} gap-2 ${currentQ.id === 'age' ? 'mt-4' : ''}`}>
+                  {currentQ.options.map((option) => (
+                    <button
+                      key={option}
+                      onClick={() => handleAnswer(option)}
+                      className={`p-2 text-center rounded transition duration-150 ease-in-out ${
+                        answers[currentQ.id]?.includes(option)
+                          ? 'bg-sky-400 hover:bg-sky-500 text-slate-800'
+                          : 'bg-slate-700 hover:bg-slate-600'
+                      }`}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+                {(currentQ.id === 'category' || currentQ.id === 'subcategory' || currentQ.id === 'subsubcategory') && (
                   <button
-                    key={option}
-                    onClick={() => handleAnswer(option)}
-                    className={`p-2 text-center rounded transition duration-150 ease-in-out ${
-                      answers[currentQ.id]?.includes(option)
-                        ? 'bg-sky-400 hover:bg-sky-500 text-slate-800'
-                        : 'bg-slate-700 hover:bg-slate-600'
-                    }`}
+                    onClick={handleDontKnow}
+                    className="w-full mt-4 p-3 bg-sky-500 hover:bg-sky-600 text-white rounded-lg font-bold transition duration-150 ease-in-out"
                   >
-                    {option}
+                    잘 모르겠어요 - 바로 상담하기 💬
                   </button>
-                ))}
-              </div>
+                )}
+              </>
             ) : (
               <input
                 type={currentQ?.type || 'text'}
