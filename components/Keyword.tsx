@@ -93,17 +93,24 @@ const data = {
 ],
 
   지역별: [
-    { name: "서울", size: 33.07, color: "#7a45bd" },
-    { name: "부산", size: 13.84, color: "#2789e8" },
-    { name: "도시이외", size: 11.69, color: "#ff6b6b" },
-    { name: "인천", size: 10.48, color: "#82ca9d" },
-    { name: "대구", size: 8.20, color: "#f6c85f" },
-    { name: "대전", size: 5.33, color: "#ff9f40" },
-    { name: "기타도시", size: 4.96, color: "#36a2eb" },
-    { name: "광주", size: 4.74, color: "#4bc0c0" },
-    { name: "경기 수원", size: 4.19, color: "#9966ff" },
-    { name: "경남 창원", size: 3.49, color: "#ff6384" },
-  ],
+    { name: "서울", size: 48367 },
+    { name: "부산", size: 24440 },
+    { name: "경기", size: 41669 },
+    { name: "인천", size: 17865 },
+    { name: "대구", size: 8821 },
+    { name: "대전", size: 5758 },
+    { name: "광주", size: 5177 },
+    { name: "울산", size: 4016 },
+    { name: "경남", size: 15892 },
+    { name: "경북", size: 8338 },
+    { name: "전북", size: 7715 },
+    { name: "전남", size: 8338 },
+    { name: "충북", size: 4268 },
+    { name: "충남", size: 7781 },
+    { name: "강원", size: 4827 },
+    { name: "제주", size: 5030 },
+    { name: "세종", size: 1009 },
+  ]
 };
 
 // **강력범죄 바 차트 컴포넌트**
@@ -341,6 +348,7 @@ const CustomTreemapContent = ({
   color: string;
 }): React.ReactElement | null => {
   if (depth === 1) {
+    const [regionName, cases, percentage] = name.split('\n');
     return (
       <g>
         <rect
@@ -351,16 +359,39 @@ const CustomTreemapContent = ({
           fill={color}
           stroke="#fff"
         />
-        {width > 60 && height > 20 && (
-          <text
-            x={x + width / 2}
-            y={y + height / 2}
-            fill="#fff"
-            textAnchor="middle"
-            dominantBaseline="central"
-          >
-            {name}
-          </text>
+        {width > 60 && height > 40 && (
+          <>
+            <text
+              x={x + width / 2}
+              y={y + height / 2 - 20}
+              fill="#fff"
+              textAnchor="middle"
+              dominantBaseline="central"
+              fontSize={14}
+            >
+              {regionName}
+            </text>
+            <text
+              x={x + width / 2}
+              y={y + height / 2}
+              fill="#fff"
+              textAnchor="middle"
+              dominantBaseline="central"
+              fontSize={12}
+            >
+              {cases}
+            </text>
+            <text
+              x={x + width / 2}
+              y={y + height / 2 + 20}
+              fill="#fff"
+              textAnchor="middle"
+              dominantBaseline="central"
+              fontSize={12}
+            >
+              {percentage}
+            </text>
+          </>
         )}
       </g>
     );
@@ -370,24 +401,36 @@ const CustomTreemapContent = ({
 
 // Update the RegionTreemap component
 const RegionTreemap = () => {
+  // 전체 합계 계산
   const total = data.지역별.reduce((sum, item) => sum + item.size, 0);
-  const sortedData = [...data.지역별].sort((a, b) => b.size - a.size);
   
-  const processedData = sortedData.map((item, index) => {
-    // 상위 항목일수록 더 진한 빨간색, 하위 항목일수록 더 진한 초록색
-    const percentile = index / sortedData.length;
-    const isHighRisk = percentile < 0.6; // 상위 60%는 위험군
-
-    // 색상 강도 계산 (큰 값일수록 더 진한 색상)
-    const intensity = 0.4 + (item.size / sortedData[0].size) * 0.6;
-
+  // 데이터 정렬 및 비율 계산
+  const sortedData = [...data.지역별]
+    .sort((a, b) => b.size - a.size)
+    .map(item => ({
+      ...item,
+      percentage: ((item.size / total) * 100).toFixed(1),
+      displaySize: item.size.toLocaleString() // 천 단위 구분자 추가
+    }));
+  
+  const processedData = sortedData.map((item) => {
+    // 최대값 대비 현재 값의 비율 계산 (0~1 사이 값)
+    const ratio = item.size / sortedData[0].size;
+    
+    // 색상 결정 로직
     let color;
-    if (isHighRisk) {
-      // 위험군: 빨간색 계열
-      color = `rgba(255, ${Math.round(70 + (1-intensity) * 100)}, ${Math.round(70 + (1-intensity) * 100)}, 1)`;
+    if (ratio >= 0.8) {
+      color = 'rgba(164, 16, 16, 1)';      // 진한 빨강 (최상위)
+    } else if (ratio >= 0.6) {
+      color = 'rgba(200, 36, 35, 0.95)';   // 빨강
+    } else if (ratio >= 0.4) {
+      color = 'rgba(238, 55, 58, 0.9)';    // 연한 빨강
+    } else if (ratio >= 0.2) {
+      color = 'rgba(47, 204, 91, 0.85)';   // 연한 초록
+    } else if (ratio >= 0.1) {
+      color = 'rgba(34, 180, 75, 0.9)';    // 초록
     } else {
-      // 안전군: 초록색 계열
-      color = `rgba(${Math.round(70 + (1-intensity) * 100)}, 255, ${Math.round(70 + (1-intensity) * 100)}, 1)`;
+      color = 'rgba(25, 135, 55, 0.95)';   // 진한 초록 (하위)
     }
 
     return {
@@ -403,17 +446,21 @@ const RegionTreemap = () => {
         dataKey="size"
         nameKey="name"
         animationDuration={0}
-        content={(props: any) => 
-          CustomTreemapContent({ 
+        content={(props: any) => {
+          const data = processedData.find(d => d.name === props.root?.name);
+          return CustomTreemapContent({ 
             ...props, 
-            color: props.root?.color || processedData.find(d => d.name === props.root?.name)?.color || '#82ca9d'
-          })
-        }
+            name:  `${props.name}\n${props.displaySize}건\n${props.percentage}%`,
+          });
+        }}
       >
         <Tooltip 
-          formatter={(value: number) => `${value.toFixed(2)}%`}
-          contentStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', border: 'none' }}
-          labelStyle={{ color: '#fff' }}
+          formatter={(value: number) => [
+            `${value.toLocaleString()}건`,
+            `비율: ${((value / total) * 100).toFixed(1)}%`
+          ]}
+          contentStyle={{ backgroundColor: '#fff', border: 'none' }}
+          labelStyle={{ color: '#000' }}
         />
       </Treemap>
     </ResponsiveContainer>
