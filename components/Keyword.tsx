@@ -270,7 +270,7 @@ const AgeBubbleChart = () => {
           dataKey="z"
           type="number"
           domain={[0, 'auto']}
-          tickFormatter={(value) => `${value >= 1000 ? `${(value/1000).toFixed(0)}K` : value}`}
+          tickFormatter={(value) => value}
           tick={{ fill: "#fff" }}
           ticks={yAxisTicks}
           stroke="#ffffff"
@@ -322,23 +322,24 @@ const AgeBubbleChart = () => {
   );
 };
 
-// 사용자 정의 Treemap Content
+// Update the CustomTreemapContent component
 const CustomTreemapContent = ({
   depth,
   x,
   y,
   width,
   height,
-  payload,
+  name,
+  color,
 }: {
   depth: number;
   x: number;
   y: number;
   width: number;
   height: number;
-  payload: { name: string; color?: string };
+  name: string;
+  color: string;
 }): React.ReactElement | null => {
-  const fillColor = payload.color || "#82ca9d"; // 기본 색상
   if (depth === 1) {
     return (
       <g>
@@ -347,7 +348,7 @@ const CustomTreemapContent = ({
           y={y}
           width={width}
           height={height}
-          fill={fillColor}
+          fill={color}
           stroke="#fff"
         />
         {width > 60 && height > 20 && (
@@ -358,7 +359,7 @@ const CustomTreemapContent = ({
             textAnchor="middle"
             dominantBaseline="central"
           >
-            {payload.name}
+            {name}
           </text>
         )}
       </g>
@@ -367,19 +368,57 @@ const CustomTreemapContent = ({
   return null;
 };
 
-// Treemap 컴포넌트
-const RegionTreemap = () => (
-  <ResponsiveContainer width="100%" height={600}>
-    <Treemap
-      data={data.지역별}
-      dataKey="size"
-      nameKey="name"
-      animationDuration={0}
-    >
-      <Tooltip formatter={(value: number) => `${value.toFixed(2)}%`} />
-    </Treemap>
-  </ResponsiveContainer>
-);
+// Update the RegionTreemap component
+const RegionTreemap = () => {
+  const total = data.지역별.reduce((sum, item) => sum + item.size, 0);
+  const sortedData = [...data.지역별].sort((a, b) => b.size - a.size);
+  
+  const processedData = sortedData.map((item, index) => {
+    // 상위 항목일수록 더 진한 빨간색, 하위 항목일수록 더 진한 초록색
+    const percentile = index / sortedData.length;
+    const isHighRisk = percentile < 0.6; // 상위 60%는 위험군
+
+    // 색상 강도 계산 (큰 값일수록 더 진한 색상)
+    const intensity = 0.4 + (item.size / sortedData[0].size) * 0.6;
+
+    let color;
+    if (isHighRisk) {
+      // 위험군: 빨간색 계열
+      color = `rgba(255, ${Math.round(70 + (1-intensity) * 100)}, ${Math.round(70 + (1-intensity) * 100)}, 1)`;
+    } else {
+      // 안전군: 초록색 계열
+      color = `rgba(${Math.round(70 + (1-intensity) * 100)}, 255, ${Math.round(70 + (1-intensity) * 100)}, 1)`;
+    }
+
+    return {
+      ...item,
+      color
+    };
+  });
+
+  return (
+    <ResponsiveContainer width="100%" height={600}>
+      <Treemap
+        data={processedData}
+        dataKey="size"
+        nameKey="name"
+        animationDuration={0}
+        content={(props: any) => 
+          CustomTreemapContent({ 
+            ...props, 
+            color: props.root?.color || processedData.find(d => d.name === props.root?.name)?.color || '#82ca9d'
+          })
+        }
+      >
+        <Tooltip 
+          formatter={(value: number) => `${value.toFixed(2)}%`}
+          contentStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', border: 'none' }}
+          labelStyle={{ color: '#fff' }}
+        />
+      </Treemap>
+    </ResponsiveContainer>
+  );
+};
 
 // 데이터 분석을 위한 헬퍼 함수들 추가
 const getStatsForViolentCrime = () => {
