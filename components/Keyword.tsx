@@ -113,25 +113,44 @@ const data = {
   ]
 };
 
-// **강력범죄 바 차트 컴포넌트**
+// Update the data structure
+const crimeData = [
+  // 발생건수 기준으로 내림차순 정렬
+  { 범죄구분: '지능범죄', 발생건수: 123642, 검거건수: 79008, 검거율: '63.9%' },
+  { 범죄구분: '폭력범죄', 발생건수: 55592, 검거건수: 49645, 검거율: '89.3%' },
+  { 범죄구분: '절도범죄', 발생건수: 44921, 검거건수: 32712, 검거율: '72.8%' },
+  { 범죄구분: '특별경제범죄', 발생건수: 27940, 검거건수: 20112, 검거율: '72.0%' },
+  { 범죄구분: '풍속범죄', 발생건수: 7992, 검거건수: 6933, 검거율: '86.7%' },
+  { 범죄구분: '강력범죄', 발생건수: 6211, 검거건수: 5726, 검거율: '92.2%' },
+  { 범죄구분: '마약범죄', 발생건수: 3230, 검거건수: 3094, 검거율: '95.8%' },
+  { 범죄구분: '보건범죄', 발생건수: 2235, 검거건수: 2195, 검거율: '98.2%' }
+];
+
+// Update the CrimeCategoryGraph component
 const CrimeCategoryGraph = () => (
-  <ResponsiveContainer width="100%" height={400}>
+  <ResponsiveContainer width="100%" height={500}>
     <BarChart
-      data={data.강력범죄}
-      margin={{ top: 20,}}
+      data={crimeData}
+      margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
     >
       <CartesianGrid stroke="#ffffff" strokeOpacity={0.1} />
       <XAxis 
-        dataKey="소분류" 
-        tick={{ fontSize: 14, fill: "#fff" }}
+        dataKey="범죄구분" 
+        tick={{ fontSize: 12, fill: "#fff" }}
         stroke="#ffffff"
+        angle={-45}
+        textAnchor="end"
+        interval={0}
+        height={60}
       />
       <YAxis 
         type="number" 
         tick={{ fill: "#fff" }}
         stroke="#ffffff"
+        tickFormatter={(value) => value.toLocaleString()}
       />
       <Legend />
+     
       <Bar dataKey="발생건수" fill="#ff6b6b" name="발생 건수" minPointSize={5}>
         <LabelList
           dataKey="발생건수"
@@ -143,9 +162,9 @@ const CrimeCategoryGraph = () => (
               fill="#fff"
               textAnchor="middle"
               dominantBaseline="middle"
-              fontSize={12}
+              fontSize={11}
             >
-              {value}건
+              {(value as number).toLocaleString()}
             </text>
           )}
         />
@@ -161,9 +180,9 @@ const CrimeCategoryGraph = () => (
               fill="#fff"
               textAnchor="middle"
               dominantBaseline="middle"
-              fontSize={12}
+              fontSize={11}
             >
-              {value}건
+              {(value as number).toLocaleString()}
             </text>
           )}
         />
@@ -171,6 +190,14 @@ const CrimeCategoryGraph = () => (
     </BarChart>
   </ResponsiveContainer>
 );
+
+// Update the stats calculation
+const getStatsForViolentCrime = () => {
+  const total발생 = crimeData.reduce((sum, item) => sum + item.발생건수, 0);
+  const total검거 = crimeData.reduce((sum, item) => sum + item.검거건수, 0);
+  const 평균검거율 = ((total검거 / total발생) * 100).toFixed(1);
+  return { total발생, total검거, 평균검거율 };
+};
 
 // **연령별 버블 차트 컴포넌트**
 const AgeBubbleChart = () => {
@@ -237,7 +264,7 @@ const AgeBubbleChart = () => {
     return acc;
   }, []);
 
-  // 최대 발생건수 계산
+  // 최대 발생건수 계��
   const maxCases = Math.max(...processedData.map(d => d.z));
   // 눈금 간격 계산 (최대값을 10등분)
   const tickInterval = Math.ceil(maxCases / 20);
@@ -277,7 +304,7 @@ const AgeBubbleChart = () => {
           dataKey="z"
           type="number"
           domain={[0, 'auto']}
-          tickFormatter={(value) => value}
+          tickFormatter={(value) => value.toLocaleString()}
           tick={{ fill: "#fff" }}
           ticks={yAxisTicks}
           stroke="#ffffff"
@@ -454,27 +481,13 @@ const RegionTreemap = () => {
           });
         }}
       >
-        <Tooltip 
-          formatter={(value: number) => [
-            `${value.toLocaleString()}건`,
-            `비율: ${((value / total) * 100).toFixed(1)}%`
-          ]}
-          contentStyle={{ backgroundColor: '#fff', border: 'none' }}
-          labelStyle={{ color: '#000' }}
-        />
+      
       </Treemap>
     </ResponsiveContainer>
   );
 };
 
 // 데이터 분석을 위한 헬퍼 함수들 추가
-const getStatsForViolentCrime = () => {
-  const total발생 = data.강력범죄.reduce((sum, item) => sum + item.발생건수, 0);
-  const total검거 = data.강력범죄.reduce((sum, item) => sum + item.검거건수, 0);
-  const 평균검거율 = ((total검거 / total발생) * 100).toFixed(1);
-  return { total발생, total검거, 평균검거율 };
-};
-
 const getStatsForAge = () => {
   return {};
 };
@@ -513,7 +526,7 @@ const KeywordComponent = () => {
           "& .Mui-selected": { color: "#ffffff" },
         }}
       >
-        <Tab label="강력범죄" />
+        <Tab label="유형별" />
         <Tab label="연령별" />
         <Tab label="지역별" />
       </Tabs>
@@ -523,14 +536,14 @@ const KeywordComponent = () => {
         {selectedTab === 0 && (
           <Box>
             <Typography variant="h6" align="center" gutterBottom>
-              강력범죄 발생 및 검거 건수
+              유형별 범죄 발생 및 검거 건수
             </Typography>
             <Box sx={{ textAlign: 'center', mb: 2 }}>
               {(() => {
                 const stats = getStatsForViolentCrime();
                 return (
                   <Typography variant="body1" color="">
-                    총 발생건수: {stats.total발생}건 | 총 검거건수: {stats.total검거}건
+                    총 발생건수: {stats.total발생.toLocaleString()}건 | 총 검거건수: {stats.total검거.toLocaleString()  }건
                     <br />
                     평균 검거율: {stats.평균검거율}%
                   </Typography>
@@ -561,7 +574,7 @@ const KeywordComponent = () => {
                 const stats = getStatsForRegion();
                 return (
                   <Typography variant="body1" color="">
-                    범죄 발생 최다 지역: {stats.topRegion.name} ({stats.topRegion.size.toFixed(1)}%)
+                    범죄 발생 최다 지역: {stats.topRegion.name} ({stats.topRegion.size.toLocaleString()})
                   </Typography>
                 );
               })()}
