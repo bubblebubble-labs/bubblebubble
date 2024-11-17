@@ -19,7 +19,7 @@ export default function Features() {
           </div>
         </div>
 
-        <div className="pt-16 pb-12 md:pt-52 md:pb-20">
+        <div className="mar">
           <div>
             {/* Section content */}
             <div className="max-w-xl mx-auto md:max-w-none flex flex-col md:flex-row md:space-x-8 lg:space-x-16 xl:space-x-20 space-y-8 space-y-reverse md:space-y-0">

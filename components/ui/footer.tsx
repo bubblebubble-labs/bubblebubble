@@ -12,10 +12,10 @@ export default function Footer() {
           <div className="sm:col-span-12 lg:col-span-4 order-1 lg:order-none">
             <div className="h-full flex flex-col sm:flex-row lg:flex-col justify-between">
               <div className="mb-4 sm:mb-0">
-                <div className="mb-4">
+                <div>
                   <Logo />
                 </div>
-                <div className="text-sm text-slate-300">© 민관협력 플랫폼 <span className="text-slate-500">-</span> All rights reserved.</div>
+                <div className="text-sm tx-center"><b>© 민관협력 플랫폼</b><span className="text-slate-500">-</span> All rights reserved.</div>
               </div>
               {/* Social links */}
               <ul className="flex">
@@ -45,7 +45,7 @@ export default function Footer() {
           </div>
 
           {/* 2nd block */}
-          <div className="m:col-span-6 md:col-span-3 lg:col-span-2">
+          {/* <div className="m:col-span-6 md:col-span-3 lg:col-span-2">
             <h6 className="text-sm text-slate-50 font-medium mb-2">서비스</h6>
             <ul className="text-sm space-y-2">
               <li>
@@ -64,10 +64,10 @@ export default function Footer() {
                 <a className="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out" href="#0">상황별 테마 추천</a>
               </li>
             </ul>
-          </div>
+          </div> */}
 
           {/* 3rd block */}
-          <div className="sm:col-span-6 md:col-span-3 lg:col-span-2">
+          {/* <div className="sm:col-span-6 md:col-span-3 lg:col-span-2">
             <h6 className="text-sm text-slate-50 font-medium mb-2">회사 소개</h6>
             <ul className="text-sm space-y-2">
               <li>
@@ -86,26 +86,13 @@ export default function Footer() {
                 <a className="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out" href="#0">투자 정보</a>
               </li>
             </ul>
-          </div>
+          </div> */}
 
           {/* 4th block */}
-          <div className="sm:col-span-6 md:col-span-3 lg:col-span-2">
-            <h6 className="text-sm text-slate-50 font-medium mb-2">고객 지원</h6>
-            <ul className="text-sm space-y-2">
-              <li>
-                <a className="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out" href="#0">고객센터</a>
-              </li>
-              <li>
-                <a className="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out" href="#0">이용 가이드</a>
-              </li>
-              <li>
-                <a className="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out" href="#0">문의하기</a>
-              </li>
-            </ul>
-          </div>
+          {/* z */}
 
           {/* 5th block */}
-          <div className="sm:col-span-6 md:col-span-3 lg:col-span-2">
+          {/* <div className="sm:col-span-6 md:col-span-3 lg:col-span-2">
             <h6 className="text-sm text-slate-50 font-medium mb-2">법적 고지</h6>
             <ul className="text-sm space-y-2">
               <li>
@@ -121,7 +108,7 @@ export default function Footer() {
                 <a className="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out" href="#0">브랜드 가이드라인</a>
               </li>
             </ul>
-          </div>
+          </div> */}
 
         </div>
 

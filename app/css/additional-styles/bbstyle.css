@@ -7,6 +7,7 @@
 html, body {
   color:#fff;
   font-size:16px;
+  overflow-x: hidden;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-family: 'Nanum Gothic' !important;
@@ -69,26 +70,34 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 .bbstyle .bbox .num {color:#334155;}
 
 .bbstyle .bbox .css-1qltlow-MuiTabs-indicator {background:none;}
+.bbstyle .MuiPaper-root {
+	background:none; 
+	box-shadow:none;
+	padding:0;
+}
+.bbstyle .bbox .MuiTabs-root button {flex:1;}
 .bbstyle .bbox .MuiTabs-root button[aria-selected="true"] {
 	color:#fff;
 	background:#7a45bd;
-	border-radius:15px 15px 0 0;
 }
 .bbstyle .bbox .MuiTabs-root button {
 	color:#fff;
 	font-weight:600;
 	font-size:1.2rem;
 }
+.bbstyle .bbox .MuiTabs-flexContainer {justify-content:space-between !important;}
 .bbstyle .bbox .tab-content > h2 {
 	color:#fff;
 	margin:2rem 0;
 	font-size:1.4rem;
 }
+.bbstyle .bbox .tab-content > h2 b {color:#7a45bd;}
 .bbstyle .bbox.graph {
-	margin:0;
 	border-radius:0;
-	padding:4rem;
-	background:rgba(165,97,180,.2);
+	background:none;
+	margin-top:2rem;
+	border-radius:10px;
+	border:1px solid rgba(255,255,255,.1);
 }
 .bbstyle_2 .swiper-container:before,
 .bbstyle_2 .swiper-container:after {content:none;}
@@ -96,6 +105,10 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
     margin-top: 1rem;
 	background: rgba(88, 0, 126, .1);
 }
+
+.mar {margin: 6rem 0;}
+.mar30 {margin-top:8rem}
+
 
 /* 캐릭터 해상도별 */
 .tnf-img-wrapper {
@@ -124,6 +137,7 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 	.bbstyle .bbtn {
 		font-size:1rem;
 	}
+	.bbstyle .bbox.graph {padding:2rem;}
 }
 
 /* 시작 애니메이션 */

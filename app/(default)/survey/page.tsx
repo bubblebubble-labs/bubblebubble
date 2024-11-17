@@ -8,7 +8,7 @@ import Features from '@/components/features-05'
 import Customers from '@/components/customers'
 import Faqs from '@/components/faqs'
 import Cta from '@/components/cta'
-import { Survey } from '@/components/Survey'
+import { Survey } from '@/components/survey'
 
 export default function Pricing() {
   return (

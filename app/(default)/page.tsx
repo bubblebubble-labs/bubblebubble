@@ -9,7 +9,7 @@ import Features from '@/components/features'
 import Features02 from '@/components/features-02'
 import Features03 from '@/components/features-03'
 import Features05 from '@/components/features-05'
-import Keyword from '@/components/Keyword'
+import Keyword from '@/components/keyword'
 
 import TestimonialsCarousel from '@/components/testimonials-carousel'
 import Features04 from '@/components/features-04'
