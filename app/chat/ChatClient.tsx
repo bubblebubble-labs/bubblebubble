@@ -507,16 +507,23 @@ const ChatClient: React.FC = () => {
   ), []);
 
   useEffect(() => {
+      setChatList([{
+        role: 'assistant',
+        content: '안녕하세요! 저는 당신의 법률 상담을 도와드릴 AI 법률 비서 플로라입니다. 저는 다양한 법률 자문과 실제 판례들을 학습했으며, 피해 구제를 위한 전문적인 조언을 제공해드릴 수 있습니다. 함께 최선의 해결책을 찾아보도록 하겠습니다.',
+        character: 'flora'
+      }]);
     const shouldSendInitialMessage = chatList.length === 0 && 
       answers.age && 
       answers.category && 
       !summary;
 
     if (shouldSendInitialMessage) {
+
+
       const initialMessage = `안녕하세요. 저는 ${answers.age}살이고, ${answers.category}${answers.subcategory ? `, ${answers.subcategory}` : ''}${answers.subsubcategory ? `, ${answers.subsubcategory}` : ''} 피해를 입었습니다. 이런 상황에서 제가 어떤 법적 조치를 취할 수 있는지, 그리고 앞으로 어떻게 대응해야 할지 조언을 구하고 싶습니다. 제가 받을 수 있는 지원이나 도움은 어떤 것들이 있을까요?`;
       setTimeout(() => {
         handleSend(initialMessage);
-      }, 0);
+      }, 1000);
     }
   }, [answers, chatList.length, summary]);
 
