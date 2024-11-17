@@ -13,6 +13,8 @@ import {
   Scatter,
   ZAxis,
   Treemap,
+  Legend,
+  LabelList,
 } from "recharts";
 
 const COLORS = ["#7a45bd", "#2789e8", "#ff6b6b", "#82ca9d", "#f6c85f"];
@@ -53,15 +55,48 @@ const CrimeCategoryGraph = () => (
   <ResponsiveContainer width="100%" height={400}>
     <BarChart
       data={data.강력범죄}
-      layout="vertical"
       margin={{ top: 20, right: 30, bottom: 20, left: 100 }}
     >
       <CartesianGrid strokeDasharray="3 3" />
-      <XAxis type="number" />
-      <YAxis dataKey="소분류" type="category" tick={{ fontSize: 14 }} />
-      <Tooltip formatter={(value: number | string) => `${value} 건`} />
-      <Bar dataKey="발생건수" fill="#7a45bd" name="발생 건수" />
-      <Bar dataKey="검거건수" fill="#2789e8" name="검거 건수" />
+      <XAxis dataKey="소분류" tick={{ fontSize: 14, fill: "#fff" }} />
+      <YAxis type="number" tick={{ fill: "#fff" }} />
+      <Legend />
+      <Bar dataKey="발생건수" fill="#ff6b6b" name="발생 건수" minPointSize={5}>
+        <LabelList
+          dataKey="발생건수"
+          position="top"
+          content={({ x, y, width, value }) => (
+            <text
+              x={x + width / 2}
+              y={y - 10}
+              fill="#fff"
+              textAnchor="middle"
+              dominantBaseline="middle"
+              fontSize={12}
+            >
+              {value}건
+            </text>
+          )}
+        />
+      </Bar>
+      <Bar dataKey="검거건수" fill="#4bc0c0" name="검거 건수" minPointSize={5}>
+        <LabelList
+          dataKey="검거건수"
+          position="top"
+          content={({ x, y, width, value }) => (
+            <text
+              x={x + width / 2}
+              y={y - 10}
+              fill="#fff"
+              textAnchor="middle"
+              dominantBaseline="middle"
+              fontSize={12}
+            >
+              {value}건
+            </text>
+          )}
+        />
+      </Bar>
     </BarChart>
   </ResponsiveContainer>
 );
@@ -148,6 +183,29 @@ const RegionTreemap = () => (
   </ResponsiveContainer>
 );
 
+// 데이터 분석을 위한 헬퍼 함수들 추가
+const getStatsForViolentCrime = () => {
+  const total발생 = data.강력범죄.reduce((sum, item) => sum + item.발생건수, 0);
+  const total검거 = data.강력범죄.reduce((sum, item) => sum + item.검거건수, 0);
+  const 평균검거율 = ((total검거 / total발생) * 100).toFixed(1);
+  return { total발생, total검거, 평균검거율 };
+};
+
+const getStatsForAge = () => {
+  const total건수 = data.연령별.reduce((sum, item) => sum + item.발생건수, 0);
+  const maxAge = data.연령별.reduce((max, item) => 
+    item.발생건수 > max.발생건수 ? item : max
+  );
+  return { total건수, maxAge };
+};
+
+const getStatsForRegion = () => {
+  const topRegion = data.지역별.reduce((max, item) => 
+    item.size > max.size ? item : max
+  );
+  return { topRegion };
+};
+
 // **전체 컴포넌트**
 const KeywordComponent = () => {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -182,6 +240,18 @@ const KeywordComponent = () => {
             <Typography variant="h6" align="center" gutterBottom>
               강력범죄 발생 및 검거 건수
             </Typography>
+            <Box sx={{ textAlign: 'center', mb: 2 }}>
+              {(() => {
+                const stats = getStatsForViolentCrime();
+                return (
+                  <Typography variant="body1" color="text.secondary">
+                    총 발생건수: {stats.total발생}건 | 총 검거건수: {stats.total검거}건
+                    <br />
+                    평균 검거율: {stats.평균검거율}%
+                  </Typography>
+                );
+              })()}
+            </Box>
             <CrimeCategoryGraph />
           </Box>
         )}
@@ -190,6 +260,18 @@ const KeywordComponent = () => {
             <Typography variant="h6" align="center" gutterBottom>
               연령별 범죄 분류
             </Typography>
+            <Box sx={{ textAlign: 'center', mb: 2 }}>
+              {(() => {
+                const stats = getStatsForAge();
+                return (
+                  <Typography variant="body1" color="text.secondary">
+                    총 발생건수: {stats.total건수}건
+                    <br />
+                    가장 많은 범죄: {stats.maxAge.연령대} ({stats.maxAge.대분류} - {stats.maxAge.발생건수}건)
+                  </Typography>
+                );
+              })()}
+            </Box>
             <AgeBubbleChart />
           </Box>
         )}
@@ -198,6 +280,16 @@ const KeywordComponent = () => {
             <Typography variant="h6" align="center" gutterBottom>
               지역별 범죄 발생 비율
             </Typography>
+            <Box sx={{ textAlign: 'center', mb: 2 }}>
+              {(() => {
+                const stats = getStatsForRegion();
+                return (
+                  <Typography variant="body1" color="text.secondary">
+                    범죄 발생 최다 지역: {stats.topRegion.name} ({stats.topRegion.size.toFixed(1)}%)
+                  </Typography>
+                );
+              })()}
+            </Box>
             <RegionTreemap />
           </Box>
         )}
