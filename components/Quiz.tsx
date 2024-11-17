@@ -50,7 +50,7 @@ const questions = [
   question: '이웃집 나무의 가지가 우리 집 마당으로 넘어왔을 때, 마음대로 자를 수 있을까요?',
   options: ['O', 'X'],
   correctAnswer: 'X',
-  explanation: '이웃과 먼저 상의해야 하며, 상의 후에도 해결되지 않으면 법적 절차를 통해 해결해야 합니다.',
+  explanation: '웃과 먼저 상의해야 하며, 상의 후에도 해결되지 않으면 법적 절차를 통해 해결해야 합니다.',
   multiSelect: false,
 }, {
   id: 'restaurant_payment',
@@ -75,7 +75,7 @@ const questions = [
   multiSelect: false,
 }, {
   id: 'verbal_promise',
-  question: '월세 계약할 때 집주인이 말로만 "리모델링 주겠다" 했는데 안 해줬다면, 법적으로 요구할 수 있을까요?',
+  question: '월세 계약할 때 집주인이 말만 "리모델링 주겠다" 했는데 안 해줬다면, 법적으로 요구할 수 있을까요?',
   options: ['O', 'X'],
   correctAnswer: 'X',
   explanation: '구두 약속 입증이 어려우므로, 중요한 약속은 반드시 계약서에 명시해야 합니다.',
@@ -128,8 +128,7 @@ const FeedbackModal = React.memo(({ isCorrect, explanation, onClose }: {
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: '100%', opacity: 0 }}
       className="bg-white p-6 rounded-lg max-w-md w-full mx-4 text-left text-black
-        md:fixed md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2
-        fixed bottom-0 left-0 right-0"
+        fixed"
     >
       {/* 아이콘 */}
       <div className="flex justify-start mb-4">
