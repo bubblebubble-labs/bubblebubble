@@ -55,7 +55,7 @@ const CrimeCategoryGraph = () => (
   <ResponsiveContainer width="100%" height={400}>
     <BarChart
       data={data.강력범죄}
-      margin={{ top: 20, right: 30, bottom: 20, left: 100 }}
+      margin={{ top: 20,}}
     >
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="소분류" tick={{ fontSize: 14, fill: "#fff" }} />
@@ -215,17 +215,22 @@ const KeywordComponent = () => {
   };
 
   return (
-    <Box sx={{ padding: 4 }}>
+    <Box sx={{ 
+      // padding: { xs: 2, md: 4 },  // 모바일에서는 패딩 줄임
+      maxWidth: { md: '1200px' }, // 태블릿/데스크탑에서 최대 너비 설정
+      margin: { xs: '0', md: '0 auto' }, // 태블릿/데스크탑에서 중앙 정렬
+      width: '100%' // 모든 화면에서 전체 너비 사용
+    }}>
       {/* 탭 구성 */}
       <Tabs
         value={selectedTab}
         onChange={handleTabChange}
         centered
-        TabIndicatorProps={{ style: { backgroundColor: "#7a45bd" } }}
+        TabIndicatorProps={{ style: { backgroundColor: "#ffffff" } }}
         textColor="inherit"
         sx={{
           "& .MuiTab-root": { color: "#fff", fontWeight: "bold" },
-          "& .Mui-selected": { color: "#7a45bd" },
+          "& .Mui-selected": { color: "#ffffff" },
         }}
       >
         <Tab label="강력범죄" />
@@ -244,7 +249,7 @@ const KeywordComponent = () => {
               {(() => {
                 const stats = getStatsForViolentCrime();
                 return (
-                  <Typography variant="body1" color="text.secondary">
+                  <Typography variant="body1" color="text-white">
                     총 발생건수: {stats.total발생}건 | 총 검거건수: {stats.total검거}건
                     <br />
                     평균 검거율: {stats.평균검거율}%
