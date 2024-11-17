@@ -4,6 +4,7 @@ import Particles from './particles'
 import Illustration from '@/public/images/glow-bottom.svg'
 import Animate from '@/components/Animate'
 import { useState } from 'react';
+import Link from 'next/link'
 
 export default function Hero() {
   const [email, setEmail] = useState('');
@@ -42,6 +43,7 @@ export default function Hero() {
             <Image src={Illustration} className="max-w-none" width={2146} priority alt="Hero Illustration" />
           </div>
         </div>
+        
 
         <div className="pt-32 pb-16 md:pt-52 md:pb-32">
 

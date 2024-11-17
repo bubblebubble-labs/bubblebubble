@@ -211,13 +211,13 @@ const ChatClient: React.FC = () => {
       // Make a second request to v7
       const initialMessage = `저는 ${answers.age}살, ${answers.category}${answers.subcategory ? `, ${answers.subcategory}` : ''}${answers.subsubcategory ? `, ${answers.subsubcategory}` : ''} 피해를 입었습니다.`;
       const proofOfContentChat: Chat = { 
-        content: `${initialMessage} 이 내용을 모두 포함하여, 세계 최고의 변호사가 작성한 것처럼 가해자에게 보낼 내용증명 초안을 전문적이고 법적으로 정확하게 작성해 주세요. 예시 데이터를 넣어줘. 그리고 내용 증명을 보내면 얻을 수 있는 장점과 단점과 위험을 설명해줘. 앞으로 일어날 수 있는 시나리오를 모두 설명해줘.`, 
+        content: `${initialMessage} 이 내용을 모두 포함하여, 세계 최고의 변호사가 작성한 것처럼 가해자에게 보낼 내용증명 초안을 전문적이고 법적으로 정확하게 작성해 주세요.`, 
         role: 'user', 
         character: 'flora'
       };
       setChatList((prevList: Chat[]) => [...prevList, { content: '', role: 'assistant', character: 'timo' }]);
 
-      response = await fetch('http://211.188.55.96:8080/api/v7/chat/completion', {
+      response = await fetch('http://211.188.55.96:8080/api/v8/chat/completion', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

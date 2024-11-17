@@ -65,7 +65,7 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 /* 설문조사 */ 
 .bbstyle .bbox h2, 
 .bbstyle .bbox h3 {color:#334155; text-shadow:none; font-weight:800;}
-.bbstyle .bbox .w-full {background:#7f7aa0;}
+/* .bbstyle .bbox .w-full {background:#7f7aa0;} */
 .bbstyle .bbox .bbbg {background:#c751df;}
 .bbstyle .bbox .num {color:#334155;}
 
