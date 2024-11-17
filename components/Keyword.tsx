@@ -15,6 +15,7 @@ import {
   Treemap,
   Legend,
   LabelList,
+  Cell,
 } from "recharts";
 
 const COLORS = ["#7a45bd", "#2789e8", "#ff6b6b", "#82ca9d", "#f6c85f"];
@@ -26,16 +27,71 @@ const data = {
     { 중분류: "살인", 소분류: "살인미수 등", 발생건수: 139, 검거건수: 132, 검거율: "95.0%" },
     { 중분류: "강도", 소분류: "강도", 발생건수: 117, 검거건수: 119, 검거율: "101.7%" },
   ],
-  연령별: [
-    { 연령대: "10대", 대분류: "성범죄", 발생건수: 5 },
-    { 연령대: "10대", 대분류: "기타 형사범죄", 발생건수: 4 },
-    { 연령대: "20대", 대분류: "성범죄", 발생건수: 6 },
-    { 연령대: "20대", 대분류: "교통사고/범죄", 발생건수: 2 },
-    { 연령대: "30대", 대분류: "재산범죄", 발생건수: 4 },
-    { 연령대: "40대", 대분류: "부동산/임대차", 발생건수: 4 },
-    { 연령대: "50대", 대분류: "의료/세금/행정", 발생건수: 3 },
-    { 연령대: "60대 이상", 대분류: "민사절차", 발생건수: 4 },
-  ],
+연령별:[
+    {"연령대": "10대", "대분류": "성범죄", "중분류": "디지털 성범죄", "소분류": "통신매체이용음란죄", "발생건수": 450},
+    {"연령대": "10대", "대분류": "성범죄", "중분류": "디지털 성범죄", "소분류": "웹하드", "발생건수": 380},
+    {"연령대": "10대", "대분류": "성범죄", "중분류": "디지털 성범죄", "소분류": "몰카", "발생건수": 520},
+    {"연령대": "10대", "대분류": "성범죄", "중분류": "디지털 성범죄", "소분류": "음란물유포", "발생건수": 630},
+    {"연령대": "10대", "대분류": "기타 형사범죄", "중분류": "소년범죄/학교폭력", "소분류": "학교폭력", "발생건수": 2800},
+    {"연령대": "10대", "대분류": "기타 형사범죄", "중분류": "소년범죄/학교폭력", "소분류": "왕따", "발생건수": 1900},
+    {"연령대": "10대", "대분류": "기타 형사범죄", "중분류": "소년범죄/학교폭력", "소분류": "소년사건", "발생건수": 2100},
+    {"연령대": "10대", "대분류": "기타 형사범죄", "중분류": "소년범죄/학교폭력", "소분류": "아동학대", "발생건수": 1600},
+    {"연령대": "10대", "대분류": "명예훼손/모욕", "중분류": "사이버 명예훼손/모욕", "소분류": "정보통신망법", "발생건수": 890},
+    {"연령대": "10대", "대분류": "명예훼손/모욕", "중분류": "사이버 명예훼손/모욕", "소분류": "악성댓글", "발생건수": 1200},
+    {"연령대": "10대", "대분류": "IT/지식재산/금융", "중분류": "IT/개인정보", "소분류": "SNS", "발생건수": 750},
+    {"연령대": "10대", "대분류": "교통사고/범죄", "중분류": "음주/무면허", "소분류": "무면허운전", "발생건수": 980},
+    {"연령대": "10대", "대분류": "성범죄", "중분류": "미성년 대상 성범죄", "소분류": "아동청소년보호법", "발생건수": 420},
+    {"연령대": "10대", "대분류": "성범죄", "중분류": "성폭력/강제추행", "소분류": "성추행", "발생건수": 890},
+
+    {"연령대": "20대", "대분류": "성범죄", "중분류": "성매매", "소분류": "조건만남", "발생건수": 1200},
+    {"연령대": "20대", "대분류": "성범죄", "중분류": "성매매", "소분류": "랜덤채팅", "발생건수": 980},
+    {"연령대": "20대", "대분류": "성범죄", "중분류": "성매매", "소분류": "유흥업소", "발생건수": 2100},
+    {"연령대": "20대", "대분류": "성범죄", "중분류": "성매매", "소분류": "유사성매매", "발생건수": 1500},
+    {"연령대": "20대", "대분류": "교통사고/범죄", "중분류": "음주/무면허", "소분류": "음주운전", "발생건수": 4200},
+    {"연령대": "20대", "대분류": "교통사고/범죄", "중분류": "음주/무면허", "소분류": "음주사고", "발생건수": 2800},
+    {"연령대": "20대", "대분류": "IT/지식재산/금융", "중분류": "IT/개인정보", "소분류": "개인정보유출", "발생건수": 1100},
+    {"연령대": "20대", "대분류": "IT/지식재산/금융", "중분류": "IT/개인정보", "소분류": "감청", "발생건수": 320},
+    {"연령대": "20대", "대분류": "IT/지식재산/금융", "중분류": "IT/개인정보", "소분류": "통신비밀보호법", "발생건수": 450},
+    {"연령대": "20대", "대분류": "성범죄", "중분류": "성폭력/강제추행", "소분류": "데이트폭력", "발생건수": 1800},
+    {"연령대": "20대", "대분류": "성범죄", "중분류": "성폭력/강제추행", "소분류": "성희롱", "발생건수": 2200},
+
+    {"연령대": "30대", "대분류": "재산범죄", "중분류": "사기/공갈", "소분류": "보이스피싱", "발생건수": 5600},
+    {"연령대": "30대", "대분류": "재산범죄", "중분류": "사기/공갈", "소분류": "명의대여/도용", "발생건수": 4200},
+    {"연령대": "30대", "대분류": "재산범죄", "중분류": "사기/공갈", "소분류": "유사수신", "발생건수": 2800},
+    {"연령대": "30대", "대분류": "재산범죄", "중분류": "사기/공갈", "소분류": "중고사기", "발생건수": 6800},
+    {"연령대": "30대", "대분류": "폭행/협박", "중분류": "폭행/협박/상해", "소분류": "일반폭행", "발생건수": 8900},
+    {"연령대": "30대", "대분류": "폭행/협박", "중분류": "폭행/협박/상해", "소분류": "협박", "발생건수": 4500},
+    {"연령대": "30대", "대분류": "폭행/협박", "중분류": "폭행/협박/상해", "소분류": "상해", "발생건수": 3200},
+    {"연령대": "30대", "대분류": "폭행/협박", "중분류": "폭행/협박/상해", "소분류": "감금", "발생건수": 180},
+
+    {"연령대": "40대", "대분류": "재산범죄", "중분류": "횡령/배임", "소분류": "업무상횡령/배임", "발생건수": 7800},
+    {"연령대": "40대", "대분류": "재산범죄", "중분류": "횡령/배임", "소분류": "신용카드범죄", "발생건수": 4200},
+    {"연령대": "40대", "대분류": "재산범죄", "중분류": "횡령/배임", "소분류": "점유이탈물횡령", "발생건수": 2100},
+    {"연령대": "40대", "대분류": "부동산/임대차", "중분류": "임대차", "소분류": "주택/상가임대차", "발생건수": 5600},
+    {"연령대": "40대", "대분류": "부동산/임대차", "중분류": "임대차", "소분류": "계약금", "발생건수": 3200},
+    {"연령대": "40대", "대분류": "부동산/임대차", "중분류": "임대차", "소분류": "관리금", "발생건수": 2800},
+    {"연령대": "40대", "대분류": "부동산/임대차", "중분류": "임대차", "소분류": "보증금", "발생건수": 4500},
+    {"연령대": "40대", "대분류": "부동산/임대차", "중분류": "임대차", "소분류": "전세계약", "발생건수": 6200},
+
+    {"연령대": "50대", "대분류": "재산범죄", "중분류": "기타 재산범죄", "소분류": "절도", "발생건수": 8900},
+    {"연령대": "50대", "대분류": "재산범죄", "중분류": "기타 재산범죄", "소분류": "주거침입", "발생건수": 4200},
+    {"연령대": "50대", "대분류": "재산범죄", "중분류": "기타 재산범죄", "소분류": "재물손괴", "발생건수": 5600},
+    {"연령대": "50대", "대분류": "재산범죄", "중분류": "기타 재산범죄", "소분류": "장물", "발생건수": 2100},
+    {"연령대": "50대", "대분류": "의료/세금/행정", "중분류": "의료/식품의약", "소분류": "의료사고", "발생건수": 980},
+    {"연령대": "50대", "대분류": "의료/세금/행정", "중분류": "의료/식품의약", "소분류": "의료소송", "발생건수": 750},
+    {"연령대": "50대", "대분류": "의료/세금/행정", "중분류": "의료/식품의약", "소분류": "약사법", "발생건수": 420},
+    {"연령대": "50대", "대분류": "의료/세금/행정", "중분류": "의료/식품의약", "소분류": "식품위생법", "발생건수": 680},
+
+    {"연령대": "60대 이상", "대분류": "교통사고/범죄", "중분류": "교통사고/도주", "소분류": "교통사고합의", "발생건수": 12500},
+    {"연령대": "60대 이상", "대분류": "교통사고/범죄", "중분류": "교통사고/도주", "소분류": "손해사정", "발생건수": 8900},
+    {"연령대": "60대 이상", "대분류": "교통사고/범죄", "중분류": "교통사고/도주", "소분류": "뺑소니", "발생건수": 2100},
+    {"연령대": "60대 이상", "대분류": "교통사고/범죄", "중분류": "교통사고/도주", "소분류": "보복운전", "발생건수": 1500},
+    {"연령대": "60대 이상", "대분류": "가족", "중분류": "이혼", "소분류": "합의이혼", "발생건수": 4200},
+    {"연령대": "60대 이상", "대분류": "가족", "중분류": "이혼", "소분류": "재판이혼", "발생건수": 3600},
+    {"연령대": "60대 이상", "대분류": "가족", "중분류": "이혼", "소분류": "재산분할", "발생건수": 2800},
+    {"연령대": "60대 이상", "대분류": "가족", "중분류": "이혼", "소분류": "양육권", "발생건수": 1200},
+],
+
   지역별: [
     { name: "서울", size: 33.07, color: "#7a45bd" },
     { name: "부산", size: 13.84, color: "#2789e8" },
@@ -57,9 +113,17 @@ const CrimeCategoryGraph = () => (
       data={data.강력범죄}
       margin={{ top: 20,}}
     >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="소분류" tick={{ fontSize: 14, fill: "#fff" }} />
-      <YAxis type="number" tick={{ fill: "#fff" }} />
+      <CartesianGrid stroke="#ffffff" strokeOpacity={0.1} />
+      <XAxis 
+        dataKey="소분류" 
+        tick={{ fontSize: 14, fill: "#fff" }}
+        stroke="#ffffff"
+      />
+      <YAxis 
+        type="number" 
+        tick={{ fill: "#fff" }}
+        stroke="#ffffff"
+      />
       <Legend />
       <Bar dataKey="발생건수" fill="#ff6b6b" name="발생 건수" minPointSize={5}>
         <LabelList
@@ -103,22 +167,156 @@ const CrimeCategoryGraph = () => (
 
 // **연령별 버블 차트 컴포넌트**
 const AgeBubbleChart = () => {
-  const bubbleData = data.연령별.map((item, index) => ({
-    x: index + 1,
-    y: item.발생건수,
-    z: item.발생건수 * 20,
-    crimeType: item.대분류,
-    ageGroup: item.연령대,
-  }));
+  // 연령대별로 데이터 그룹화 및 카운트
+  const ageGroups = ["10대", "20대", "30대", "40대", "50대", "60대 이상"];
+  const crimeTypeColors = {
+    "성범죄": "#ff6b6b",
+    "기타 형사범죄": "#4bc0c0",
+    "명예훼손/모욕": "#7a45bd",
+    "IT/지식재산/금융": "#2789e8",
+    "교통사고/범죄": "#f6c85f",
+    "재산범죄": "#ff9f40",
+    "폭행/협박": "#36a2eb",
+    "회사": "#9966ff",
+    "부동산/임대차": "#ff6384",
+    "금전/계약 문제": "#4bc0c0",
+    "의료/세금/행정": "#82ca9d",
+    "가족": "#7a45bd",
+    "민사절차": "#2789e8"
+  };
+
+  // 범죄 유형별 총 발생건수 계산
+  const crimeTypeTotalCases = Object.keys(crimeTypeColors).reduce((acc, crimeType) => {
+    const total = data.연령별
+      .filter(d => d.대분류 === crimeType)
+      .reduce((sum, d) => sum + d.발생건수, 0);
+    acc[crimeType] = total;
+    return acc;
+  }, {} as Record<string, number>);
+
+  // 범죄 유형을 발생건수 기준으로 정렬
+  const sortedCrimeTypes = Object.entries(crimeTypeTotalCases)
+    .sort(([, a], [, b]) => b - a)
+    .map(([crimeType]) => crimeType);
+
+  // 데이터 가공 부분 수정
+  const processedData = data.연령별.reduce((acc: any[], item) => {
+    const ageIndex = ageGroups.indexOf(item.연령대);
+    const existingItem = acc.find(
+      (d) => d.ageGroup === item.연령대 && d.crimeType === item.대분류
+    );
+
+    if (!existingItem) {
+      const totalCases = data.연령별
+        .filter(d => d.연령대 === item.연령대 && d.대분류 === item.대분류)
+        .reduce((sum, d) => sum + d.발생건수, 0);
+
+      const subCategories = data.연령별
+        .filter(d => d.연령대 === item.연령대 && d.대분류 === item.대분류)
+        .map(d => d.소분류)
+        .join(', ');
+
+      acc.push({
+        x: ageIndex + 1,
+        y: sortedCrimeTypes.indexOf(item.대분류) + 1, // y값을 정렬된 인덱스로 설정
+        z: totalCases,
+        crimeType: item.대분류,
+        ageGroup: item.연령대,
+        color: crimeTypeColors[item.대분류 as keyof typeof crimeTypeColors],
+        subCategories: subCategories,
+        totalCases: totalCases
+      });
+    }
+    return acc;
+  }, []);
+
+  // 최대 발생건수 계산
+  const maxCases = Math.max(...processedData.map(d => d.z));
+  // 눈금 간격 계산 (최대값을 10등분)
+  const tickInterval = Math.ceil(maxCases / 20);
+  // 눈금 배열 생성
+  const yAxisTicks = Array.from({ length: 21 }, (_, i) => i * tickInterval);
 
   return (
     <ResponsiveContainer width="100%" height={500}>
-      <ScatterChart>
-        <XAxis dataKey="x" name="범죄 유형" tick={false} />
-        <YAxis dataKey="y" name="발생 건수" />
-        <ZAxis dataKey="z" range={[50, 400]} name="중요도" />
-        <Tooltip formatter={(value: number) => `${value} 건`} />
-        <Scatter name="연령별 범죄 유형" data={bubbleData} fill="#7a45bd" shape="circle" />
+      <ScatterChart
+        margin={{ top: 50, right: 20, bottom: 50, left: 60 }}
+      >
+        <CartesianGrid stroke="#ffffff" strokeOpacity={0.1} /> {/* 그리드 색상 추가 */}
+        <XAxis
+          dataKey="x"
+          type="number"
+          domain={[0.5, 6.5]}
+          ticks={[1, 2, 3, 4, 5, 6]}
+          tickFormatter={(value) => {
+            const ageMap = {
+              1: "10대",
+              2: "20대",
+              3: "30대",
+              4: "40대",
+              5: "50대",
+              6: "60대 이상"
+            };
+            return ageMap[value as keyof typeof ageMap] || '';
+          }}
+          tick={{ fill: "#fff" }}
+          angle={-45}
+          textAnchor="end"
+          interval={0}
+          height={60}
+          stroke="#ffffff"
+        />
+        <YAxis
+          dataKey="z"
+          type="number"
+          domain={[0, 'auto']}
+          tickFormatter={(value) => `${value >= 1000 ? `${(value/1000).toFixed(0)}K` : value}`}
+          tick={{ fill: "#fff" }}
+          ticks={yAxisTicks}
+          stroke="#ffffff"
+          label={{ 
+            angle: -90, 
+            position: 'insideLeft',
+            fill: '#fff',
+            offset: 10
+          }}
+        />
+        <ZAxis 
+          type="number"
+          range={[400, 5000]}
+          dataKey="z"
+        />
+        <Legend 
+          payload={
+            sortedCrimeTypes.map(type => ({
+              value: type,
+              type: 'circle',
+              color: crimeTypeColors[type as keyof typeof crimeTypeColors]
+            }))
+          }
+          formatter={(value) => <span style={{ color: '#fff' }}>{value}</span>}
+        />
+        <Tooltip
+          content={({ active, payload }) => {
+            if (active && payload && payload.length) {
+              const data = payload[0].payload;
+              return (
+                <div style={{ padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}>
+                  <p><strong>{data.ageGroup}</strong></p>
+                  <p><strong>{data.crimeType}</strong></p>
+                  <p>발생건수: {data.totalCases}건</p>
+                  <p style={{ fontSize: '12px' }}>주요 범죄: {data.subCategories}</p>
+                </div>
+              );
+            }
+            return null;
+          }}
+        />
+        <Scatter data={processedData}>
+          {processedData.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={entry.color} />
+          ))}
+        </Scatter>
       </ScatterChart>
     </ResponsiveContainer>
   );
@@ -176,7 +374,7 @@ const RegionTreemap = () => (
       data={data.지역별}
       dataKey="size"
       nameKey="name"
-      //content={<CustomTreemapContent />}
+      animationDuration={0}
     >
       <Tooltip formatter={(value: number) => `${value.toFixed(2)}%`} />
     </Treemap>
@@ -192,11 +390,7 @@ const getStatsForViolentCrime = () => {
 };
 
 const getStatsForAge = () => {
-  const total건수 = data.연령별.reduce((sum, item) => sum + item.발생건수, 0);
-  const maxAge = data.연령별.reduce((max, item) => 
-    item.발생건수 > max.발생건수 ? item : max
-  );
-  return { total건수, maxAge };
+  return {};
 };
 
 const getStatsForRegion = () => {
@@ -249,7 +443,7 @@ const KeywordComponent = () => {
               {(() => {
                 const stats = getStatsForViolentCrime();
                 return (
-                  <Typography variant="body1" color="text-white">
+                  <Typography variant="body1" color="">
                     총 발생건수: {stats.total발생}건 | 총 검거건수: {stats.total검거}건
                     <br />
                     평균 검거율: {stats.평균검거율}%
@@ -266,16 +460,7 @@ const KeywordComponent = () => {
               연령별 범죄 분류
             </Typography>
             <Box sx={{ textAlign: 'center', mb: 2 }}>
-              {(() => {
-                const stats = getStatsForAge();
-                return (
-                  <Typography variant="body1" color="text.secondary">
-                    총 발생건수: {stats.total건수}건
-                    <br />
-                    가장 많은 범죄: {stats.maxAge.연령대} ({stats.maxAge.대분류} - {stats.maxAge.발생건수}건)
-                  </Typography>
-                );
-              })()}
+              {/* 발생건수 관련 통계 표시 제거 */}
             </Box>
             <AgeBubbleChart />
           </Box>
@@ -289,7 +474,7 @@ const KeywordComponent = () => {
               {(() => {
                 const stats = getStatsForRegion();
                 return (
-                  <Typography variant="body1" color="text.secondary">
+                  <Typography variant="body1" color="">
                     범죄 발생 최다 지역: {stats.topRegion.name} ({stats.topRegion.size.toFixed(1)}%)
                   </Typography>
                 );
