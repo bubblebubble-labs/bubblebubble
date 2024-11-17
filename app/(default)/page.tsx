@@ -7,7 +7,7 @@ import Hero from '@/components/hero'
 import Clients from '@/components/clients'
 import Features from '@/components/features'
 import Features05 from '@/components/features-05'
-import Keyword from '@/components/Keyword'
+import Keyword from '@/components/keyword'
 
 export default function Home() {
   return (

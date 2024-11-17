@@ -1,4 +1,4 @@
-import KeywordComponent from "@/components/keyword"
+  import Keyword from "@/components/keyword"
 
 export const metadata = {
   title: '버블버블 - AI 법률 서비스',
@@ -7,7 +7,7 @@ export const metadata = {
 export default function Pricing() {
   return (
     <>
-      <KeywordComponent />
+      <Keyword />
     </>
   )
 }

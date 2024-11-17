@@ -209,7 +209,7 @@ const ChatClient: React.FC = () => {
         }
       }
       // Make a second request to v7
-      const initialMessage = `저는 ${answers.age}살, ${answers.category}${answers.subcategory ? `, ${answers.subcategory}` : ''}${answers.subsubcategory ? `, ${answers.subsubcategory}` : ''} 피해를 입었습니다.`;
+      const initialMessage = `저는 ${answers.age}살, ${answers.category}${answers.subcategory ? `, ${answers.subcategory}` : ''}${answers.subsubcategory ? `, ${answers.subsubcategory}` : ''} 피해를 입었습니다. ${messageToSend}`;
       const proofOfContentChat: Chat = { 
         content: `${initialMessage} 이 내용을 모두 포함하여, 세계 최고의 변호사가 작성한 것처럼 가해자에게 보낼 내용증명 초안을 전문적이고 법적으로 정확하게 작성해 주세요.`, 
         role: 'user', 
@@ -386,21 +386,21 @@ const ChatClient: React.FC = () => {
   const handleFeedback = useCallback((chatId: number, isPositive: boolean) => {
     if (isPositive) {
       setThumbsUpClicked(prev => {
-        const newState = { ...prev, [chatId]: !prev[chatId] };
-        if (newState[chatId]) {
-          setThumbsDownClicked(prev => ({ ...prev, [chatId]: false }));
-          toast("피드백 감사합니다!", { icon: '✅' });
+        if (prev[chatId]) {
+          return { ...prev, [chatId]: false };
         }
-        return newState;
+        toast("피드백 감사합니다!", { icon: '✅' });
+        setThumbsDownClicked(prev => ({ ...prev, [chatId]: false }));
+        return { ...prev, [chatId]: true };
       });
     } else {
       setThumbsDownClicked(prev => {
-        const newState = { ...prev, [chatId]: !prev[chatId] };
-        if (newState[chatId]) {
-          setThumbsUpClicked(prev => ({ ...prev, [chatId]: false }));
-          toast("피드백 감사합니다!", { icon: '✅' });
+        if (prev[chatId]) {
+          return { ...prev, [chatId]: false };
         }
-        return newState;
+        toast("피드백 감사합니다!", { icon: '✅' });
+        setThumbsUpClicked(prev => ({ ...prev, [chatId]: false }));
+        return { ...prev, [chatId]: true };
       });
     }
   }, []);
@@ -507,11 +507,18 @@ const ChatClient: React.FC = () => {
   ), []);
 
   useEffect(() => {
-    if (chatList.length === 0 && answers.age && answers.category) {
+    const shouldSendInitialMessage = chatList.length === 0 && 
+      answers.age && 
+      answers.category && 
+      !summary;
+
+    if (shouldSendInitialMessage) {
       const initialMessage = `안녕하세요. 저는 ${answers.age}살이고, ${answers.category}${answers.subcategory ? `, ${answers.subcategory}` : ''}${answers.subsubcategory ? `, ${answers.subsubcategory}` : ''} 피해를 입었습니다. 이런 상황에서 제가 어떤 법적 조치를 취할 수 있는지, 그리고 앞으로 어떻게 대응해야 할지 조언을 구하고 싶습니다. 제가 받을 수 있는 지원이나 도움은 어떤 것들이 있을까요?`;
-      handleSend(initialMessage);
+      setTimeout(() => {
+        handleSend(initialMessage);
+      }, 0);
     }
-  }, [answers, chatList.length]);
+  }, [answers, chatList.length, summary]);
 
   const handleSpeechToText = async () => {
     if (isRecording) {
@@ -781,10 +788,10 @@ const ChatClient: React.FC = () => {
                 className="w-[32px] h-[32px] rounded-full flex items-center justify-center mr-2"
               >
                 <MemoizedImage
-                  src={isRecording ? "/images/mic-active.svg" : "/images/mic.svg"}
+                  src={isRecording ? "/images/svg_mic.svg" : "/images/svg_mic_off.svg"}
                   alt="microphone"
-                  width={24}
-                  height={24}
+                  width={30}
+                  height={30}
                   className={isRecording ? "animate-pulse" : ""}
                 />
               </button>

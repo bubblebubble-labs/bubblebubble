@@ -131,7 +131,7 @@ const CrimeCategoryGraph = () => (
   <ResponsiveContainer width="100%" height={500}>
     <BarChart
       data={crimeData}
-      margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
+      margin={{ top: 20, right: 0, left: 0, bottom: 60 }}
     >
       <CartesianGrid stroke="#ffffff" strokeOpacity={0.1} />
       <XAxis 
@@ -147,7 +147,7 @@ const CrimeCategoryGraph = () => (
         type="number" 
         tick={{ fill: "#fff" }}
         stroke="#ffffff"
-        tickFormatter={(value) => value.toLocaleString()}
+        tickFormatter={(value) => value > 1000 ? (value / 1000).toLocaleString() + 'K' : value.toLocaleString()}
       />
       <Legend />
      
@@ -157,8 +157,8 @@ const CrimeCategoryGraph = () => (
           position="top"
           content={({ x, y, width, value }) => (
             <text
-              x={x + width / 2}
-              y={y - 10}
+              // x={x + width / 2}
+              // y={y - 10}
               fill="#fff"
               textAnchor="middle"
               dominantBaseline="middle"
@@ -175,8 +175,8 @@ const CrimeCategoryGraph = () => (
           position="top"
           content={({ x, y, width, value }) => (
             <text
-              x={x + width / 2}
-              y={y - 10}
+              // x={x + width / 2}
+              // y={y - 10}
               fill="#fff"
               textAnchor="middle"
               dominantBaseline="middle"
@@ -274,7 +274,7 @@ const AgeBubbleChart = () => {
   return (
     <ResponsiveContainer width="100%" height={500}>
       <ScatterChart
-        margin={{ top: 50, right: 20, bottom: 50, left: 60 }}
+        margin={{ top: 50, right: 0, bottom: 50, left: 0 }}
       >
         <CartesianGrid stroke="#ffffff" strokeOpacity={0.1} /> {/* 그리드 색상 추가 */}
         <XAxis
@@ -304,7 +304,7 @@ const AgeBubbleChart = () => {
           dataKey="z"
           type="number"
           domain={[0, 'auto']}
-          tickFormatter={(value) => value.toLocaleString()}
+          tickFormatter={(value) => value > 1000 ? (value / 1000).toLocaleString() + 'K' : value.toLocaleString()}    
           tick={{ fill: "#fff" }}
           ticks={yAxisTicks}
           stroke="#ffffff"
@@ -474,7 +474,6 @@ const RegionTreemap = () => {
         nameKey="name"
         animationDuration={0}
         content={(props: any) => {
-          const data = processedData.find(d => d.name === props.root?.name);
           return CustomTreemapContent({ 
             ...props, 
             name:  `${props.name}\n${props.displaySize}건\n${props.percentage}%`,

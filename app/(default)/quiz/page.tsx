@@ -3,7 +3,7 @@ export const metadata = {
   description: 'Page description',
 }
 
-import { Quiz } from '@/components/Quiz'
+import { Quiz } from '@/components/quiz'
 
 export default function QuizPage() {
   return (
