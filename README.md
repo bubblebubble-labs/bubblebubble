@@ -13,6 +13,17 @@
 
 </div>
 
+## 📋 목차
+- [📌 프로젝트 소개](#-프로젝트-소개)
+- [🏆 수상 내역](#-수상-내역)
+- [🎯 추진 배경](#-추진-배경)
+- [❓ 해결하고자 하는 문제](#-해결하고자-하는-문제)
+- [🛠️ System Architecture](#️-system-architecture)
+- [⭐ 주요 기능](#-주요-기능)
+- [🌸 Developers](#-developers)
+- [🫧 서비스 소개](#-서비스-소개)
+- [📝 라이센스](#-라이센스)
+
 ## 📌 프로젝트 소개
 
 BubbleBubble은 법률 사각지대를 최소화하고 법률 복지를 증진하기 위한 AI 기반 법률 상담 챗봇 서비스입니다. 특히 청소년, 노인, 장애인 등 취약계층을 위한 맞춤형 디지털 법률 서비스를 제공하여 법률 정보 접근성을 높이고 있습니다.
@@ -20,11 +31,11 @@ BubbleBubble은 법률 사각지대를 최소화하고 법률 복지를 증진�
 ## 🏆 수상 내역
 - 2024 한국 클라우드산업협회회장상 특별상
 
-### 추진 배경
+## 🎯 추진 배경
 자연 재난·사회적 재난 등 국가적 위기 상황에서 민관협력과 디지털 기술을 통해 극복·혁신하는 시빅테크 생태계 활성화가 필요한 시점입니다. BubbleBubble은 이러한 사회적 요구에 부응하여 탄생했습니다.
 
-### 해결하고자 하는 문제
-🔍 **현재 상황**
+## ❓ 해결하고자 하는 문제
+### 현재 상황
 - 신종범죄의 급증 (전체 범죄의 약 40%)
   - 딥페이크, 보이스피싱, 암호화폐 관련 범죄 등
 - 취약계층의 법률정보 접근성 부족
@@ -46,8 +57,6 @@ BubbleBubble은 법률 사각지대를 최소화하고 법률 복지를 증진�
 - **버블버블 퀴즈**: 대화형 법률 학습
 - **버블버블 GPT**: 통합 법률 지식베이스
 - 분야별/연령별 맞춤 법률 키워드 추천
-
-## 👥 개발자
 
 ## 🌸 Developers
 <div align="center">
@@ -105,7 +114,6 @@ BubbleBubble은 법률 사각지대를 최소화하고 법률 복지를 증진�
 ![Slide18](https://github.com/user-attachments/assets/80536599-7d0b-4051-8edd-1606d485590d)
 ![Slide19](https://github.com/user-attachments/assets/20b4e4c6-5dc4-4fd6-8574-36891d19fbb5)
 ![Slide20](https://github.com/user-attachments/assets/2573a63a-c8fb-4a48-bcbf-97bf29567a3f)
-
 
 ## 📝 라이센스
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
