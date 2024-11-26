@@ -36,7 +36,7 @@ BubbleBubble은 법률 사각지대를 최소화하고 법률 복지를 증진�
   - 익명성 부족
 
 ## 🛠️ System Architecture
-![Architecture](https://github.com/user-attachments/assets/ab349bf6-6944-46a8-a27f-a29462ec2dbc)
+![Slide20](https://github.com/user-attachments/assets/2573a63a-c8fb-4a48-bcbf-97bf29567a3f)
 
 ## ⭐ 주요 기능
 ### 1. 실시간 AI 법률 상담
