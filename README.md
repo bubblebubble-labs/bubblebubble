@@ -55,8 +55,8 @@ BubbleBubble은 법률 사각지대를 최소화하고 법률 복지를 증진�
 <div align="center">
 <table>
   <tr>
-    <th style="text-align: center;">BE</th>
-    <th style="text-align: center;">BE</th>
+    <th style="text-align: center;">AI, Golang, NextJS</th>
+    <th style="text-align: center;">NestJS-Design</th>
   </tr>
   <tr>
     <td align="center">
@@ -71,8 +71,8 @@ BubbleBubble은 법률 사각지대를 최소화하고 법률 복지를 증진�
     <td align="center">충남대학교</td>
   </tr>
   <tr>
-    <td align="center">김도선</td>
     <td align="center">이철희</td>
+    <td align="center">김도선</td>
   </tr>
   <tr>
     <td align="center">
