@@ -60,10 +60,10 @@ BubbleBubble은 법률 사각지대를 최소화하고 법률 복지를 증진�
   </tr>
   <tr>
     <td align="center">
-      <img style="width: 200px;" src="https://avatars.githubusercontent.com/u/112257466?v=4" />
+      <img style="width: 200px;" src="https://avatars.githubusercontent.com/CheolheeLee0" />
     </td>
     <td align="center">
-      <img style="width: 200px;" src="https://avatars.githubusercontent.com/u/9509286?v=4" />
+      <img style="width: 200px;" src="https://avatars.githubusercontent.com/Seitda-community" />
     </td>
   </tr>
   <tr>
