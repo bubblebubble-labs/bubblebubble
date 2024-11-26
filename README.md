@@ -11,8 +11,6 @@
 > 2024 한국 클라우드산업협회회장상 특별상 수상 🏆<br>
 > 취약계층을 위한 24/7 맞춤형 법률 상담 챗봇
 
-[주요 기능](#-주요-기능) • [기술 스택](#-기술-스택) • [설치 방법](#-설치-방법) • [팀원 소개](#-팀원-소개)
-
 </div>
 
 ## 📌 프로젝트 소개
@@ -55,7 +53,7 @@ BubbleBubble은 법률 사각지대를 최소화하고 법률 복지를 증진�
 <div align="center">
 <table>
   <tr>
-    <th style="text-align: center;">AI, Golang, NextJS</th>
+    <th style="text-align: center;">AI, Golang, NextJS</th>
     <th style="text-align: center;">NestJS-Design</th>
   </tr>
   <tr>
