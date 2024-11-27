@@ -69,12 +69,12 @@ BubbleBubble은 법률 사각지대를 최소화하고 법률 복지를 증진�
       <img style="width: 200px;" src="https://avatars.githubusercontent.com/CheolheeLee0" />
     </td>
     <td align="center">
-      <img style="width: 200px;" src="https://avatars.githubusercontent.com/Seitda-community" />
+      <img style="width: 200px;" src="https://avatars.githubusercontent.com/fortuna1004" />
     </td>
   </tr>
   <tr>
     <td align="center">충남대학교 컴퓨터공학과</td>
-    <td align="center">충남대학교 작곡과</td>
+    <td align="center">ICTE communications 대표<br>세잇다 : 세상을 잇(IT)다 운영</td>
   </tr>
   <tr>
     <td align="center">이철희</td>
@@ -82,10 +82,10 @@ BubbleBubble은 법률 사각지대를 최소화하고 법률 복지를 증진�
   </tr>
   <tr>
     <td align="center">
-      <a href="https://github.com/h-beeen">@CheolheeLee0</a>
+      <a href="https://github.com/CheolheeLee0">@CheolheeLee0</a>
     </td>
     <td align="center">
-      <a href="https://github.com/HyungJu">@Seitda-community</a>
+      <a href="https://github.com/Seitda-community">@Seitda-community</a>
     </td>
   </tr>
 </table>
