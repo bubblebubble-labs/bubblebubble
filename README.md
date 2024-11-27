@@ -85,6 +85,7 @@ BubbleBubble은 법률 사각지대를 최소화하고 법률 복지를 증진�
       <a href="https://github.com/CheolheeLee0">@CheolheeLee0</a>
     </td>
     <td align="center">
+      <a href="https://github.com/fortuna1004">@Seitda-community</a>
       <a href="https://github.com/Seitda-community">@Seitda-community</a>
     </td>
   </tr>
